@@ -1,0 +1,33 @@
+
+
+class MyException : Exception{
+    MyException(){
+        super("this is an exception");
+    }
+
+};
+class gg{
+
+
+};
+void reet(String k){
+    throw new MyException();
+}
+
+int main(String [] args){
+    _system_.createConsole();
+    String j ;
+    int sdn ;
+    j = nilptr;
+    
+//    j.length();
+    
+    try{
+        reet(j);
+    }catch(MyException e){
+        _system_.consoleWrite("error:" + e.getMessage() + sdn);
+    }
+    reet(j);
+    Thread.sleep(-1);
+    return 0;
+}

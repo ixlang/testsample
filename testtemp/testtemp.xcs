@@ -1,0 +1,65 @@
+//xlang 
+package System{
+	class out{
+		static int println(String text){
+			return _system_.consoleWrite(text + "\n");
+		}
+		static int print(String text){
+			return _system_.consoleWrite(text);
+		}
+	};
+	
+	class Console{
+		Console(){
+			_system_.createConsole();
+		}
+	};
+};
+
+
+using { System; };
+
+
+class myClass{
+    int v;
+    myClass(int _v){
+        this.v = _v;
+    }
+    bool operator > (myClass o){
+        return v > o.v;
+    }
+    bool operator < (myClass o){
+        return v < o.v;
+    }
+    bool operator == (myClass o){
+        return v == o.v;
+    }
+    bool operator != (myClass o){
+        return v != o.v;
+    }
+};
+
+int main(String [] args){
+
+	new Console();
+    
+    Map<myClass, int> alist = new Map<myClass, int>();
+    
+    for (int i =0; i < 10; i++){
+        alist.put(new myClass(i), i);
+    }
+    
+    System.out.println("" +alist.find(new myClass(6)).getValue());
+    
+    Map.Iterator<myClass, int> iter = alist.iterator();
+    
+    while (iter.hasNext()){
+        System.out.println("" + iter.getValue());
+        iter.next();
+    }
+	
+
+	Thread.sleep(3000);
+
+	return 0;
+}

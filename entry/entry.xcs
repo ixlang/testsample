@@ -1,0 +1,15 @@
+class MainClass{
+
+    static class math{
+        int k = 90;
+    };
+    static int add(){
+        return 9;
+    }
+    static int main(String [] args){
+        math k = new math();
+        _system_.createConsole();
+        _system_.consoleWrite("" + (add() + k.k));
+        return 0;
+    }
+};

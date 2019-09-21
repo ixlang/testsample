@@ -1,0 +1,81 @@
+//xlang 
+package System{
+	class out{
+		static int println(String text){
+			return _system_.consoleWrite(text + "\n");
+		}
+		static int print(String text){
+			return _system_.consoleWrite(text);
+		}
+	};
+	
+	class Console{
+		Console(){
+			_system_.createConsole();
+		}
+	};
+};
+
+
+using { System; };
+
+class XObject{ int v = 0;	XObject(int _v){v = _v;}};
+
+class XList<_Type>{
+	static class XNode<_NodeType>{
+		XNode(){
+		}
+        
+		XNode(_NodeType m){
+			_My = m;
+		}
+        
+		_NodeType _My;
+        XNode<_NodeType> prev, next;
+        
+        void link(XNode<_NodeType> tm){
+			tm.next = next;
+            next.prev = tm;
+			next = tm;
+            tm.prev = this;
+        }
+    };
+    
+    XNode<_Type> head , end;
+    int length;
+    
+    XList(){ 
+        head = end = new XNode<_Type> ();
+		end.prev = head;
+     }
+    
+    void push(_Type t){
+		XNode<_Type> curren = new XNode<_Type>(t);
+        if (head == end){
+			head = curren;
+            head.next = end;
+            end.prev = head;
+        }else{	end.prev.link(curren);  }
+        length++;
+    }
+};
+
+void ptest(){
+	XList<XObject> lint = new XList<XObject>();
+	for (int i = 0; i < 100000; i ++){		lint.push(new XObject(i));    }
+}
+
+int main(String [] args){
+	new Console();
+
+	while (true){
+		ptest();
+        long begin = _system_.currentTimeMillis();
+        _system_.gc();
+        System.out.println("" + (_system_.currentTimeMillis() - begin) + "ms\n");
+    }
+    
+	Thread.sleep(-1);
+
+	return 0;
+}

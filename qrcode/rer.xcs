@@ -1,0 +1,79 @@
+//xlang 
+
+
+class XMyApp : QXApplication {
+
+	MainWindow win;
+    
+
+    
+    
+	class MainWindow : QXDialog{
+		
+		QXPushButton btnOk;
+        
+            QXImage img;
+        void onPaint(int l,int t,int r,int b,long hpaint)override{
+            if (img != nilptr){
+                QXPainter paint = new QXPainter(hpaint);
+                paint.drawImage(img, 10, 10);
+            }
+        }
+        
+		bool create(){
+			if (super.create()){
+            
+				btnOk = new QXPushButton();
+                
+                if (btnOk.create(MainWindow.this)){
+                
+					btnOk.setOnClickListener(new onClickListener(){
+						void onClick(QXObject obj, bool checked)override{
+							//QXMessageBox.Information("info", " Hello world!", QXMessageBox.Ok, QXMessageBox.Ok);
+                            byte [] data =  ZXing.generateQRCodeToARGB8888Bitmap("" + Math.random(),100,false);
+                            img = new QXImage(data, 100, 100, QXImage.Format_RGBA8888);
+                            update();
+						}
+					});
+                    
+					btnOk.setText("刷新二维码");
+					resize(400, 300);
+					btnOk.resize(80, 25);
+					btnOk.move(300, 260);
+					show();
+                    
+					return true;
+                }
+			}
+			return false;
+		}
+
+	};
+    
+	bool create(){
+		if (super.createQXApplication()){
+        
+			win = new MainWindow();
+            
+			if (win.create()){
+				return true;
+			}
+		}
+		return false;
+	}
+    
+    
+    
+    //程序入口
+	static int main(String [] args){
+		
+		XMyApp app = new XMyApp();
+
+		if (app.create()){
+			app.run();
+		}
+		
+		return 0;
+	}
+};
+

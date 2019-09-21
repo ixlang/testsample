@@ -1,0 +1,44 @@
+{
+	"qxeeee":	{
+		"version":	"1.2",
+		"language":	"xlang",
+		"sources":	["qxeeee.xcs", "ui/dialog.ui"],
+		"configures":	{
+			"debug":	{
+				"path":	{
+					"incpath":	[],
+					"libpath":	["libs"]
+				},
+				"options":	"",
+				"command":	"-ce",
+				"debugable":	"-dbg",
+				"outpath":	"$(ProjectDir)/$(Arch)/$(Configure)",
+				"outname":	"$(ProjectName).exe",
+				"cmd":	"$(Output)",
+				"args":	"$(Output)",
+				"workdir":	"$(ProjectDir)",
+				"libs":	["Qt5.9.1_5.9.1.12.lix"],
+				"links":	[],
+				"depends":	[{
+						"name":	"Qt5.9.1",
+						"version":	"5.9.1.12"
+					}]
+			},
+			"release":	{
+				"path":	{
+					"incpath":	[],
+					"libpath":	["libs"]
+				},
+				"libs":	["QXLibrary.lix"],
+				"options":	"-nd",
+				"command":	"-ce",
+				"debugable":	"",
+				"outpath":	"$(ProjectDir)/$(Arch)/$(Configure)",
+				"outname":	"$(ProjectName).exe",
+				"cmd":	"$(Output)",
+				"args":	"$(Output)",
+				"workdir":	"$(ProjectDir)"
+			}
+		}
+	}
+}

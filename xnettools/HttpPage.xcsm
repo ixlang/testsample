@@ -1,0 +1,79 @@
+//xlang Source, Name:HttpPage.xcsm 
+//Date: Fri Nov 03:16:50 2018 
+
+class HttpPage{
+	QXWidget page;
+    QXSci sci;
+    QXLineEdit edthttp = nilptr;
+    QXPushButton btnhttp = nilptr;
+    
+	HttpPage(QXWidget _page){
+		page = _page;
+        
+    }
+    
+    bool create(){
+		 sci = new QXSci();
+         sci.create(page);
+         sci.move(10, 70);
+         sci.resize(750, 300);
+         sci.show();
+         sci.sendEditor(QXSci.SCI_SETCODEPAGE, QXSci.SC_CP_UTF8);
+         
+         edthttp = (QXLineEdit)page.attachByName(new QXLineEdit(), "edthttp");
+         btnhttp = (QXPushButton)page.attachByName(new QXPushButton(), "btnhttp");
+         
+         btnhttp.setOnClickListener(new QXWidget.onClickListener(){
+				void onClick(QXObject obj, bool checked)override{
+		
+					String url = edthttp.getText();      
+					HttpRequest req = new HttpRequest();
+					ProgressView pv = ProgressView.showWait(page, -1);
+					pv.setTitleText("载入中...");
+                        
+                    new Thread(){
+                    
+						void run(){
+							if (req.get(url, 100000, url.lower().startWith("https:"))){
+								byte [] data = new byte[1024];
+								String content = "";
+
+								if (req.getResponseCode() >= 200){
+									while (req.available(true) > 0){
+										int len = req.readData(data, 0, 1024);
+										String _txt = new String(data, 0, len);
+										content = content + _txt;
+									}
+                                    
+                                    page.runOnUi(new Runnable(){
+										void run(){
+											sci.setText(content);
+											pv.showResult(true, true);
+											pv.setTitleText("加载完毕");
+											pv.dismissAfter(1000);
+                                        }
+                                    });
+
+								}else{
+                                    page.runOnUi(new Runnable(){
+										void run(){
+											pv.showResult(true, false);
+											pv.setTitleText("加载出错");
+											pv.dismissAfter(1000);
+											sci.setText(String.format("res code = %d", req.getResponseCode()));
+                                        }
+                                    });
+
+								}
+								
+							}else{
+								sci.setText("canot reached url %s" + url);
+							}
+						}
+                    }.start();
+
+				}
+			});
+         return true;
+    }
+};

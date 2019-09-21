@@ -1,0 +1,170 @@
+//xlang 
+package System{
+	class out{
+		static int println(String text){
+			return _system_.consoleWrite(text + "\n");
+		}
+		static int print(String text){
+			return _system_.consoleWrite(text);
+		}
+	};
+	
+	class Console{
+		Console(){
+			_system_.createConsole();
+		}
+	};
+};
+
+
+using { System; };
+
+
+static class caRegMixMath {
+
+	static class Express{
+		byte [] p;
+		int start;
+		int length;
+		
+		Express(String exp){
+			p = exp.getBytes();
+			start = 0;
+			length = exp.length();
+		}
+		
+		Express(byte [] _p,int _s,int _l){
+			p = _p;
+			start = _s;
+			length = _l;
+		}
+		
+		Express(Express p2) {
+			p = p2.p;
+			start = p2.start;
+			length = p2.length;	
+		}
+
+		char getChar(){
+			return p[start];
+		}
+		bool next(){
+			if (start < length - 1){
+				start++;
+				return true;
+			}
+			return false;
+		}
+		long atoi(){
+			int n = start;
+			bool bhex = false;
+			if (length > 1 && p[n] == '0' && p[n + 1] == 'x'){
+				bhex = true;
+				n += 2;
+			}
+			while ((p[n] >= '0' && p[n] <= '9') || (p[n] >= 'a' && p[n] <= 'z' && bhex)){
+				n++;
+				if (n >= length){
+					break;
+				}
+			}
+			if (n > start){
+				if (bhex){
+					return new String(p, start, n - start).parseHex();
+				}
+				return new String(p, start, n - start).parseLong();
+			}
+			return 0;
+		}
+
+		bool complete() {
+			return (length -1) == start;
+		}
+	};
+	
+	static long calc(String text){
+		return mixcalc(new Express(text), true, false);
+	}
+	
+	static long mixcalc(Express p,bool bmain, bool b) {
+		long result = 1;
+
+		while ( p.getChar() != '(' && false == (p.getChar() >= '0' && p.getChar() <= '9') && false == (p.getChar() >= 'a' && p.getChar() <= 'z')) { result *= (p.getChar() == '-' ? -1 : 1); p.next(); }
+
+		if (p.getChar() == '(') {
+			p.next();
+			result *= mixcalc(p, true, false);
+			p.next();
+		} else
+			if (p.getChar() != 0) {
+
+				result *= p.atoi();
+				
+				while (((p.getChar() >= '0' && p.getChar() <= '9') || (p.getChar() >= 'a' && p.getChar() <= 'z'))) { 
+					if (p.next() == false){
+						break;
+					}
+				}
+			}
+
+		if (p.complete() || b || (bmain == false && (p.getChar() == '+' || p.getChar() == '-'))) { return result; }
+
+		do {
+			char ch = p.getChar();
+			switch (ch)
+			{
+				
+				case '+':
+					p.next();
+					result += mixcalc(p,  false, false); 
+				break;
+					
+				case '-':
+					p.next();
+					result -= mixcalc(p,  false, false); break;
+					
+				case '*':
+					p.next();
+					result *= mixcalc(p,  false, true); break;
+					
+				case '/':
+					p.next();
+					result /= mixcalc(p,  false, true); break;
+				case ')':
+				case '\0':
+				default:
+					return result; 
+			}
+			if (p.complete()){
+				break;
+			}
+		} while (((p.getChar() == '*' || p.getChar() == '/') && (b == false)) || (bmain == true));
+		return result;
+	}
+};
+    
+int main(String [] args){
+
+	new Console();
+	int [] pi = new int[100];
+    
+    for (int i = 0; i < 100; i ++)
+		pi[i] = i;
+        
+        
+	
+	byte [] buffer = new byte[4096];
+    while(true){
+		System.out.println("type expression:");
+		int readed = _system_.consoleRead(buffer,0,4096);
+		String express = new String(buffer, 0, readed);
+		if (express.equals("quit")){
+			return 0;
+		}
+		long v = caRegMixMath.mixcalc(new caRegMixMath.Express(express),true,false);
+		System.out.println("result = " + v + "\n");
+    }
+	Thread.sleep(3000);
+
+	return 0;
+}

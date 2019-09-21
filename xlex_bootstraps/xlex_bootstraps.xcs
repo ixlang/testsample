@@ -1,0 +1,59 @@
+include ("common/FileInputStream.xcs", 
+        "common/caLexSyntax.xcs", 
+        "../../common/system.xcs")
+/*
+词法分析自举
+*/
+class listener : caLexSyntax.OnParseListener{
+	Object OnReduction(caLexSyntax.TOKEN[] tokens, int pos, int len, int grammar) {
+		System.out.print(String.format("\nreduction %d [%d] => %d", pos, len, grammar));
+		return nilptr;
+	}
+
+	
+	void OnLexError(caLexSyntax.CCSource source) {
+	}
+
+	
+	bool OnLex(caLexSyntax.CCSource source, int length, int grammar) {
+		if (grammar == caLexSyntax.ID_CC_COMMENT || grammar == caLexSyntax.ID_CC_K_SPACE){
+			return false;
+		}
+
+		return true;
+	}
+
+	
+	void OnParseError(caLexSyntax.CCSource source) {
+	}
+
+	
+	void onSyntaxStackOverflow(caLexSyntax.CCSource source) {
+		// TODO Auto-generated method stub
+		
+	}
+
+};
+
+void parse(){
+	String fp = String.formatPath(System.App.directory().appendPath("/../../common/caLexSyntax.xcs"), false);
+	FileInputStream fis = new FileInputStream(fp);
+	byte [] data = fis.read();
+	//System.out.print("start parse : " + new String(data));
+	caLexSyntax parse = new caLexSyntax();
+	caLexSyntax.CCSource source = new caLexSyntax.CCSource();
+	source.source = data;
+	parse.setOnParseListener(new listener());
+	parse.setCurrentSource(source);
+	bool rst = parse.parse();
+	System.out.print("\nresult" + rst + "\n");
+}
+
+int main(String [] args){
+    _system_.createConsole();
+    long start = _system_.currentTimeMillis();
+    parse();
+    System.out.print("ok:" + (_system_.currentTimeMillis() - start) + "\n");
+    Thread.sleep(-1);
+    return 0;
+}

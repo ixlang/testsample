@@ -1,0 +1,70 @@
+require ("../../common/System.xcs", 
+        "../../native/user32.xcs",
+        "../../windows/FileSystem.xcs",
+        "../../common/Data.xcs")
+
+
+using {
+    FileSystem;
+};
+
+List<String> allFile = new List<String>();
+
+class FileSearcher
+    : Operator.FileObjectListener
+{
+        String parentDir, wildcardPath;
+        
+        FileSearcher(String parentDir,String wildcardPath){
+            this.parentDir = parentDir;
+            this.wildcardPath = wildcardPath;
+        }
+        
+        void onSearchStart(){
+            //System.out.print("#search start\n");
+        }
+        
+        bool onObjectFound(String dir, Operator.WIN32_FIND_DATA wfd){
+           // System.out.print("found:" + dir + wfd.getFileName() + "\n");
+           
+            String name = wfd.getFileName();
+            
+            if (name.startWith(".") == false){
+                allFile.add(dir + name);
+                if (wfd.isDir()){
+                    String fullPath = dir + name + "\\";
+                    String _wildcardPath = fullPath + "*.*";
+                    FileSearcher s = new FileSearcher(fullPath, _wildcardPath);
+                    s.doSearch();
+                }
+            }
+            return true;
+        }
+        
+        void onFinish(){
+           // System.out.print("#search finish\n");
+        }
+        
+        void doSearch(){
+            Operator.SearchFile(parentDir, wildcardPath, this);
+        }
+};
+
+int main(String [] args){
+    _system_.createConsole();
+    
+    System.out.print("scanning...\n");
+    
+    FileSearcher s = new FileSearcher("e:\\","e:\\*.*");
+    s.doSearch();
+    
+    List.Iterator<String> iter = allFile.iterator();
+    while (iter.hasNext()){
+		_system_.output(iter.next());
+    }
+    
+    System.out.print("total : " + allFile.size() + "\n");
+    allFile.clear();
+    Thread.sleep(-1);
+    return 0;
+}

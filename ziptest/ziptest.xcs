@@ -1,0 +1,179 @@
+//xlang 
+
+class FileInputStream : Stream{
+	long filehandler;
+
+	FileInputStream(String path){
+		filehandler = _system_.openFile(path, "r");
+        if (filehandler == 0){
+            throw new IllegalArgumentException("file " + path + " can not open");
+        }
+	}
+
+	bool attach(String path){
+		if (filehandler != 0){
+			_system_.closeFile(filehandler);
+			filehandler = 0;
+		}
+		filehandler = _system_.openFile(path, "r");
+        return filehandler != 0;
+	}
+    void checkValid(){
+        if (filehandler == 0){
+            throw new IllegalArgumentException("The Stream is not ready");
+        }
+    }
+	long available(bool bwait){
+		return length() - getPosition();
+    }
+	long seek(int type, long pos){
+		checkValid();
+		return _system_.seekFile(filehandler, type, pos);
+    }
+    
+    long getPosition(){
+		checkValid();
+		return _system_.getFileSeek(filehandler);
+    }
+    
+	long length(){
+		checkValid();
+		return _system_.fileLength(filehandler);
+	}
+
+	byte[] read(){
+		checkValid();
+		byte[] data = new byte[length()];
+		_system_.readFile(filehandler, data, 0, data.length);
+		return data;
+	}
+
+	int read(byte [] data , int position, int length)override{
+		checkValid();
+		return _system_.readFile(filehandler, data, position, length);
+	}
+
+	int write(byte [] data , int position, int length)override{
+		return 0;
+    }
+    
+    void close(){
+		if (filehandler != 0){
+			_system_.closeFile(filehandler);
+			filehandler = 0;
+		}
+    }
+    
+	void finalize(){
+		close();
+	}
+};
+
+
+class FileOutputStream : Stream{
+	long filehandler;
+
+	FileOutputStream(String path){
+		filehandler = _system_.openFile(path, "w");
+        if (filehandler == 0){
+            throw new IllegalArgumentException("file " + path + " can not open");
+        }
+	}
+
+	bool attach(String path){
+		if (filehandler != 0){
+			_system_.closeFile(filehandler);
+			filehandler = 0;
+		}
+		filehandler = _system_.openFile(path, "w");
+        return filehandler != 0;
+	}
+    void checkValid(){
+        if (filehandler == 0){
+            throw new IllegalArgumentException("The Stream is not ready");
+        }
+    }
+	long available(bool bwait){
+		return 1;
+    }
+	long seek(int type, long pos){
+		return 0;
+    }
+    
+    long getPosition(){
+		return 0;
+    }
+    
+	long length(){
+        checkValid();
+		return 0;
+	}
+
+	byte[] read(){
+		return nilptr;
+	}
+
+	int read(byte [] data , int position, int length)override{
+		return 0;
+	}
+    
+	long write(byte [] data){
+        checkValid();
+		return _system_.writeFile(filehandler, data, 0, data.length);
+	}
+    
+	int write(byte [] data , int position, int length)override{
+        checkValid();
+		return _system_.writeFile(filehandler, data, position, length);
+    }
+    
+    void close(){
+		if (filehandler != 0){
+			_system_.closeFile(filehandler);
+			filehandler = 0;
+		}
+    }
+	void finalize(){
+		close();
+	}
+};
+
+int main(String [] args){
+
+	ZipArchive zs = new ZipArchive();
+    /*FileInputStream fis = new FileInputStream("D:/Cadaqs/Desktop/my.z");
+    if (zs.open(fis)){
+		int c = zs.getEntriesCount();
+        _system_.consoleWrite("" + c);
+        for (int i =0; i < c; i ++){
+			ZipEntry entry = zs.getEntry(i);
+            _system_.consoleWrite(entry.getName() + "\n");
+            
+            if (entry.isDirectory() == false){
+				ZipFile file = entry.getFile();
+				
+                byte []buf = new byte[1024];
+                int rd = 0;
+                if (file.open()){
+					String path = "D:/Cadaqs/Desktop/" + i + ".f";
+					long filehandler = _system_.openFile(path, "w");
+					while ((rd = file.read(buf, 0, 1024)) != 0){
+						//_system_.consoleWrite(new String(buf, 0, rd));
+                        _system_.writeFile(filehandler, buf, 0, rd);
+					}
+                    _system_.closeFile(filehandler);
+					file.close();
+                }
+            }
+        }
+    }*/
+    FileOutputStream fis = new FileOutputStream("ziptest.z");
+    if (zs.create(fis)){
+		zs.createEntry(new ZipFile("debug", nilptr, true, _system_.currentTimeMillis()));
+		zs.createEntry(new ZipFile("ziptest.xcs", new FileInputStream("ziptest.xcs"), false, _system_.currentTimeMillis()));
+        zs.createEntry(new ZipFile("ziptest.xprj",new FileInputStream("ziptest.xprj"), false, _system_.currentTimeMillis()));
+        zs.createEntry(new ZipFile("debug/ziptest.exe",new FileInputStream("debug/ziptest.exe"), false, _system_.currentTimeMillis()));
+        zs.close();
+    }
+	return 0;
+}

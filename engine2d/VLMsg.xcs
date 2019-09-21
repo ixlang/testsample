@@ -1,0 +1,100 @@
+class VLMsg  : VLBase
+{
+	VUPlatformContext m_pDevice = nilptr;
+	void SetAttachedDevice(VUPlatformContext device)
+	{
+		m_pDevice = device;
+	}
+	bool MatchDevice(VUPlatformContext device)
+	{
+		if (device == nilptr || m_pDevice == nilptr)
+		{
+			return false;
+		}
+		return m_pDevice == (device);
+	}
+	VUPlatformContext GetSourceDevice()
+	{
+		return m_pDevice;
+	}
+    VLMsg()
+    {
+        _v = AllocMsg();
+    }
+    VLMsg(long hMsg)
+    {
+        _v = hMsg;
+    }		
+    VLMsg(long hMsg,VUPlatformContext sourceDevice)
+    {
+        m_pDevice = sourceDevice;
+        _v = hMsg;
+    }			
+   long hwnd()
+   {
+       return MsgGetHwnd(_v);
+   }
+   long message()
+    {
+       return MsgGetMessage(_v);
+    }
+   long GetTimerID()
+   {
+       return wParam();
+   }
+   long wParam()
+   {
+       return MsgGetwParam(_v);
+   }
+   long lParam()
+   {
+       return MsgGetlParam(_v);
+   }
+   
+   long time()
+   {
+       return MsgGettime(_v);
+   }
+   VLPoint pt()
+   {
+       return new VLPoint(MsgGetPoint(_v));
+   }
+   
+   void SetHwnd(long hWnd)
+   {
+       MsgSetHwnd(_v,hWnd);
+   }
+   void SetMessage(long nMsg)
+   {
+       MsgSetMessage(_v,nMsg);
+   }
+   void SetwParam(long wParam)
+   {
+       MsgSetwParam(_v,wParam);
+   }
+   void SetlParam(long lParam)
+   {
+       MsgSetlParam(_v,lParam);
+   }
+   void Settime(long nTime)
+   {
+       MsgSettime(_v,nTime);
+   }
+   void SetPoint(long point)
+   {
+       MsgSetPoint(_v,point);
+   }
+   void SetData(long hWnd,long nMsg,long wParam,
+           long lParam,long nTime,double x,double y)
+   {
+       MsgSetData(_v,hWnd,nMsg,wParam,
+               lParam,nTime,x,y);
+   }	   
+    
+    void finalize(){
+        if (_v != 0){
+            DeallocMsg(_v);
+            _v = 0;
+        }
+    }	
+};

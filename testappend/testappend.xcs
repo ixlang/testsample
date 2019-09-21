@@ -1,0 +1,43 @@
+//xlang 
+package System{
+	class out{
+		static int println(String text){
+			return _system_.consoleWrite(text + "\n");
+		}
+		static int print(String text){
+			return _system_.consoleWrite(text);
+		}
+	};
+	
+	class Console{
+		Console(){
+			_system_.createConsole();
+		}
+	};
+};
+
+
+using { System; FileStream;};
+
+
+int main(String [] args){
+
+	new Console();
+    
+    FileOutputStream fos = new FileOutputStream("a.txt", true);
+    fos.write("abc".getBytes());
+    fos.close();
+    
+    fos = new FileOutputStream("a.txt", true);
+    fos.write("bc".getBytes());
+    fos.close();
+    
+    fos = new FileOutputStream("a.txt", true);
+    fos.write("c".getBytes());
+    fos.close();
+	System.out.println("hello world");
+
+	Thread.sleep(3000);
+
+	return 0;
+}

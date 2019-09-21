@@ -1,0 +1,75 @@
+//xlang 
+package System{
+	class out{
+		static int println(String text){
+			return _system_.consoleWrite(text + "\n");
+		}
+		static int print(String text){
+			return _system_.consoleWrite(text);
+		}
+	};
+	
+	class Console{
+		Console(){
+			_system_.createConsole();
+		}
+	};
+};
+
+
+using { System; };
+
+
+
+class base{
+    void print(){
+        _system_.consoleWrite(" this is base\n");
+    }
+    
+    void print_sub(){
+        _system_.consoleWrite(" this is sub base\n");
+    }
+};
+
+
+class extend : base{
+    void print(){
+        _system_.consoleWrite(" this is extend\n");
+        print_sub();
+    }
+};
+
+int main(String [] args){
+
+	new Console();
+
+    int [] src = new int[100];
+    int [] dst = new int[100];
+    
+    for (int i =0; i < 100; i++){
+        src[i] = i;
+    }   
+    
+    
+    _system_.arrayCopy(src, 0, dst, 0, 100);
+    Object [] aa = new Object[100];
+    extend []psrc = new extend[100];
+    base []pdst = new base[100];
+    
+    psrc[0] = new extend();
+    pdst[0] = new extend();
+    pdst[1] = new base();
+    _system_.arrayCopy(pdst, 0l, aa, 0l, 100l);
+    
+    base lp = (base)aa[0];
+    
+    lp.print();
+     lp = (base)aa[1];
+    
+    lp.print();
+    //_system_.arrayCopy(pdst, 0, psrc, 0, 100);
+
+	Thread.sleep(-1);
+
+	return 0;
+}

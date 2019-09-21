@@ -1,0 +1,63 @@
+//xlang 
+package System{
+	class out{
+		static int println(String text){
+			return _system_.consoleWrite(text + "\n");
+		}
+		static int print(String text){
+			return _system_.consoleWrite(text);
+		}
+	};
+	
+	class Console{
+		Console(){
+			_system_.createConsole();
+		}
+	};
+};
+
+
+using { System; };
+
+
+class AAAA{
+        void fuck(){
+            System.out.println("aaaa");
+        }
+};
+
+
+class BBBB : AAAA{
+        void fuck(){
+            super.fuck();
+            System.out.println("bbbb");
+        }
+};
+
+class CCCC : BBBB{
+        void fuck(){
+            super.fuck();
+            System.out.println("cccc");
+        }
+};
+
+class DDDD : CCCC{
+        void fuck(){
+            super.fuck();
+            System.out.println("dddd");
+        }
+        void fuck1(){
+            this.fuck();
+        }
+};
+
+int main(String [] args){
+
+	new Console();
+
+	new DDDD().fuck1();
+
+	Thread.sleep(3000);
+
+	return 0;
+}

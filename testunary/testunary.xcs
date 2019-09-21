@@ -1,0 +1,34 @@
+//xlang 
+package System{
+	class out{
+		static int println(String text){
+			return _system_.consoleWrite(text + "\n");
+		}
+		static int print(String text){
+			return _system_.consoleWrite(text);
+		}
+	};
+	
+	class Console{
+		Console(){
+			_system_.createConsole();
+		}
+	};
+};
+
+
+using { System; };
+
+
+int main(String [] args){
+
+	new Console();
+
+    8++;
+    
+	System.out.println("hello world");
+
+	Thread.sleep(3000);
+
+	return 0;
+}

@@ -1,0 +1,11 @@
+
+class my{
+    int h = 10;
+};
+
+int main(String [] args){
+    int [] k =new int [10];
+    byte j = 11;
+    k[new my().h]++;
+	return 0;
+}

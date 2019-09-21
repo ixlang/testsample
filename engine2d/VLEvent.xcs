@@ -1,0 +1,15 @@
+
+class VLEvent : VLBase
+{
+
+	VLEvent() {
+		//_v = AllocEvent();
+	}	
+	VLEvent(long v) {
+		_v = v;
+	}
+    void finalize()
+    {
+		
+    }
+};

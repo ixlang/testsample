@@ -1,0 +1,187 @@
+
+
+int main(String [] args)
+{
+
+    _system_.createConsole();
+
+    for (int r = 0; r < 1000; r++) {
+        String s = "test for String";
+
+
+        _system_.consoleWrite("" + s.length() + "\n");
+
+        _system_.consoleWrite("" + s.find("for") + "\n");
+
+        _system_.consoleWrite("" + s.find("for", 1, 8) + "\n");
+
+        _system_.consoleWrite("" + s.substring(5, s.length() - 1) + "\n");
+
+        s = "test for String \\r\\n done!";
+        _system_.consoleWrite("" + s + "\n");
+
+        _system_.consoleWrite("" + s.escape() +
+                              "\n");
+
+        String []a = s.split(' ');
+        for (int i =0, c = a.length; i < c; i++) {
+            _system_.consoleWrite("" + a[i] + "\n");
+        }
+
+        a = s.split(" ");
+        for (int i =0, c = a.length; i < c; i++) {
+            _system_.consoleWrite("" + a[i] + "\n");
+        }
+
+        byte b = '3';
+        _system_.consoleWrite("" + s + b + "\n");
+
+        int i = '3';
+        _system_.consoleWrite("" + s + i + "\n");
+
+        char c = '3';
+        _system_.consoleWrite("" + s + c + "\n");
+
+        long l = '3';
+        _system_.consoleWrite("" + s + l + "\n");
+
+        double d = '3';
+        _system_.consoleWrite("" + s + d + "\n");
+
+        bool o = true;
+        _system_.consoleWrite("" + s + o + "\n");
+
+        _system_.consoleWrite("" + s.startWith("te") + "\n");
+
+        _system_.consoleWrite("" + s.endWith("!") + "\n");
+
+        _system_.consoleWrite("" + s.indexOf("for", 1) + "\n");
+
+        _system_.consoleWrite("" + s.indexOf('f', 1) + "\n");
+
+        _system_.consoleWrite("" + s.lastIndexOf("for", s.length() - 1) + "\n");
+
+        _system_.consoleWrite("" + s.lastIndexOf('f', 15) + "\n");
+
+        _system_.consoleWrite("" + s.append("sdfsd") + "\n");
+
+        _system_.consoleWrite("" + s.append(c) + "\n");
+
+        _system_.consoleWrite("" + s.insert(2, "sss") + "\n");
+
+        _system_.consoleWrite("" + s.insert(2, 'p') + "\n");
+
+        _system_.consoleWrite("" + new String(s.getBytes()) + "\n");
+
+        _system_.consoleWrite("" + s.isDigit() + "\n");
+
+        _system_.consoleWrite("" + "34242".isDigit() + "\n");
+
+        _system_.consoleWrite("" + "34242".parseLong() + "\n");
+
+        _system_.consoleWrite("" + "0xff".parseHex() + "\n");
+
+        _system_.consoleWrite("" + "56".parseInt() + "\n");
+
+        _system_.consoleWrite("" + "true".parseBool() + "\n");
+
+        _system_.consoleWrite("" + "3.1415926".parseDouble() + "\n");
+
+        _system_.consoleWrite("" + s.replace(5, 7, "of") + "\n");
+
+        _system_.consoleWrite("" + s.replace("for", "of") + "\n");
+
+        _system_.consoleWrite("" + s.lower() + "\n");
+
+        _system_.consoleWrite("" + s.upper() + "\n");
+
+        _system_.consoleWrite("" + s.equals("test for String \\r\\n done!") + "\n");
+
+        _system_.consoleWrite("" + s.equalsIgnoreCase("Test For String \\r\\n done!") + "\n");
+
+        _system_.consoleWrite("" + String.format("%d %.4f %c %s", 1, 3.1415, 'c', "fuck") + "\n");
+
+        _system_.consoleWrite("" + String.formatDate("%Y-%m-%d %H:%M:%S", _system_.currentTimeMillis()) + "\n");
+
+        _system_.consoleWrite("" + String.formatDate("%a", _system_.currentTimeMillis()) + "\n");
+
+        _system_.consoleWrite("" + String.formatDate("%A", _system_.currentTimeMillis()) + "\n");
+
+        _system_.consoleWrite("" + String.formatDate("%b", _system_.currentTimeMillis()) + "\n");
+
+        _system_.consoleWrite("" + String.formatDate("%B", _system_.currentTimeMillis()) + "\n");
+
+        _system_.consoleWrite("" + String.formatDate("%c", _system_.currentTimeMillis()) + "\n");
+
+        _system_.consoleWrite("" + String.formatDate("%I", _system_.currentTimeMillis()) + "\n");
+
+        _system_.consoleWrite("" + String.formatDate("%j", _system_.currentTimeMillis()) + "\n");
+
+        _system_.consoleWrite("" + String.formatDate("%p", _system_.currentTimeMillis()) + "\n");
+
+        _system_.consoleWrite("" + String.formatDate("%U", _system_.currentTimeMillis()) + "\n");
+
+        _system_.consoleWrite("" + String.formatDate("%Z", _system_.currentTimeMillis()) + "\n");
+
+        _system_.consoleWrite("" + String.formatDate("%w", _system_.currentTimeMillis()) + "\n");
+
+        _system_.consoleWrite("" + String.formatDate("%W", _system_.currentTimeMillis()) + "\n");
+
+        _system_.consoleWrite("" + String.formatDate("%x", _system_.currentTimeMillis()) + "\n");
+
+        _system_.consoleWrite("" + String.formatDate("%X", _system_.currentTimeMillis()) + "\n");
+
+        _system_.consoleWrite("" + String.formatDate("%y", _system_.currentTimeMillis()) + "\n");
+
+        _system_.consoleWrite("" + s.countChar('t') + "\n");
+
+        _system_.consoleWrite("" + s.countString("st") + "\n");
+
+        _system_.consoleWrite("" + s.countStringIgnoreCase("st") + "\n");
+
+        s = "c:\\windows\\System32\\driver";
+
+        _system_.consoleWrite("" + s.appendPath("hd.sys") + "\n");
+
+        _system_.consoleWrite("" + " dsa \n ".trim(false) + "\n");
+
+        _system_.consoleWrite("" + " dsa \n ".ltrim(false) + "\n");
+
+        _system_.consoleWrite("" + " dsa \n ".rtrim(false) + "\n");
+
+
+        _system_.consoleWrite("" + " dsa \n ".trim(true) + "\n");
+
+        _system_.consoleWrite("" + " dsa \n ".ltrim(true) + "\n");
+
+        _system_.consoleWrite("" + " dsa \n ".rtrim(true) + "\n");
+
+        String  g = s.appendPath("hd.sys");
+
+        _system_.consoleWrite("" + g.replaceExtension(".exe") + "\n");
+
+        _system_.consoleWrite("" + g.removeExtension() + "\n");
+
+        _system_.consoleWrite("" + g.replaceFilenameAndExtension("http.sys") + "\n");
+
+        _system_.consoleWrite("" + g.replaceFilename("http") + "\n");
+
+        _system_.consoleWrite("" + g.findExtension() + "\n");
+
+        _system_.consoleWrite("" + g.findFilenameAndExtension() + "\n");
+
+        _system_.consoleWrite("" + g.findFilename() + "\n");
+
+        _system_.consoleWrite("" + g.findPathFilename() + "\n");
+
+        _system_.consoleWrite("" + g.findVolume() + "\n");
+
+        _system_.consoleWrite("" + g.findVolumePath() + "\n");
+
+        _system_.consoleWrite("" + "..".isDot() + "\n");
+
+    }
+
+    Thread.sleep(-1);
+    return 0;
+}

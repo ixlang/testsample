@@ -1,0 +1,70 @@
+//xlang Source, Name:Canvas.xcsm 
+//Date: Sun May 14:57:22 2019 
+
+class Canvas : QXWidget{
+
+
+    Pen currentPen = nilptr;
+    
+    Vector<Pen> drawables = new Vector<Pen>();
+    
+	void onMouseMove(int Button,int x,int y,int flags,int source)override{
+		for (int i =0; i < drawables.size(); i++){
+			drawables.get(i).onMouseMove(this, Button, x, y, flags, source);
+        }
+        if (currentPen != nilptr){
+			currentPen.onMouseMove(this, Button, x, y, flags, source);
+        }
+	}
+
+	void setCurrentPen(Pen pen){
+		if (currentPen != nilptr){
+			drawables.add(currentPen);
+        }
+		pen.init();
+		currentPen = pen;
+    }
+
+	void onMouseButtonRelease(int Button,int x,int y,int flags,int source)override{
+		//TODO 
+		for (int i =0; i < drawables.size(); i++){
+			drawables.get(i).onMouseButtonRelease(this, Button, x, y, flags, source);
+        }
+        if (currentPen != nilptr){
+			currentPen.onMouseButtonRelease(this, Button, x, y, flags, source);
+        }
+	}
+
+
+	void onMouseButtonPress(int Button,int x,int y,int flags,int source)override{
+		//TODO 
+		for (int i =0; i < drawables.size(); i++){
+			drawables.get(i).onMouseButtonPress(this, Button, x, y, flags, source);
+        }
+        if (currentPen != nilptr){
+			currentPen.onMouseButtonPress(this, Button, x, y, flags, source);
+        }
+	}
+
+	
+	void onAttach()override{
+	
+	}
+
+
+	void onPaint(int l,int t,int r,int b,long hpaint)override{
+		QXPath path = new QXPath();
+        QXPainter painter = new QXPainter(hpaint);
+        painter.setRenderHint(QXPainter.RenderHint.Antialiasing,true);
+        painter.fillRect(0,0,width(),height(),0xffffffff,QXBrush.Style.SolidPattern);
+        
+        for (int i =0; i < drawables.size(); i++){
+			drawables.get(i).onPaint(l,t,r,b,painter);
+        }
+        if (currentPen != nilptr){
+			currentPen.onPaint(l,t,r,b,painter);
+        }
+	}
+
+
+};

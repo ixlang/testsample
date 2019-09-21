@@ -1,0 +1,41 @@
+//xlang 
+require("../xide/qt5/qx5.xcsm")
+
+int main(String [] args){
+	QXApplication app = new QXApplication();
+	if (app.createQXApplication()){
+		QXDialog mainWindow = new QXDialog();
+		if (mainWindow.load("xlang/xide/ui/welcome.ui") == false){
+			return 0;
+		}
+		mainWindow.setWindowFlags(QXWidget.Tool | QXWidget.FramelessWindowHint | QXWidget.WindowStaysOnTopHint | QXWidget.X11BypassWindowManagerHint);
+		mainWindow.show();
+
+		new Thread(){
+			void run(){
+				Process process = new Process("./xlang/xide/xide.exe", nilptr);
+				process.setWorkDirectory("./xlang/xide");
+				try{
+					if (process.create(true, true, false, false) == false){
+						mainWindow.close();
+					}else{
+						byte [] buffer = new byte[4];
+						if (process.read(buffer, 0, 4) > 0){
+							Thread.sleep(1000);
+							mainWindow.close();
+							_system_.exit(0);
+						}
+					}
+				}catch(Exception e){
+					String str = e.getMessage();
+					QXMessageBox.Critical("错误", "\n错误:" + new String(str.getBytes(), "GB18030//IGNORE") + "\n", QXMessageBox.Ok, QXMessageBox.Ok);
+					_system_.exit(0);
+				}
+			}
+
+		}.start();
+		
+		app.run();
+	}
+	return 0;
+}

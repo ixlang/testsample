@@ -1,0 +1,89 @@
+require ("FileInputStream.xcs")
+
+class Editor : Window{
+
+    String onGetClassName(){
+        return "EDIT";
+    }
+    
+    int onGetStyle(){
+        return 0x40000000 | 0x00200000 | 0x0004;
+    }
+    
+    bool create(Window parent){
+        if (create(1, parent)){
+            setVisible(1);
+            setPosition(0, 0);
+            setSize(parent.getWidth() - 18, parent.getHeight() - 32);
+            return true;
+        }
+        return false;
+    }
+};
+
+
+class NotepadFrame : Window{
+    Editor editor = new Editor();
+    String filepath = nilptr;
+    
+    bool onCreate(){
+        if (editor.create(this)){
+            String content = nilptr;
+            if (filepath != nilptr){
+                content = readText(filepath, this);
+            }   
+            if (content == nilptr){
+                content = "在这里输入编辑内容!";
+            }
+            editor.setText(content);
+            setText("sample text editor");
+            return true;
+        }else{
+            alert("创建edit失败", "错误");
+        }
+        return false;
+    }
+    
+    void onSize(int flags, int cx,int cy){
+        editor.setSize(cx, cy );
+    }
+    
+    bool createFrame(String file){
+        filepath = file;
+        if (create(0, nilptr)){
+            setVisible(1);
+            return true;
+        }
+        return false;
+    }
+};
+
+String readText(String file, Window win){
+    try{
+    
+        FileInputStream fis = new FileInputStream(file);
+        byte[] data = fis.read(); 
+        return new String(data);
+        
+    }catch(Exception e){
+        win.alert("打不开文件:" + file , "错误\n");
+    }
+    
+    return nilptr;
+}
+
+int main(String [] args){
+    String text = "txteditor.xcs";
+    
+    if (args.length > 0){
+        text = args[0];
+    }
+    
+    NotepadFrame frame = new NotepadFrame();
+    
+    if (frame.createFrame(text)){
+        Window.Loop();
+    }
+    
+    return 0;
+}

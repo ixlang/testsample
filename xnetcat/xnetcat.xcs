@@ -1,0 +1,164 @@
+//xlang 
+package System{
+	class out{
+		/***
+		@caution 注意 由于windwos的控制台只能输出gbk字符集  而X默认的字符集是UTF8 
+        所以要判断getPlatformId 等于0 说明是windows平台  需要转换为gbk
+        */
+        
+		static int println(String text){
+			if (_system_.getPlatformId() == 0){
+				return _system_.consoleWrite(new String((text + "\n").getBytes("GB18030//IGNORE")));
+            }
+			return _system_.consoleWrite(text + "\n");
+		}
+		static int print(String text){
+        	if (_system_.getPlatformId() == 0){
+				return _system_.consoleWrite(new String(text.getBytes("GB18030//IGNORE")));
+            }
+			return _system_.consoleWrite(text);
+		}
+	};
+	
+	class Console{
+		Console(){
+			_system_.createConsole();
+		}
+        
+        //暂停 等待控制台读取
+        static void pause(){
+			byte [] c = new byte[2];
+            _system_.consoleRead(c,0,2);
+        }
+	};
+};
+
+
+using { System; };
+
+
+void netcat(String ip, int port){
+
+	// new 一个TCP套接字
+	StreamSocket ss = new StreamSocket();
+    
+    //设置链接超时
+    ss.setTimeout(5000);
+    
+    
+    System.out.print(String.format("正在连接到 %s:%d..." ,ip, port));
+
+	//连接到目标主机
+    bool b = ss.connect(ip,port);
+   
+
+    System.out.println(b ? " 成功!\n----------------------------\n在下面输入数据后按回车发送\n---------------------------- " : " 失败");
+    
+    //连接成功
+    if (b){
+		// 获取本机SOICKET的信息
+		InetAddress inet = ss.getLocalInetAddress();
+
+		System.out.println("本地地址:" + inet.getAddressString() + ":" + inet.getPort());
+        
+        //另起一个线程读TCP收到的数据
+		new Thread(){
+			void run()override{
+				// 检查可读数据长度 <=0时说明发生错误
+				while (ss.available(true) > 0){
+					byte [] data = new byte[1024];
+                    
+                    //读取数据并显示
+					int len = ss.read(data,0,1024);
+					System.out.println(new String(data, 0, len));
+				}
+                
+                // 运行到这里说明socket发生了错误
+				b = false;
+			}
+		}.start();
+		
+        
+		while (b){
+        
+			// 从控制台读取输入
+			byte []indata = new byte[1024];
+			int l = _system_.consoleRead(indata,0,1024);
+			ss.write(indata, 0, l);
+		}
+		
+        // b被置为false 说明断开了
+		System.out.println(String.format("%s:%d 已断开连接.\n----------------------------" ,ip, port));
+    }
+}
+
+int main(String [] args){
+
+	new Console();
+
+	byte [] ipcmd = new byte[1024];
+    
+    bool retry = false;
+    
+    // 获取本机计算机名称
+    
+
+    String hostname = _system_.getHostName();
+    System.out.println("本机名: " + hostname);
+    
+    // 获取本机IP  注意可能有多个IP
+    InetAddress [] addrs = InetAddress.getHostInetAddress("HPX");
+    
+    
+    if (addrs != nilptr){
+		for (int i =0; i < addrs.length; i++){
+			System.out.println("本机ip" + i + ": " + addrs[i].getAddressString());
+        }
+    }
+    
+    System.out.println("\n输入IP地址和端口\n 例如:127.0.0.1:8000\n");
+    
+    do{
+		// 从控制台读取输入
+		int l = _system_.consoleRead(ipcmd,0,1024);
+		
+		String sip = new String(ipcmd,0, l);
+        
+        // 用:分割IP和端口
+		String []sp = sip.split(':');
+		
+        // 不等于2 说明输入有错
+		if (sp.length != 2){
+			retry = true;
+            continue;
+		}
+        
+        // 用正则表达式检测IP是否输入正确
+        if (Pattern.test(sp[0],"$((1[0-9][0-9]\.)|(2[0-4][0-9]\.)|(25[0-5]\.)|([1-9][0-9]\.)|([0-9]\.)){3}((1[0-9][0-9])|(2[0-4][0-9])|(25[0-5])|([1-9][0-9])|([0-9]))^",0,true)){
+			System.out.println("不是一个有效的IP");
+            retry = true;
+            continue;
+        }
+        
+        // 获取端口的数字
+        int port = sp[1].parseInt();
+        
+        // 错误的端口号
+        if (port <=0 || port >= 65535){
+			System.out.println("端口错误 应为1~65534");
+            retry = true;
+            continue;
+        }
+        
+        //调用netcat
+        netcat(sp[0], port);
+        
+        // 输入错误 重新输入
+	}while (retry);
+    
+    
+    System.out.println("按回车键退出...");
+	Console.pause();
+
+	return 0;
+}

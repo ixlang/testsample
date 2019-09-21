@@ -1,0 +1,21 @@
+include ("../../std/Map.xcs", 
+"../../std/Vector.xcs", 
+"../../std/System.xcs",
+"../../common/system.xcs")
+
+int main(String [] args){
+
+    _system_.createConsole();
+    
+	Vector<int> list = new Vector<int>();
+
+    long start = _system_.currentTimeMillis();
+	synchronized(list){
+		for (int i =0; i < 10000000; i++){
+			list.add(i);
+		}
+	}
+	System.out.print(String.format("size = %d, pos 500000 = %d, time : %d", list.size(), list.get(5000000), _system_.currentTimeMillis() - start));
+    Thread.sleep(-1);
+	return 0;
+}

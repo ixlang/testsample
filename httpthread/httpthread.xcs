@@ -1,0 +1,48 @@
+//xlang 
+package System{
+	class out{
+		static int println(String text){
+			return _system_.consoleWrite(text + "\n");
+		}
+		static int print(String text){
+			return _system_.consoleWrite(text);
+		}
+	};
+	
+	class Console{
+		Console(){
+			_system_.createConsole();
+		}
+	};
+};
+
+
+using { System; };
+
+
+class HttpThread : Thread{
+	int rescode;
+    void run()override{
+		HttpRequest req = new HttpRequest();
+        Thread.sleep(1000);
+        if (req.get("http://www.163.com", 5000, false)){
+			rescode = req.getResponseCode();
+        }else{
+			rescode = -1;
+        }
+    }
+};
+
+int main(String [] args){
+	new Console();
+	HttpThread t = new HttpThread();
+    t.start();
+    t.join();
+    int c = t.rescode;
+    
+	System.out.println("res = " + c);
+
+	Thread.sleep(3000);
+
+	return 0;
+}

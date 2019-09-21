@@ -1,0 +1,26 @@
+
+
+bool isBool(){
+    return true;
+}
+
+void call(int a,int b){
+
+}
+
+int main(String [] args){
+    bool cb = false;
+    bool fb = false;
+    _system_.createConsole();
+    if (cb || fb){
+        _system_.consoleWrite("true");
+    }
+    try{
+        int h = 0;
+        call(1, 3 / h);
+    }catch(DivByZeroException e){
+        _system_.consoleWrite("error");
+    }
+    Thread.sleep(-1);
+    return 0;
+}

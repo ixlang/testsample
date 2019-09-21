@@ -1,0 +1,39 @@
+include ("../../std/Map.xcs", 
+"../../std/Map.xcs", 
+"../../std/System.xcs",
+"../../common/system.xcs")
+
+int main(String [] args){
+    
+    _system_.createConsole();
+    
+	Map<String, String> map = new Map<String, String>();
+
+	synchronized(map){
+		for (int i = 0; i < 100000; i++){
+			map.put("key" + i,"val" +  i);
+		}
+	}
+    
+    System.out.print("put done\n");
+    
+    Map.Iterator<String, String> iter = map.iterator();
+    while (iter.hasNext()){
+        String key = iter.getKey();
+        String val = iter.getValue();
+		
+        System.out.print("Key = " + key + ", value = " + val + "\n");
+        iter.next();
+    }
+    
+    String val = map.get("key" + 5000);
+    if (val == nilptr){
+        System.out.print("not found\n");
+    }else{
+        System.out.print(String.format("found value :%s\n", val));
+    }
+    
+    
+    Thread.sleep(1000);
+	return 0;
+}

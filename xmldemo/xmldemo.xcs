@@ -1,0 +1,95 @@
+//xlang 
+package System{
+	class out{
+		static int println(String text){
+			return _system_.consoleWrite(text + "\n");
+		}
+		static int print(String text){
+			return _system_.consoleWrite(text);
+		}
+	};
+	
+	class Console{
+		Console(){
+			_system_.createConsole();
+		}
+	};
+};
+
+
+using { System; };
+
+/***
+	创建XML
+*/
+
+String createXML(){
+	XDomNode root = new XDomNode();
+    root.createPINode("xml version=\"1.0\" encoding=\"utf-8\"");
+    
+	root.put("name","xlang");
+    root.put("age","11");
+    
+    XDomNode keys = root.createNode("keys");
+    
+    keys.put("key","for");
+    keys.put("key","while");
+    keys.put("key","if");
+    keys.put("key","else");
+    
+    keys.putAttribute("property","buildin");
+    
+    //创建注释节点
+    keys.createCommentNode("comment");
+    
+    XDomNode struct = keys.createNode("contact");
+    
+    struct.put("website","http://xlang.vsylab.com");
+    struct.put("github","https://github.com/ixlang");
+    struct.put("libraries","https://github.com/ixlang/xlibraries");
+    struct.put("XStudio","https://github.com/ixlang/XStudio");
+    return root.toString(true);
+}
+
+/***
+	解析XML
+*/
+void parseXML(String s){
+	XDomNode root = new XDomNode(s);
+    System.out.println("name is " + root.child("name").getValue());
+    System.out.println("age is " + root.child("age").getValue());
+    XDomNode struct = root.child("keys");
+    
+	XDomNode child = struct.child("key");
+    
+    while (child != nilptr){
+		System.out.println("key is " + child.getValue());
+		child = child.next("key");
+    }
+    
+    child = struct.child("contact");
+    System.out.println("website is " + child.child("website").getValue());
+    System.out.println("github is " + child.child("github").getValue());
+    System.out.println("libraries is " + child.child("libraries").getValue());
+    System.out.println("XStudio is " + child.child("XStudio").getValue());
+}
+
+
+int main(String [] args){
+
+	new Console();
+
+	System.out.println("creating XML... ");
+	// 创建一个XML
+	String xml = createXML();
+    
+    // 打印创建的XML内容
+	System.out.println(xml);
+    
+    System.out.println("parsing XML... ");
+    //解析XML 
+	parseXML(xml);
+	Thread.sleep(3000);
+
+	return 0;
+}

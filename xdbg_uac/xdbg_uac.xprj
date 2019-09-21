@@ -1,0 +1,44 @@
+{
+	"xdbg_uac":	{
+		"version":	"1.2",
+		"language":	"xlang",
+		"sources":	["xdbg_uac.xcs"],
+		"configures":	{
+			"debug":	{
+				"path":	{
+					"incpath":	[],
+					"libpath":	[]
+				},
+				"options":	"",
+				"cmd":	"$(Output)",
+				"args":	"$(Output)",
+				"workdir":	"$(ProjectDir)",
+				"ignorewarning":	"",
+				"debugable":	"-dbg",
+				"debugdatabase":	"",
+				"libs":	[],
+				"wtype":	"-arch:x86",
+				"outname":	"$(ProjectName)$(Ext)",
+				"outpath":	"$(ProjectDir)/$(Arch)/$(Configure)",
+				"command":	"-ce",
+				"uaclevel":	"管理员(-uac-admin)"
+			},
+			"release":	{
+				"path":	{
+					"incpath":	[],
+					"libpath":	[]
+				},
+				"libs":	[],
+				"options":	"-nd",
+				"command":	"-ce",
+				"debugable":	"",
+				"outpath":	"$(ProjectDir)/$(Arch)/$(Configure)",
+				"outname":	"$(ProjectName)$(Ext)",
+				"cmd":	"$(Output)",
+				"args":	"$(Output)",
+				"workdir":	"$(ProjectDir)"
+			}
+		},
+		"icofile":	""
+	}
+}

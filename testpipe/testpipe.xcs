@@ -1,0 +1,8 @@
+//xlang 
+
+int main(String [] args){
+	_system_.createConsole();
+    long fd = _system_.createPipe("ssss", false);
+	bool l = _system_.openPipe(fd, false);
+	return 0;
+}

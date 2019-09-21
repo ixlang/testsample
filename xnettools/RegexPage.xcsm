@@ -1,0 +1,34 @@
+//xlang Source, Name:RegexPage.xcsm 
+//Date: Fri Nov 03:06:50 2018 
+
+class RegexPage{
+	QXWidget page;
+    QXSci sci;
+    QXLineEdit edtReg = nilptr;
+    QXPushButton btnreg = nilptr;
+    
+	RegexPage(QXWidget _page){
+		page = _page;
+        
+    }
+    
+    bool create(){
+		 sci = new QXSci();
+         sci.create(page);
+         sci.move(10, 70);
+         sci.resize(750, 300);
+         sci.show();
+         sci.setText("110@qq.com");
+         edtReg = (QXLineEdit)page.attachByName(new QXLineEdit(), "edtReg");
+         btnreg = (QXPushButton)page.attachByName(new QXPushButton(), "btnreg");
+         
+         btnreg.setOnClickListener(new QXWidget.onClickListener(){
+				void onClick(QXObject obj, bool checked)override{
+					String text = sci.getText();
+					String reg = edtReg.getText();      
+					QXMessageBox.Information("结果", "result = " + Pattern.test(text, reg, 0, true), QXMessageBox.Ok, QXMessageBox.Ok);
+				}
+			});
+         return true;
+    }
+};

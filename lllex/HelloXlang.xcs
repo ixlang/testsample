@@ -1,0 +1,49 @@
+//xlang
+package System{
+    class out{
+        static int println(String text)
+        {
+            return _system_.consoleWrite(text + "\n");
+        }
+        static int print(String text)
+        {
+            return _system_.consoleWrite(text);
+        }
+    };
+
+    class Console{
+        Console()
+        {
+            _system_.createConsole();
+        }
+    };
+};
+
+
+using { System; };
+
+
+
+int main(String [] args){
+
+    /** 创建控制台 */
+    new Console();
+    
+    /** 勇于接受结果**/
+    Lexer.Result res = new Lexer.Result();
+    
+    /** 构造表达式字符串 */
+    String expression = "1+2+3+4*5+6*7+8";
+    
+    /** 解析运算 */
+    if (false == Lexer.parse(expression,res)){
+        /** 解析错误 抛出异常 **/
+        throw new IllegalArgumentException("not a valid expression");
+    }else{
+        /** 在调试器的输出窗口中打印运算结果 **/
+        _system_.output(expression + " = " + res.value);
+    }
+    
+
+    return 0;
+}

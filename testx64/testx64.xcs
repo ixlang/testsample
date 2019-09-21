@@ -1,0 +1,13 @@
+//xlang 
+
+int main(String [] args){
+	_system_.createConsole();
+    
+    long k = 0;
+    for (int i = 0; i < 100000000; i ++){
+		k++;//_system_.consoleWrite("" + i);
+    }
+    _system_.consoleWrite("pk");
+    Thread.sleep(-1);
+	return 0;
+}

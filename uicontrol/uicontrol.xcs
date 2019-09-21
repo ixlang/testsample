@@ -1,0 +1,182 @@
+// xlang
+
+class MainDialog : QXDialog{
+
+	QXPushButton btnOk;
+
+	bool create()override{
+		QXBuffer qb = new QXBuffer();
+        byte [] buffer = __xPackageResource("ui/dialog.ui");
+        qb.setBuffer(buffer, 0, buffer.length);
+        
+		if (load(qb)){
+			btnOk = (QXPushButton)attachByName(new QXPushButton(), "btnOk");
+            
+			btnOk.setOnClickListener(new onClickListener(){
+				void onClick(QXObject obj, bool checked)override{
+					QXMessageBox.Information("info", " Hello world!", QXMessageBox.Ok, QXMessageBox.Ok);
+				}
+			});
+            createControls();
+            
+            return true;
+		}
+        return false;
+	}
+		
+    //创建控件
+    bool createControls(){
+		ProgressView pv = ProgressView.showWait(-1);
+        pv.centerScreen();
+        pv.show();
+        
+        {
+			QXLabel l = new QXLabel();
+            l.create(this);
+            l.setText("显示进度:");
+            l.move(20, 25);
+            l.show();
+            
+            Switche sw = new Switche();
+            sw.create(this);
+            sw.setChecked(false, false);
+            sw.move(80, 20);
+            
+            sw.setOnSwitchListener(new Switche.OnSwitchListener(){
+				void onSwitch(Switche s, bool check){
+					pv.EnableProgress(check, 0.5);
+                }
+            });
+        }
+        
+        {
+			QXLabel l = new QXLabel();
+            l.create(this);
+            l.setText("显示结果:");
+            l.move(20, 55);
+            l.show();
+            
+            Switche sw = new Switche();
+            sw.create(this);
+            sw.setChecked(false, false);
+            sw.move(80, 50);
+            
+            sw.setOnSwitchListener(new Switche.OnSwitchListener(){
+				void onSwitch(Switche s, bool check){
+					pv.showResult(check, true);
+                }
+            });
+        }
+        
+        {
+			QXLabel l = new QXLabel();
+            l.create(this);
+            l.setText("显示状态:");
+            l.move(20, 85);
+            l.show();
+            
+            Switche sw = new Switche();
+            sw.create(this);
+            sw.setChecked(false, false);
+            sw.move(80, 80);
+            
+            sw.setOnSwitchListener(new Switche.OnSwitchListener(){
+				void onSwitch(Switche s, bool check){
+					pv.showResult(true, check);
+                }
+            });
+        }
+        {
+			QXLabel l = new QXLabel();
+            l.create(this);
+            l.setText("动态进度:");
+            l.move(20, 115);
+            l.show();
+            
+            Switche sw = new Switche();
+            sw.create(this);
+            sw.setChecked(false, false);
+            sw.move(80, 110);
+            
+            bool dynamic_present = false;
+            TimerTask t = new TimerTask(){
+			
+                double present = 0.f;
+                void run()override{
+					if (dynamic_present){
+						present += 0.01;
+						pv.setProgress(present);
+						pv.postUpdate();
+						if (present > 1){
+							present = 0;
+						}
+                    }
+                }
+                
+                TimerTask(){
+					new Timer().schedule(this, 40, -1);
+                }
+            };
+            
+            sw.setOnSwitchListener(new Switche.OnSwitchListener(){
+				void onSwitch(Switche s, bool check){
+					dynamic_present = check;
+                }
+            });
+        }
+        
+        {
+			QXLabel l = new QXLabel();
+            l.create(this);
+            l.setText("标题:");
+            l.move(20, 145);
+            l.show();
+            
+			QXLineEdit e = new QXLineEdit();
+            e.create(this);
+            e.setText("loading");
+            e.move(80, 145);
+            e.show();
+            
+            QXPushButton bt = new QXPushButton();
+            bt.create(this);
+            bt.move(20, 175);
+            bt.setText("设置标题");
+            bt.show();
+            
+            bt.setOnClickListener(new onClickListener(){
+				void onClick(QXObject , bool ){
+					pv.setTitleText(e.getText());
+                }
+            });
+        }
+        return true;
+    }
+};
+
+
+class XMyApp : QXApplication {
+
+	MainDialog dialog;
+
+    bool create(){
+        if (super.createQXApplication()){
+            dialog = new MainDialog();
+            if (dialog.create()){
+				dialog.show();
+                return true;
+            }
+        }
+        return false;
+    }
+    
+};
+
+
+int main(String [] args){
+	XMyApp app = new XMyApp();
+    if (app.create()){
+		app.run();
+    }
+	return 0;
+}

@@ -1,0 +1,112 @@
+//xlang 
+
+class XBLinkWindow{
+
+	long handle;
+    
+	static const int
+		PROID_MIN = 1,
+		PROID_MAX = 2,
+		PROID_CLOSE = 3,
+		PROID_SHOW = 4,
+		PROID_HIDE = 5,
+		PROID_RUN = 6,
+        PROID_SCRWIDTH = 7,
+        PROID_SCRHEIGHT = 8;
+        
+	bool create(String url){
+		handle = mbcreate_object(this, url, 0, 0, 640, 480);
+        if (handle == 0){
+            return false;
+        }
+        return true;
+    }
+    
+	bool onClose(){
+		return true;
+    }
+        
+    String onMsg(String[] msg){
+    
+		if (msg.length > 0 ){
+			
+			if (msg[0].equals("max")){
+				xblink_call(handle, PROID_MAX);
+                return nilptr;
+            }
+			if (msg[0].equals("min")){
+				xblink_call(handle, PROID_MIN);
+                return nilptr;
+            }
+			if (msg[0].equals("close")){
+				close();
+				_system_.exit(0);
+                return nilptr;
+            }
+            if (msg[0].equals("move")){
+                return nilptr;
+            }
+            runJs("alert('" + msg[0] + "')");
+        }
+        
+		return nilptr;
+    }
+    
+    String onCommand(String[] msg){
+		if (msg.length > 0 ){
+            runJs("alert('" + msg[0] + "')");
+        }
+		return nilptr;
+    }
+    
+    bool onLoadUrl(bool bEnd, String url){
+		return true;
+    }
+    
+    void onDestroy(){
+
+    }
+    
+    void runJs(String js){
+		runjs(handle, js);
+    }
+    
+    void setTitle(String text){
+		mbset_window_title(handle, text);
+    }
+    
+    void close(){
+		xblink_call(handle, PROID_CLOSE);
+    }
+    
+    void run(){
+		xblink_call(handle, PROID_RUN);
+    }
+    
+    int getScreenWidth(){
+		return xblink_call(handle,PROID_SCRWIDTH);
+    }
+    
+    int getScreenHeight(){
+		return xblink_call(handle,PROID_SCRHEIGHT);
+    }
+    
+	import "libxblink"{
+		long cdecl mbcreate_object(Object , String url, int x,int y,int width, int height);
+        void cdecl mbset_window_title(long h, String title);
+        int cdecl xblink_call(long h, int proid);
+        String cdecl runjs(long h, String js);
+    };
+};
+
+
+int main(String [] args){
+
+	XBLinkWindow xw = new XBLinkWindow();
+    
+    if (xw.create("local://xlang.link/index.html")){
+		xw.run();
+    }
+    
+	return 0;
+}

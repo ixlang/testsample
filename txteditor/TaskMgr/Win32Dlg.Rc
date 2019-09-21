@@ -1,0 +1,98 @@
+//Created By Vsy Lab.Integrated Development Environment http://www.vsysv.com/
+#include "Resource.h" 
+IDD_DIALOG1 DIALOGEX DISCARDABLE 0,0,288,338
+STYLE 0x10CF0800
+CAPTION "TaskMgr 进程管理器"
+MENU IDM_MENU0
+FONT 9, "新宋体"
+BEGIN
+    CONTROL "ListView",IDL_LISTVIEW1001,"SysListView32",0x50800001,2,13,280,300,0
+    PUSHBUTTON "结束进程", IDB_BUTTON1002,220,319,62,14
+    LTEXT "进程列表", IDS_STATIC1003,12,2,36,8
+END
+
+IDR_RT_MANIFEST0					24					".\\res\\XPStyle.manifest"
+
+
+IDM_MENU0 MENU
+BEGIN
+
+	POPUP "文件(&F)"
+	BEGIN
+		MENUITEM "结束进程(&E)\tCtrl+E ",IDB_BUTTON1002
+		MENUITEM SEPARATOR
+		MENUITEM "浏览到目录(&R)\tCtrl+R",IDS_SUBMENU2
+	END
+
+
+	POPUP "视图(&V)"
+	BEGIN
+
+	POPUP "刷新速度"
+	BEGIN
+		MENUITEM "立即刷新(&F)",IDS_SUBMENU10
+		MENUITEM SEPARATOR
+		MENUITEM "高(&H)",IDS_SUBMENU11
+		MENUITEM "较快(&Q)",IDS_SUBMENU12
+		MENUITEM "普通(&N)",IDS_SUBMENU13
+		MENUITEM "慢(&L)",IDS_SUBMENU14
+		MENUITEM "停止(&P)",IDS_SUBMENU15
+	END
+
+	END
+
+
+	POPUP "帮助(&A)"
+	BEGIN
+		MENUITEM "关于(&A)\tCtrl+H",IDS_SUBMENU3
+	END
+
+END
+
+IDV_VERSION0 VERSIONINFO
+FILEVERSION 1,0,0,518
+PRODUCTVERSION 1,0,0,518
+	FILEFLAGSMASK 0x3FL
+	FILEFLAGS 0x0L
+	FILEOS 0x40004L
+	FILETYPE 0x0L
+	FILESUBTYPE 0x0L
+	BEGIN
+	BLOCK "StringFileInfo"
+		BEGIN
+		BLOCK "000004B0"
+		BEGIN
+			VALUE "Comments", "TaskMgr"
+			VALUE "CompanyName", "Vsy "
+			VALUE "FileDescription", ""
+VALUE "FileVersion","1,0,0,518\0"
+			VALUE "InternalName", "TaskMgr.exe"
+			VALUE "LegalCopyright", "Morn@微软用户"
+			VALUE "OriginalFilename", "TaskMgr.exe"
+			VALUE "ProductName", "TaskMgr"
+			VALUE "PrivateBuild", ""
+VALUE "ProductVersion","1,0,0,518\0"
+			VALUE "SpecialBuild", ""
+		END
+	END
+	BLOCK "VarFileInfo"
+	BEGIN
+		VALUE "Translation", 0x0000, 0x04B0
+	END
+END
+
+IDD_DIALOG0 DIALOG DISCARDABLE 0,0,196,74
+STYLE 0x00CC0000
+CAPTION "关于"
+FONT 9, "宋体"
+BEGIN
+    PUSHBUTTON "关闭", IDB_BUTTON1001,141,48,42,12
+    LTEXT "http://www.vsysv.com", IDS_STATIC1002,49,22,82,10
+    LTEXT "CPMorn", IDS_STATIC1003,48,37,82,10
+    GROUPBOX "进程管理器", IDG_GROUP1004,5,4,186,62
+    LTEXT IDI_ICON0, IDS_STATIC1008,12,23,28,26,0x00000003
+END
+
+IDI_ICON0					ICON					".\\res\\Icon 2.ico"
+
+

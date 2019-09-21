@@ -1,0 +1,56 @@
+//xlang 
+package System{
+	class out{
+		static int println(String text){
+			return _system_.consoleWrite(text + "\n");
+		}
+		static int print(String text){
+			return _system_.consoleWrite(text);
+		}
+	};
+	
+	class Console{
+		Console(){
+			_system_.createConsole();
+		}
+	};
+};
+
+
+using { System; };
+
+
+class Node
+{
+	byte[] payload = new byte[1];
+	Node next;
+};
+
+int main(String [] args){
+
+	new Console();
+
+	System.out.println("hello world");
+    
+    Node curr = new Node();
+    Node head = curr;
+    int count = 0;
+    for (;;)
+    {
+		curr.next = new Node();
+        curr = curr.next;
+        
+        count += 1;
+        
+        if (count >=100000){
+			count = 0;
+            curr.next = head;
+            curr = new Node();
+            head = curr;
+        }
+    }
+
+	Thread.sleep(3000);
+
+	return 0;
+}

@@ -1,0 +1,8 @@
+LIBRARY "testxnl.dll"
+
+EXPORTS
+
+XNLMain
+XNLExit
+add
+getFileContent

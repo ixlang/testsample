@@ -1,0 +1,56 @@
+{
+	"srvtest":	{
+		"version":	"1.2",
+		"language":	"xlang",
+		"sources":	["srvtest.xcs"],
+		"configures":	{
+			"debug":	{
+				"path":	{
+					"incpath":	[],
+					"libpath":	["libs"]
+				},
+				"libs":	["FileSystem_1.0.0.3.lix", "FileStream_1.0.0.3.lix", "XPlatform_1.0.0.2.lix", "Runtime_1.0.0.3.lix"],
+				"options":	"",
+				"prebuild":	"",
+				"preclean":	"",
+				"makebuild":	"",
+				"makeclean":	"",
+				"afterbuild":	"",
+				"afterclean":	"",
+				"cmd":	"$(Output)",
+				"args":	"$(Output)",
+				"workdir":	"$(ProjectDir)",
+				"ignorewarning":	"",
+				"compdest":	"",
+				"debugable":	"-dbg",
+				"debugdatabase":	"",
+				"wtype":	"",
+				"ostype":	"",
+				"outname":	"$(ProjectName)$(Ext)",
+				"outpath":	"$(ProjectDir)/$(Arch)/$(Configure)",
+				"command":	"-ce",
+				"uaclevel":	"管理员(-uac-admin)"
+			},
+			"release":	{
+				"path":	{
+					"incpath":	[],
+					"libpath":	[]
+				},
+				"libs":	[],
+				"options":	"-nd",
+				"debugable":	"",
+				"cmd":	"$(Output)",
+				"args":	"$(Output)",
+				"workdir":	"$(ProjectDir)",
+				"wtype":	"",
+				"ostype":	"",
+				"outname":	"$(ProjectName)$(Ext)",
+				"outpath":	"$(ProjectDir)/$(Arch)/$(Configure)",
+				"command":	"-ce",
+				"uaclevel":	"管理员(-uac-admin)"
+			}
+		},
+		"versioninc":	"0",
+		"icofile":	""
+	}
+}

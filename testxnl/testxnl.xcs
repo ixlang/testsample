@@ -1,0 +1,62 @@
+//xlang 
+package System{
+	class out{
+		static int println(String text){
+			return _system_.consoleWrite(text + "\n");
+		}
+		static int print(String text){
+			return _system_.consoleWrite(text);
+		}
+	};
+	
+	class Console{
+		Console(){
+			_system_.createConsole();
+		}
+	};
+};
+ 
+ 
+class NativeLibrary{
+	import "libtestxnl"{
+		int cdecl add(int x,int y);
+        Object cdecl getFileContent(String path);
+    };
+}; 
+ 
+class NativeLibraryA : Library{
+	import {
+		int cdecl add(int x,int y);
+        Object cdecl getFileContent(String path);
+    };
+};
+
+using { System; };
+
+
+/** @caution:需要先编译 cpp项目, 
+	windows下用vc打开 testxnl.vcxproj 进行编译
+	linux 下运行makefile
+*/
+
+int main(String [] args){
+
+	
+	new Console();
+
+	byte[] data = (byte[])NativeLibrary.getFileContent("./sample.txt");
+    
+    if (data != nilptr){
+		System.out.println(new String(data));
+    }else{
+		System.out.println("read nilptr");
+    }
+	
+    //注意 默认是UTF8的 控制台不能输出 要转换 
+
+	System.out.println("\n\n native add : 5 + 6 = " + NativeLibrary.add(5, 6));
+    
+	Thread.sleep(3000);
+
+	return 0;
+}

@@ -1,0 +1,26 @@
+//xlang 
+
+
+class youclass: Myclass{
+	void fuck(C c){
+    }
+};
+
+class Myclass{
+	void fuck(C c);
+};
+
+class C : D{
+
+};
+
+int main(String [] args){
+
+	Myclass b = new youclass();
+
+	return 0;
+}
+
+class D{
+
+};

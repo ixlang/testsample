@@ -1,0 +1,64 @@
+require(
+"VLBase.xcs", 
+"VLMsg.xcs", 
+"VLPoint.xcs",
+"VLRect.xcs", 
+"VLSize.xcs", 
+"VUObject.xcs",
+"engine.xcs", 
+"OffsetParam.xcs",
+"VUPlatformContext.xcs",
+"VUScenes.xcs",
+"VLEvent.xcs",
+"EventHandler.xcs",
+"IVULayout.xcs",
+"VELayoutView.xcs",
+"VURander.xcs",
+"VLViewLayout.xcs",
+"VURander.xcs")
+
+class MainWindow : VLViewLayout{
+    VUScenes Scenes = nilptr;
+    VUPlatformContext context = nilptr;
+    VUObject object = nilptr;
+    void create(){
+        create(0, nilptr);
+        setVisible(1);
+        context = new VUPlatformContext(getWidth(), getHeight());
+        Scenes = new VUScenes();
+        
+        context.InitDevice(this);
+        Scenes.SetPlatformContext(context);
+        Scenes.SetBackColor(0xff00ff00);// bgr
+        
+        object = Scenes.AddObject("D:\\Cadaqs\\Desktop\\xlang\\xlang\\example\\engine2d_t\\1.png", new VLPoint(10, 10), VLSize.InvalidSize(), 255l);
+        
+        Timer t = new Timer();
+        t.schedule(new TimerTask(){
+        
+        void run(){
+            MainWindow.this.update();
+        }
+        
+        }, 10, -1);
+    }
+    
+    void onMouseMove(int flag, int x, int y){
+        VLPoint pt = object.GetObjectPoint() ;
+        Scenes.OffsetObject(object, (double)x - pt.x(), (double)y - pt.y(), true);
+    }
+    void onPaint(){
+        beginPaint();
+        endPaint();
+        Scenes.Render();
+    }
+};
+
+
+
+int main(String [] args){
+    MainWindow main = new MainWindow();
+    main.create();
+    Window.Loop();
+    return 0;
+}

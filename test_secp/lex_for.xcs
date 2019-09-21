@@ -1,0 +1,6 @@
+int main(String [] args){
+int hd = 0;
+int k = 9;
+int h = k / hd;
+return 0;
+}

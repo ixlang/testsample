@@ -1,0 +1,66 @@
+//xlang 
+
+package System{
+	class out{
+		static int println(String text){
+			return _system_.consoleWrite(text + "\n");
+		}
+		static int print(String text){
+			return _system_.consoleWrite(text);
+		}
+	};
+	
+	class Console{
+		Console(){
+			_system_.createConsole();
+		}
+	};
+};
+
+
+using { System; };
+
+
+class Generator<T>{
+  int n;
+  T[] a;
+  
+  Generator(int i, T [] x){
+	n = i;
+    a = x;
+  }
+  
+  T next(){
+    return core();
+  }
+  
+  T __next(){
+	n++;
+    return core();
+  }
+  
+  T core(){
+    if (n < a.length){
+		return a[n];
+    }
+    throw new IllegalArgumentException("out of length");
+    return nilptr;
+  }
+};
+
+int main(String [] args){
+
+	new Console();
+
+	String [] str = {"fuck", "me", "please"};
+	Generator<String> gs = new Generator<String>(0, str);
+    
+	System.out.println(gs.next());
+    System.out.println(gs.__next());
+    System.out.println(gs.__next());
+    System.out.println(gs.__next());
+    
+	Thread.sleep(3000);
+
+	return 0;
+}

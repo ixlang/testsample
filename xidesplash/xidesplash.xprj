@@ -1,0 +1,22 @@
+{
+
+		"xidesplash":{
+			"version":"1.2",
+			"language":"xlang",
+			"sources":["xidesplash.xcs"],
+			"configures":{
+				"debug":{
+					"path":{
+						"incpath":[],
+						"libpath":[]
+					},
+					"libs":[],
+					"options":"",
+					"command":"-ce",
+					"outpath":"$(ProjectDir)/$(Configure)",
+					"outname":"$(ProjectName).exe"
+				}
+			}
+		}
+	}
+}

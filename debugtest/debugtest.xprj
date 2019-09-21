@@ -1,0 +1,26 @@
+{
+	"debugtest":	{
+		"version":	"1.2",
+		"language":	"xlang",
+		"sources":	["debugtest.xcs"],
+		"configures":	{
+			"debug":	{
+				"path":	{
+					"incpath":	[],
+					"libpath":	[]
+				},
+				"libs":	[],
+				"options":	"",
+				"ignorewarning":	"",
+				"debugable":	"-dbg",
+				"debugdatabase":	"",
+				"outname":	"$(ProjectName).exe",
+				"outpath":	"$(ProjectDir)/$(Configure)",
+				"command":	"-ce",
+				"cmd":	"$(Output)",
+				"args":	"",
+				"workdir":	"$(ProjectDir)"
+			}
+		}
+	}
+}

@@ -1,0 +1,42 @@
+//xlang 
+package System{
+	class out{
+		static int println(String text){
+			return _system_.consoleWrite(text + "\n");
+		}
+		static int print(String text){
+			return _system_.consoleWrite(text);
+		}
+	};
+	
+	class Console{
+		Console(){
+			_system_.createConsole();
+		}
+	};
+};
+
+
+using { System; };
+
+class User32{
+
+	import "user32.dll"{
+		int stdcall MessageBoxA(Pointer , String , String , int);
+    };
+};
+
+void entry(){
+
+}
+int main(String [] args){
+
+	new Console();
+
+	System.out.println("hello world");
+
+	User32.MessageBoxA(0l,"111","222",0);
+	Thread.sleep(3000);
+
+	return 0;
+}

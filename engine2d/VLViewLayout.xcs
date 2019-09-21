@@ -1,0 +1,173 @@
+class VLViewLayout : Window 
+{
+	static const int LAYOUTLOAD_SLIDLTR = 1;
+	static const int LAYOUTLOAD_SLIDRTL = 2;
+	static const int LAYOUTLOAD_SLIDTTB = 4;
+	static const int LAYOUTLOAD_SLIDBTT = 8;
+
+	static const int LAYOUTLOAD_EXPAND = 0x10;
+	static const int LAYOUTLOAD_SHRINK = 0x20;
+
+	static const int LAYOUTUNLOAD_SLIDLTR = 0x1000;
+	static const int LAYOUTUNLOAD_SLIDRTL = 0x2000;
+	static const int LAYOUTUNLOAD_SLIDTTB = 0x3000;
+	static const int LAYOUTUNLOAD_SLIDBTT = 0x4000;
+
+	static const int LAYOUTUNLOAD_EXPAND = 0x8000;
+	static const int LAYOUTUNLOAD_SHRINK = 0x10000;
+	
+	bool m_bNewLayoutFront = true;
+	int m_loadMethod = 0;
+	int m_unloadMethod = 0;
+	int m_loadTime = 0;
+	
+	VURander mRenderer;
+
+	VLViewLayout() {
+        mRenderer = new VURander();  
+	}
+	void Detach(){
+		mRenderer.Detach();
+	}
+	IVULayout getCurrentVULayout(){
+		return mRenderer.GetCurrentLayout();
+	}
+	bool IsCurrentLayout(IVULayout Layout)
+	{
+		if ( nilptr == mRenderer)
+		{
+			return false;
+		}
+		IVULayout currentLayout = mRenderer.GetCurrentLayout();
+		if (nilptr == currentLayout)
+		{
+			return false;
+		}
+		return currentLayout == (Layout);
+	}
+	
+	bool OnBack()
+	{
+		if (mRenderer == nilptr)
+		{
+			return false;
+		}
+		return mRenderer.OnBack();
+	}
+	void SetDefaultLoadLayoutMethod(int loadMethod,int unloadMethod,int loadTime,bool bNewLayoutFront)
+	{
+		m_bNewLayoutFront = bNewLayoutFront;
+		m_loadMethod = loadMethod;
+		m_unloadMethod = unloadMethod;
+		m_loadTime = loadTime;
+	}
+	
+	IVULayout SetViewLayout(IVULayout Layout,int loadMethod,int unloadMethod,int loadTime,bool bNewLayoutFront)
+	{
+		int width = getWidth();
+		int height = getHeight();
+        
+		IVULayout oldLayout = nilptr;
+        
+		if (loadMethod == 0 && unloadMethod == 0){
+			oldLayout = mRenderer.Setup(this,Layout,width,
+	        		 height,m_loadMethod,m_unloadMethod,m_loadTime,m_bNewLayoutFront);			
+		}else{
+			oldLayout = mRenderer.Setup(this,Layout,width,
+	        		 height,loadMethod,unloadMethod,loadTime,bNewLayoutFront);
+		}
+        this.requestRender();
+        return oldLayout;
+	}
+    void requestRender(){
+    
+    }
+	IVULayout SetViewLayout(IVULayout Layout)
+	{
+		int width = getWidth();
+		int height = getHeight();
+		IVULayout oldLayout = nilptr;
+
+		oldLayout = mRenderer.Setup(this,Layout,width,
+	        		 height,0,0,0,true);			
+
+        this.requestRender();
+        return oldLayout;
+	}	
+	
+	/*bool onTouchEvent(MotionEvent event) {
+		// TODO Auto-generated method stub
+		//super.onTouchEvent(event);
+		bool bCustomReturn = false;
+	
+    
+        if (mRenderer.LayoutCreateed() == false || mRenderer.m_Layout == nilptr || mRenderer.layoutLoadComplete() == false)
+        {
+            return super.onTouchEvent(event);
+        }
+        bool bRefresh = false;
+        bRefresh = mScaleGestureDetector.onTouchEvent(event);
+        if (mScaleGestureListener.IsScales())
+        {
+            mRenderer.m_Layout.SetZoom(mScaleGestureListener.GetScales());
+            this.requestRender();
+            return bRefresh;
+        }
+        int pointerCount = event.getPointerCount();
+        for (int i = 0; i < pointerCount; i++) {  
+            int id = event.getPointerId(i);
+            switch(event.getAction())
+            {
+            case MotionEvent.ACTION_POINTER_1_DOWN:
+            case MotionEvent.ACTION_POINTER_2_DOWN:
+            case MotionEvent.ACTION_POINTER_3_DOWN:
+            case MotionEvent.ACTION_DOWN:	
+                if (mRenderer.m_Layout.OnTouch(event.getX(i), event.getY(i),id)){ 
+                    bRefresh =  true;
+                }
+                bCustomReturn = true;
+                break;
+            case MotionEvent.ACTION_MOVE:
+                if (mRenderer.m_Layout.OnTouchMove(event.getX(i), event.getY(i),id)){ 
+                    bRefresh =  true;
+                }
+                bCustomReturn = true;
+                break;
+            case MotionEvent.ACTION_POINTER_1_UP:
+            case MotionEvent.ACTION_POINTER_2_UP:
+            case MotionEvent.ACTION_POINTER_3_UP:					
+            case MotionEvent.ACTION_UP:
+                if (mRenderer.m_Layout.OnTouchUp(event.getX(i), event.getY(i),id)){ 
+                    bRefresh =  true;
+                }
+                bCustomReturn = true;
+                break;
+            }
+        }
+        if (bRefresh)
+        {
+            this.requestRender();
+        }	
+        if (bCustomReturn){
+            return true;
+        }
+    
+		return super.onTouchEvent(event);
+	}*/
+
+	int TranslateMessage(VLMsg msg)
+	{
+		if (mRenderer.LayoutCreateed() == false)
+		{
+			return 0;
+		}
+		if (msg.message() == VUScenes.VLWM_PAINT)
+		{
+			requestRender();
+			return 1;
+		}else
+		{
+			return mRenderer.TranslateMessage(msg);
+		}
+	}
+};

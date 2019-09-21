@@ -1,0 +1,48 @@
+
+
+
+void client(){
+    StreamSocket socket = new StreamSocket();
+    if (socket.connect("127.0.0.1", 7000)){
+        socket.write("111111".getBytes(), 0, 6);
+        
+            InetAddress inet = socket.getRemoteInetAddress();
+            _system_.consoleWrite(inet.getAddressString() + ":" + inet.getPort() + "connected\n");
+        while (0 <= socket.available(true)){
+            byte []data = new byte[1024];
+            int rd = socket.read(data, 0, 1024);
+            _system_.consoleWrite(new String(data, 0, rd));
+        }
+    }
+}
+
+
+
+void server(){
+    StreamSocket socket = new StreamSocket();
+    if (socket.listen(7007, 512)){
+        StreamSocket client = nilptr;
+        while ((client = socket.accept()) != nilptr){
+            client.write("111111".getBytes(), 0, 6);
+            InetAddress inet = client.getRemoteInetAddress();
+            _system_.consoleWrite(inet.getAddressString() + ":" + inet.getPort() + "connected\n");
+            if (0 <= client.available(true)){
+                byte []data = new byte[1024];
+                int rd = client.read(data, 0, 1024);
+                if (rd > 0){
+                    _system_.consoleWrite(new String(data, 0, rd));
+                }else{
+                    _system_.consoleWrite("socket close\n");
+                }
+            }
+        }
+    }
+}
+
+
+int main(String [] args){
+    _system_.createConsole();
+    server();
+    Thread.sleep(-1);
+    return 0;
+}

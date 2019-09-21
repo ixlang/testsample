@@ -1,0 +1,78 @@
+//xlang 
+package System{
+	class out{
+		static int println(String text){
+			return _system_.consoleWrite(text + "\n");
+		}
+		static int print(String text){
+			return _system_.consoleWrite(text);
+		}
+	};
+	
+	class Console{
+		Console(){
+			_system_.createConsole();
+		}
+	};
+};
+
+
+using { System; };
+
+
+class MyClass{
+	enum Language{
+		cpp,        java,         c,        php,        python,        scala,        csharp,
+        vb,        fsharp,        qbasic,        forth,        lua,        perl,        ruby,
+        erlang,        haskell,        ada,        lisp,        oc,        swift,        html,
+        js,        xhtml
+    };
+	
+    static void setLanguage(Language l){
+		switch(l){
+			case Language.cpp:
+				System.out.println("cpp");
+            break;
+            case Language.java:
+				System.out.println("java");
+            break;
+            case  Language.c:
+				System.out.println("c");
+            break;
+            case Language.php: 
+				System.out.println("php");
+			break;
+            default:
+				System.out.println("unknow");
+            break;
+        }
+    }    
+};
+
+
+void printfValue(int v){
+	System.out.println("value is " + v);
+}
+
+int main(String [] args){
+
+	new Console();
+    
+    Object y = MyClass.Language.oc;
+
+	MyClass.Language k = MyClass.Language.cpp;
+    
+    printfValue(k.c);
+    
+
+    MyClass.setLanguage(MyClass.Language.c);
+    MyClass.setLanguage(MyClass.Language.cpp);
+    MyClass.setLanguage(MyClass.Language.php);
+    MyClass.setLanguage(MyClass.Language.oc);
+    
+	System.out.println("hello world");
+
+	Thread.sleep(3000);
+
+	return 0;
+}

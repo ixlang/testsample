@@ -1,0 +1,44 @@
+//xlang 
+package System{
+	class out{
+		static int println(String text){
+			return _system_.consoleWrite(text + "\n");
+		}
+		static int print(String text){
+			return _system_.consoleWrite(text);
+		}
+	};
+	
+	class Console{
+		Console(){
+			_system_.createConsole();
+		}
+	};
+};
+
+
+using { System; };
+
+import "msvcrt.dll"{
+    int cdecl _cprintf(String _Format, String text);
+};
+
+
+
+void fuck(String fmt, Object[]){
+
+}
+
+int main(String [] args){
+
+	fuck("%d", 1, 2, 3, 4);
+    
+	new Console();
+	//_cprintf("%d", (long)12);
+    _cprintf("%s", String.format("************native %s test PI is %f********\n", "printf", Math.PI));
+    _cprintf("%s","PI is " + Math.PI + "\n");
+
+	Thread.sleep(3000);
+
+	return 0;
+}

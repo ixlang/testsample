@@ -1,0 +1,60 @@
+//xlang 
+package System{
+	class out{
+		static int println(String text){
+			return _system_.consoleWrite(text + "\n");
+		}
+		static int print(String text){
+			return _system_.consoleWrite(text);
+		}
+	};
+	
+	class Console{
+		Console(){
+			_system_.createConsole();
+		}
+	};
+};
+
+
+using { System; };
+
+
+class base{
+	void fuck();
+};
+
+
+class classb : classa{
+	void set(){
+		_system_.output("sadasd");
+    }
+};
+
+class classa{
+	int s = 5;
+	base sa = new base(){
+		void fuck(){
+			s ++;
+            _system_.consoleWrite("asdasdasd" + s);
+        }
+    };
+    void create(){
+		set();
+        sa.fuck();
+    }
+	void set();
+};
+
+
+int main(String [] args){
+
+	new Console();
+
+	classb s = new classb();
+    s.create();
+
+	Thread.sleep(1000);
+
+	return 0;
+}

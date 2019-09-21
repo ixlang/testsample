@@ -1,0 +1,153 @@
+//xlang 
+package System{
+	class out{
+		static int println(String text){
+			return _system_.consoleWrite(text + "\n");
+		}
+		static int print(String text){
+			return _system_.consoleWrite(text);
+		}
+
+	};
+	
+	class Console{
+		Console(){
+			_system_.createConsole();
+		}
+        static void pause(){
+			out.println("press ENTRY continue...");
+			byte[ ] buf = new byte[3];
+			_system_.consoleRead(buf,0,2);
+        }
+	};
+};
+
+using { System; };
+
+
+class Service {
+	static bool install(){
+		if (false == _system_.isServiceInstalled("xlangsrv")){
+			/** 安装服务 
+			参数依次为
+			可执行文件路径 _system_.getAppPath()
+			服务名称			xlangsrv
+			服务显示名称		Xlang Web Server
+			服务描述
+			@caution linux 下服务安装后可能需要手动使用 systemctl enable xlangsrv.service 命令对服务进行启用
+
+			*/
+			if (_system_.installService(_system_.getAppPath(), "xlangsrv", "Xlang Service", "service example for xlang")){
+				System.out.println("Services install success");
+                return true;
+			}else{
+				System.out.println("Services install failed");
+			}
+		}else{
+			System.out.println("Services exists");
+		}
+        return false;
+    }
+
+	static bool uninstall(){
+		if (true == _system_.isServiceInstalled("xlangsrv")){
+			/**  卸载服务 */
+			if (_system_.uninstallService("xlangsrv")){
+				System.out.println("Services uninstall success");
+                return true;
+			}else{
+				System.out.println("Services uninstall failed");
+			}
+		}else{
+			System.out.println("Services not exists");
+		}
+		return false;
+    }
+    
+    static bool deamon(){
+		String apppath = _system_.getAppPath();
+		String []_args = {apppath};
+		Process p = new Process(apppath, _args);
+		return p.create(true,false,false,false);  
+    }
+    
+    static bool processArgs(String [] args){
+		if (args.length == 2){
+			String cmdand = args[1];
+			//安装服务
+			if (cmdand.equals("install")){
+				new Console();
+				/** 判断服务是否已安装*/
+				install();
+				System.Console.pause();
+				return true;
+			}
+			//卸载服务
+			if (cmdand.equals("uninstall")){
+				new Console();
+				/** 判断服务是否已安装*/
+				uninstall();
+				System.Console.pause();
+				return true;
+			}
+			// deamon for linux
+			if (cmdand.equals("start")){
+				deamon();
+			}
+            
+			new Console();
+			System.out.println("unrecognizabled args :" + cmdand +" \n\nargs description:\n\tinstall: install service\n\tuninstall: uninstall service");
+			System.Console.pause();
+			return true;
+		}
+        
+        return false;
+    }
+    
+    static void run(){
+		/** 开启一个web服务**/
+		HttpServer server = new HttpServer();
+		Website wb = new Website();
+		wb.registryServlet(new HttpServlet(false, "/"){
+
+
+			void doPost(HttpServletRequest request,HttpServletResponse response)override{
+				//TODO 
+				doGet(request, response);
+			}
+
+			void doGet(HttpServletRequest request,HttpServletResponse response)override{
+				response.print("welcome to xlang service");
+			}
+		});
+		
+		server.addWebsite("*", wb);
+		
+		if (server.startServer(HttpServer.DEFAULT_MODEL, 80)){
+			/** 服务开启成功,写入系统日志, 在windows下可在事件查看器中查看, linux下在syslog中查看
+			@info 服务启动后可在浏览器中访问 localhost 或者 127.0.0.1 进行测试
+			*/
+			_system_.log("xlangsrv",_system_.LOG_LEV_INFO,"xlangsrv 服务已成功开启",true);
+			
+			/** 服务开启成功  进入系统服务主循环,未安装的服务serviceRun可能立即返回0*/
+			if (0 == _system_.serviceRun("xlangsrv")){
+				/** 这条语句用于调试模式下如果服务未安装返回0则 使主线程睡眠 以便继续调试*/
+				Thread.sleep(-1);
+			}
+		}else{
+			/** 服务开启失败,写入系统日志, 在windows下可在事件查看器中查看, linux下在syslog中查看*/
+			_system_.log("xlangsrv",_system_.LOG_LEV_ERR,"xlangsrv 服务未能成功开启,请检查80端口是否被占用",true);
+		}
+    }
+};
+
+
+int main(String [] args){
+	/** 处理安装等参数, 如果不是处理参数  则运行服务*/
+	if (false == Service.processArgs(args)){
+		Service.run();
+    }
+	return 0;
+}
+
+

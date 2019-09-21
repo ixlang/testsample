@@ -1,0 +1,42 @@
+
+class VLRect  : VLBase{
+
+	static VLRect InvalidRect()
+	{
+		return new VLRect(0);
+	}
+	VLRect()
+	{
+		_v = AllocRect();
+	}
+	VLRect(long hRect)
+	{
+		_v = hRect;
+	}	
+	double left( )
+	{
+		return RectGetLeft(_v);
+	}
+	double top()
+	{
+		return RectGetTop(_v);
+	}
+	double right()
+	{
+		return RectGetRight(_v);
+	}
+	double bottom()
+	{
+		return RectGetBottom(_v);
+	}	
+	void Set(double l,double t,double r,double b)
+	{
+		RectSetData(_v,l,t,r,b);
+	}
+	
+	void finalize()
+    {
+		if (_v != 0)
+			DeallocRect(_v);
+    }		
+};

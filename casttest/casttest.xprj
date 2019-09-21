@@ -1,0 +1,27 @@
+{
+	"casttest":	{
+		"version":	"1.2",
+		"language":	"xlang",
+		"sources":	["casttest.xcs"],
+		"configures":	{
+			"debug":	{
+				"path":	{
+					"incpath":	[],
+					"libpath":	[]
+				},
+				"options":	"",
+				"cmd":	"$(Output)",
+				"args":	"$(Output)",
+				"workdir":	"$(ProjectDir)",
+				"wtype":	"-arch:x86_64",
+				"outname":	"$(ProjectName).exe",
+				"outpath":	"$(ProjectDir)/$(Configure)",
+				"command":	"-ce",
+				"libs":	[],
+				"ignorewarning":	"",
+				"debugable":	"-dbg",
+				"debugdatabase":	""
+			}
+		}
+	}
+}

@@ -1,0 +1,66 @@
+
+
+
+int main(String [] args){
+
+	_system_.createConsole();
+    
+    int [][] a = new int[10][0];
+    
+    long start = _system_.currentTimeMillis();
+    for (int x = 0; x < 3; x++){
+        a[x] = new int[4];
+        for (int y =0; y < 4; y ++){
+            a[x][y] = x * 4 + y;
+        }
+    }
+    
+    for (int x = 0; x < 3; x++){
+        for (int y =0; y < 4; y ++){
+            _system_.consoleWrite(String.format("a[%d][%d] is %d\n", x, y,  a[x][y] ));
+        }
+    }
+    
+    _system_.arrayCopy(a[1], 0, a[2], 0, a[2].length);
+    
+    for (int x = 0; x < 3; x++){
+        for (int y =0; y < 4; y ++){
+           _system_.consoleWrite(String.format("a[%d][%d] is %d\n", x, y,  a[x][y] ));
+        }
+    }
+    
+    
+    int [][][][][] b = new int[10][0][0][0][0];
+    
+    for (int i = 0; i < b.length; i++){
+        b[i] = new int[5][0][0][0];
+        for (int i1 = 0; i1 < b[i].length; i1++){
+            b[i][i1] = new int[6][0][0];
+            for (int i2 = 0; i2 < b[i][i1].length; i2++){
+                b[i][i1][i2] = new int[7][0];
+                for (int i3 = 0; i3 < b[i][i1][i2].length; i3++){
+                    b[i][i1][i2][i3] = new int[8];
+                    for (int i4 = 0; i4 < b[i][i1][i2][i3].length; i4++){
+                         b[i][i1][i2][i3][i4] = i * b[i].length + i1 * b[i][i1].length + i2 * b[i][i1][i2].length + i3 * b[i][i1][i2][i3].length + i4;
+                    }
+                }
+            }
+        }
+    }
+    
+    
+    for (int i = 0; i < b.length; i++){
+        for (int i1 = 0; i1 < b[i].length; i1++){
+            for (int i2 = 0; i2 < b[i][i1].length; i2++){
+                for (int i3 = 0; i3 < b[i][i1][i2].length; i3++){
+                    for (int i4 = 0; i4 < b[i][i1][i2][i3].length; i4++){
+                        _system_.consoleWrite(String.format("b[%d][%d][%d][%d][%d] is %d\n", i,i1,i2,i3,i4, b[i][i1][i2][i3][i4]));
+                    }
+                }
+            }
+        }
+    }
+    
+    
+    return _system_.currentTimeMillis() - start;
+}

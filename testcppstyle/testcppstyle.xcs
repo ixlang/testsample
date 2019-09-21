@@ -1,0 +1,12 @@
+//xlang  
+
+include ("iostream")
+
+int main(String [] args){
+	AllocConsole();
+    
+	cout << "hello world" << 3.1415926f << endl;
+    
+    sleep(-1);
+	return 0;
+}

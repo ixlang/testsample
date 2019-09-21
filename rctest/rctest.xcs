@@ -1,0 +1,13 @@
+//xlang 
+
+int main(String [] args){
+	_system_.createConsole();
+    
+    for (int i =0; i < 10000; i ++){
+		String text = new String(__xPackageResource("conv.c"));
+		_system_.consoleWrite(text);
+	}
+    _system_.consoleWrite("pk");
+	Thread.sleep(-1);
+	return 0;
+}

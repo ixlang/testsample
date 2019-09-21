@@ -1,0 +1,40 @@
+//xlang
+
+Map<String, int> l ;
+
+int main(String [] args){
+  _system_.createConsole();
+
+  try{
+		if (true){
+			try{
+				int rd = 0;
+				byte [] buffer = new byte[1024];
+				
+				int pos = 0;
+				while (pos > 0){
+					
+						
+					try{
+						pos += rd;
+						String oustr = new String(buffer, 0, pos, "GB18030//IGNORE");
+						pos = 0;
+					}catch(Exception e){
+						byte [] newbuf = new byte[buffer.length + 1024];
+						_system_.arrayCopy(buffer, 0, newbuf, 0, pos);
+						buffer = newbuf;
+					}
+				}
+			}catch(Exception e){
+			
+			}
+		}
+	}catch(Exception e){
+		String str = e.getMessage();
+		
+		_system_.consoleWrite("错误:" + new String(str.getBytes(), "GB18030//IGNORE"));
+	}
+	
+	Thread.sleep(-1);
+    return 0;
+}

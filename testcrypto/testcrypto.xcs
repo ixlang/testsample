@@ -1,0 +1,53 @@
+//xlang 
+
+
+void printBIN(String pre, byte [] pbmd5){
+	_system_.consoleWrite("\n" + pre + ":");
+	for (int i =0; i < pbmd5.length; i++){
+		_system_.consoleWrite("" + pbmd5[i]);
+	}
+}
+
+int main(String [] args){
+	_system_.createConsole();
+	{
+		long hCrypto = Crypto.Md5Init();
+		byte [] data = "123456789".getBytes();
+		Crypto.Md5Update(hCrypto, data, 0, data.length);
+		Crypto.MD5Final(hCrypto);
+		byte []pbmd5 = Crypto.MD5Get(hCrypto);
+		printBIN("hCrypto", pbmd5);
+		
+	}
+	{
+		long hCrypto = Crypto.SHA1Init();
+		byte [] data = "123456789".getBytes();
+		Crypto.SHA1Update(hCrypto, data, 0, data.length);
+		Crypto.SHA1Final(hCrypto);
+		byte []pbmd5 = Crypto.SHA1Get(hCrypto);
+		Crypto.SHA1Close(hCrypto);
+		printBIN("sha1", pbmd5);
+	}
+    
+	{
+		byte [] data = "123456789".getBytes();
+		long hCrypto = Crypto.RSAInit();
+        Crypto.RSACreate(hCrypto, 1024);
+        byte[] pbkey = Crypto.RSAGetPublicKey(hCrypto);
+        printBIN("public key" , pbkey);
+        
+        byte[] prkey = Crypto.RSAGetPrivateKey(hCrypto);
+        printBIN("private key", prkey);
+        
+        byte[] pben = Crypto.RSAPrivateEncrypto(hCrypto, data, 0, data.length, Crypto.PKCS1Padding);
+        printBIN("encode" , pben);
+        
+        byte[] pbde = Crypto.RSAPublicDecrypto(hCrypto, pben, 0, pben.length, Crypto.PKCS1Padding);
+        printBIN("decode", pbde);
+        
+        Crypto.RSAClose(hCrypto);
+	}
+    
+    Thread.sleep(2000);
+	return 0;
+}

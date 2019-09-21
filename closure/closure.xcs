@@ -1,0 +1,74 @@
+//xlang 
+
+include ("../../std/Map.xcs", 
+"../../std/Vector.xcs", 
+"../../std/System.xcs")
+
+package System{
+	class out{
+		static int println(String text){
+			return _system_.consoleWrite(text + "\n");
+		}
+		static int print(String text){
+			return _system_.consoleWrite(text);
+		}
+	};
+	
+	class Console{
+		Console(){
+			_system_.createConsole();
+		}
+	};
+};
+
+
+
+/**
+    闭包测试,
+    java的闭包是假闭包,闭包对象只能声明为不可更改的final类型
+    这里的闭包是真闭包, 是可以修改的...
+*/
+
+static class tester{
+    int j = 0;
+    tester(int p){
+        j = p;
+    }
+    int fuck(){
+        return j;
+    }
+};
+
+int add(tester v){
+    System.out.print(String.format("copy pos 3 is: %d\n",  v.fuck()));
+    return 5;
+}
+
+
+using { System; };
+
+
+int main(String [] args){
+
+	new Console();
+
+    int kl = 10;
+
+    add(new tester(5){
+        int fuck(){
+            int r = 0;
+            return kl += add(new tester(4){
+                int fuck(){
+                    return r + kl + 1; // 
+                }
+            });
+        }
+    });
+    
+    System.out.print(String.format("kl is: %d\n",  kl));
+    
+
+	Thread.sleep(-1);
+
+	return 0;
+}

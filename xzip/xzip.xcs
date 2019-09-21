@@ -1,0 +1,380 @@
+// xlang
+
+using{ FileSystem; FileStream;};
+
+class MainDialog : QXDialog{
+
+	QXPushButton btnDir, btnComp, btnFile, btnDecomp;
+	QXLineEdit directory, file;
+    QXTreeView filecontent = new QXTreeView();
+    QXProgressBar progressBar;
+    QXLabel label;
+    
+ 
+	//####################################################################
+	/***
+    @caution 为程序设置一个出错回调， 
+		程序中可能出现的没有处理的异常会导致程序终止， 
+		这个接口将在程序终止前被调用， 用于记录异常信息    
+    */
+    class CrashReport : ICrashHandler{
+		void onCrash(String message)override{
+			try{
+				new FileOutputStream("crash.log").write(message.getBytes());
+			}catch(Exception e){
+			
+			}
+			QXMessageBox.Critical("异常错误","注意Zip管理器发生了一个异常错误即将关闭,错误信息已经被记录在日志文件:crash.log,你可以向我们发送此日志文件，帮助我们完善体验.\n",QXMessageBox.Ok,QXMessageBox.Ok);
+            _system_.exit(0);
+        }
+    };
+    //####################################################################
+    
+    
+	bool create()override{
+    
+		_system_.registryCrashHandler(new CrashReport());
+		QXBuffer qb = new QXBuffer();
+        byte [] buffer = __xPackageResource("ui/dialog.ui");
+        qb.setBuffer(buffer, 0, buffer.length);
+        
+		if (load(qb)){
+			//setStyleSheet("res/qss/black.qss");
+            setWindowIcon("res/folder.png");
+			btnDir = (QXPushButton)attachByName(new QXPushButton(), "btnDir");
+            btnComp = (QXPushButton)attachByName(new QXPushButton(), "btnComp");
+            btnFile = (QXPushButton)attachByName(new QXPushButton(), "btnFile");
+            btnDecomp = (QXPushButton)attachByName(new QXPushButton(), "btnDecomp");
+            directory = (QXLineEdit)attachByName(new QXLineEdit(), "directory");
+            file = (QXLineEdit)attachByName(new QXLineEdit(), "file");
+            attachByName(filecontent, "filecontent");
+            progressBar = (QXProgressBar)attachByName(new QXProgressBar(), "progressBar");
+            label = (QXLabel)attachByName(new QXLabel(), "label");
+            
+			btnDir.setOnClickListener(new onClickListener(){
+				void onClick(QXObject obj, bool checked)override{
+					
+                    String dir = QXFileDialog.getFolderPath("选择要压缩的文件夹","","",MainDialog.this);
+                    if (dir != nilptr){
+						directory.setText(dir);
+                    }
+				}
+			});
+            
+            
+            btnComp.setOnClickListener(new onClickListener(){
+				void onClick(QXObject obj, bool checked)override{
+					String destzip = QXFileDialog.getSaveFileName("保存Zip文件","","*.zip;",MainDialog.this);
+					String dir = directory.getText();
+                    
+                    if (dir.length() > 0 && destzip != nilptr && destzip.length() > 0){
+						thread_Compress(dir, destzip);
+                        
+                    }
+				}
+			});
+            
+            btnFile.setOnClickListener(new onClickListener(){
+				void onClick(QXObject obj, bool checked)override{
+					String destzip = QXFileDialog.getOpenFileName("浏览Zip文件","","*.zip;",MainDialog.this);
+	                    
+                    if (destzip != nilptr && destzip.length() > 0){
+						file.setText(destzip);
+						openZip(destzip);
+                    }
+				}
+			});
+            
+            btnDecomp.setOnClickListener(new onClickListener(){
+				void onClick(QXObject obj, bool checked)override{
+					String zipfile = file.getText();
+					String dir = QXFileDialog.getFolderPath("选择目标文件夹","","",MainDialog.this);
+                    if (zipfile.length() > 0 && dir != nilptr){
+						new Thread(){
+							void run(){
+								thread_decompress(zipfile, dir);
+                            }
+                        }.start();
+                    }
+				}
+			});
+            
+            progressBar.setValue(0);
+            
+            
+            return true;
+		}
+        return false;
+	}
+    
+    //进度 当前进度
+    int compress_prog = 0;
+    
+    //进度 总进度
+    int compress_total = 0;
+    
+    //####################################################################
+    /** 线程中压缩*/
+    void thread_Compress(String dir, String destzip){
+    
+		new Thread(){
+			void run()override{
+				compress_total = 0;
+				countTotal(dir);
+				if (compress_total > 0){
+					compress(dir, destzip);
+                }
+                updateProgress("done");
+                
+				runOnUi(new Runnable(){
+					void run()override{
+						openZip(destzip);
+                    }
+                });
+            }
+        }.start();
+    }
+    //####################################################################
+    
+    
+    
+    //####################################################################
+    /** 统计文件个数 压缩前调用一次 用于显示进度*/
+    void countTotal(String rootDir){
+		int cnt = 0;
+ 		File fp = new File(rootDir);
+        List<File> flist = fp.listFiles();
+        
+        List.Iterator<File> iter = flist.iterator();
+        
+        while (iter.hasNext()){
+			File sf = iter.next();
+
+            String name = sf.path.findFilenameAndExtension();
+            compress_total++;
+            updateProgress("正在扫描,已发现 " + compress_total + "个文件" );
+            if (!name.isDot()){
+                if (sf.isDir()){
+                    countTotal(sf.path);
+                }
+            }
+        }
+    }
+    //####################################################################
+    
+    
+    
+    //####################################################################
+    /***
+		压缩文件夹
+    */
+    void compress(String dir, String destzip){
+		FileOutputStream fis = new FileOutputStream(destzip);
+		ZipArchive za = new ZipArchive();
+        compress_prog = 0;
+		if (za.create(fis)){
+			compressDir(za, dir, dir);
+			za.close();
+		}
+    }
+    
+    /**
+		遍历文件夹 压缩文件
+    */
+    void compressDir(ZipArchive za, String rootDir, String file){
+		File fp = new File(file);
+        List<File> flist = fp.listFiles();
+        
+        List.Iterator<File> iter = flist.iterator();
+        
+        while (iter.hasNext()){
+			File sf = iter.next();
+
+			String path = String.formatPath(sf.getPath(), false);
+            String name = path;
+            
+            compress_prog++;
+
+            updateProgress(path);
+            
+            if (!name.isDot()){
+				String entry = path.toRelativePath(rootDir,true);
+                if (entry.startWith("./") || entry.startWith(".\\") ){
+					entry = entry.substring(2, entry.length());
+                }
+                if (sf.isDir()){
+					za.createEntry(new ZipFile(entry, nilptr, true, _system_.currentTimeMillis()));
+                    compressDir(za, rootDir, path);
+                }else{
+					za.createEntry(new ZipFile(entry, new FileInputStream(path), false, _system_.currentTimeMillis()));
+                }
+            }
+        }
+    }
+    
+	//####################################################################
+    //更新进度 这个方法是在线程中调用的 所以要runOnUi 切换到UI线程中运行
+    void updateProgress(String path){
+		runOnUi(new Runnable(){
+			void run()override{
+				if (compress_total != 0){
+					progressBar.setValue(compress_prog * 100 / compress_total);
+                }
+                label.setText(path);
+			}
+		});
+    }
+    //####################################################################
+    
+    
+    //####################################################################
+    // 浏览Zip文件内容 并显示到TreeView中
+    void openZip(String path){
+		ZipArchive zs = new ZipArchive();
+        Map<String, long> path_map = new Map<String, long>();
+        filecontent.clear();
+        
+		FileInputStream fis = new FileInputStream(path);
+		if (zs.open(fis)){
+			int c = zs.getEntriesCount();
+			for (int i =0; i < c; i ++){
+				ZipEntry entry = zs.getEntry(i);
+                
+                String name = entry.getName();
+                progressBar.setValue((1 + i) * 100 / c);
+                
+				String parent = name.findVolumePath();
+                Map.Iterator<String, long> ip = path_map.find(parent);
+                
+				long item = 0;
+				if (ip != nilptr){
+					item = filecontent.insertItem(ip.getValue(),nilptr,name.findFilenameAndExtension());
+				}else{
+					item = filecontent.addItem(nilptr, name);
+				}
+                       
+				if (entry.isDirectory()){  
+                    if (item != 0)                  {
+						path_map.put(name,item);
+						filecontent.setItemIcon(item,0,"res/sources.png");
+                    }
+                }else
+                 if (item != 0) {
+					filecontent.setItemIcon(item,0,"res/source.png");
+                }
+			}
+            label.setText("共 " + c + " 个文件(夹)");
+		}else{
+			label.setText("不是ZIP压缩文件");
+        }
+        zs.close();
+        fis.close();
+    }
+    //####################################################################
+    
+    
+    
+    //####################################################################
+    //逐级检查文件夹路径是否存在
+    static bool mkdirs(String path){
+        if (XPlatform.existsSystemFile(path) == false){
+            if (XPlatform.mkdir(path) == false){
+                mkdirs(path.findVolumePath());
+                return XPlatform.mkdir(path);
+            }
+        }
+        return true;
+    }
+    
+    //解压
+    void thread_decompress(String zipFile, String dir){
+		ZipArchive zs = new ZipArchive();        
+		FileInputStream fis = new FileInputStream(zipFile);
+		if (zs.open(fis)){
+			compress_total = zs.getEntriesCount();
+			for (compress_prog = 0; compress_prog < compress_total; compress_prog ++){
+				ZipEntry entry = zs.getEntry(compress_prog);
+  
+                String name = entry.getName();
+                         
+                String destPath = String.formatPath(dir.appendPath(name), false);
+                
+				if (entry.isDirectory()){  
+                    mkdirs(destPath);
+                }else{
+					mkdirs(destPath.findVolumePath());
+                    
+					ZipFile file = entry.getFile();
+					byte []buf = new byte[1024];
+					int rd = 0;
+					if (file.open()){
+						FileOutputStream fos = new FileOutputStream(destPath);
+						while ((rd = file.read(buf, 0, 1024)) != 0){
+							fos.write(buf, 0, rd);
+						}
+						fos.close();
+						file.close();
+					}
+                }
+                
+                updateProgress(destPath);
+			}
+            updateProgress("已解压 " + compress_total + " 个文件(夹)");
+		}else{
+			updateProgress("不是Zip压缩文件");
+        }
+    }
+    //####################################################################
+    
+    
+    
+    //####################################################################
+    // 拖放支持
+    void onDrop(Object [] object)override{
+		if (object.length > 0){
+			try{
+				String sfile = (String)object[0];
+                file.setText(sfile);
+				openZip(sfile);
+			}catch(Exception e){
+			
+			}
+		}
+	}
+	
+	bool onDragEnter(int l,int t,int r,int b)override{
+		return true;
+	}
+	bool onDragMove(int l,int t,int r,int b)override{
+		return true;
+	}
+	bool onDragLeave(int l,int t,int r,int b)override{
+		return true;
+	}
+    //####################################################################
+    
+};
+
+
+class XMyApp : QXApplication {
+	MainDialog dialog;
+    bool create(){
+        if (super.createQXApplication()){
+            dialog = new MainDialog();
+            if (dialog.create()){
+				dialog.show();
+                return true;
+            }
+        }
+        return false;
+    }
+};
+
+
+int main(String [] args){
+	XMyApp app = new XMyApp();
+    if (app.create()){
+		app.run();
+    }
+	return 0;
+}

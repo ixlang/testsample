@@ -1,0 +1,31 @@
+//xlang 
+
+
+class base{
+	class dychild {
+
+	};
+
+	static class stchild{
+
+	};
+    
+    int j =0;
+};
+
+
+class extends : base{
+
+	static int main(String [] args){
+	
+		extends e = new extends();
+		e.j = 10;
+		extends.dychild d1 = new e.dychild();
+
+		return 0;
+	}
+};
+
+
+
+

@@ -1,0 +1,10 @@
+//xlang Source, Name:Pen.xcsm 
+//Date: Sun May 15:15:24 2019 
+
+interface Pen{
+	void onMouseMove(QXWidget widget, int Button,int x,int y,int flags,int source);
+	void onMouseButtonRelease(QXWidget widget,int Button,int x,int y,int flags,int source);
+	void onMouseButtonPress(QXWidget widget,int Button,int x,int y,int flags,int source);
+    void onPaint(int l,int t,int r,int b,QXPainter painter);
+    void init();
+};

@@ -1,0 +1,56 @@
+//xlang 
+package System{
+	class out{
+		static int println(String text){
+			return _system_.consoleWrite(text + "\n");
+		}
+		static int print(String text){
+			return _system_.consoleWrite(text);
+		}
+	};
+	
+	class Console{
+		Console(){
+			_system_.createConsole();
+		}
+	};
+};
+
+
+using { System; Sql;};
+
+
+int main(String [] args){
+
+	new Console();
+    
+    Mysql.registry();
+    
+    Sql.Connection conn = Sql.Database.getConnection("mysql");
+    
+    if (conn != nilptr){
+        conn.create("127.0.0.1", "root", "root");
+        conn.setOption(Mysql.MysqlOption.CHARSET,"utf8");
+        conn.setOption(Mysql.MysqlOption.SELECTDB, "test");
+        
+        Sql.PreparedStatement stmt = conn.prepareStatement("select * from users limit 10");
+//        stmt.setValue(40);
+        
+        try{
+            Sql.ResultSet rs = stmt.executeQuery();
+            int c = rs.getRowCount();
+            while (rs.next()){
+                _system_.consoleWrite(new String(rs.getString("username").getBytes("GB18030//IGNORE")) + ":" + rs.getString("password") + "\n");
+            }
+        }catch(Exception e){
+            _system_.consoleWrite(e.getMessage() + "\n");
+        }
+    }
+    
+    
+	//System.out.println("hello world");
+
+	Thread.sleep(3000);
+
+	return 0;
+}

@@ -1,0 +1,70 @@
+//xlang 
+
+package System{
+    package OS{ 
+        package IO{ 
+            class out{
+                static int println(String text){
+                    return out.print(text + "\n");
+                }
+                static int print(String text){
+                    return _system_.consoleWrite(text);
+                }
+            };
+        };
+    };
+};
+
+package System{
+    package OS{ 
+        class Console{
+            Console(){
+                _system_.createConsole();
+            }
+        };
+    };
+};
+
+
+interface klk{
+    static void fuck();
+};
+
+class TClass<type>{
+    int k = 0;  
+};
+
+using {System.OS.IO;};
+
+int fuck(){
+    return 0;
+}
+
+int fuuu = 10;
+
+class Myfosk{
+    static int fuuu = 9;
+    
+    int fuuu(int fuuu){
+        return this.fuuu;
+    }
+    
+    int fucks(int fuuu){
+        return fuuu;
+    }
+};
+
+int main(String [] args){
+    long fuck = 9;
+    int k = fuck;
+	new Console();
+    new System.OS.IO.out().println("hello world");
+    TClass<int>;
+    
+    Myfosk sm = new Myfosk();
+    int ko = sm.fuuu(8);
+    ko = sm.fucks(5);
+	Thread.sleep(3000);
+
+	return 0;
+}

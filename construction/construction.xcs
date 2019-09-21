@@ -1,0 +1,75 @@
+//xlang 
+package System{
+	class out{
+		static int println(String text){
+			return _system_.consoleWrite(text + "\n");
+		}
+		static int print(String text){
+			return _system_.consoleWrite(text);
+		}
+	};
+	
+	class Console{
+		Console(){
+			_system_.createConsole();
+		}
+	};
+};
+
+
+using { System; };
+
+class base1{
+    int sh = 0;
+    base1(){
+        sh = 1;
+    }
+    base1(int n){
+        sh = n;
+    }
+};
+
+class base : base1{
+    int h = 0;
+    /*base(){
+    }*/
+    base(int n){
+        super(n);
+        h = n;
+    }
+};
+
+class extend : base{
+    int j = 0;
+    extend(){
+        super(1);
+        j = 10;
+    }
+    
+    extend(int n){
+        super(n);
+        int h = 0;
+        //super(n);
+        j = n;
+    }
+};
+
+class XObject : Object{
+    int j = 10;
+
+};
+
+int main(String [] args){
+
+	new Console();
+
+    extend e = new extend(2);
+    _system_.consoleWrite("sss" + e.sh);
+    
+    Object o  =new XObject();
+    _system_.consoleWrite("x" + ((XObject)o).j);
+
+	Thread.sleep(3000);
+
+	return 0;
+}

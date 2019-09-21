@@ -1,0 +1,39 @@
+
+class objects{
+        import "Win32Project1.dll"{
+            Pointer stdcall getobj(int a, int b);
+            int stdcall addobj(Pointer s);
+        };
+};
+
+
+
+int main(String [] args){
+
+	int []k = {0, 1, 2, 3, 4, 5, 6};
+    _system_.createConsole();
+    long h = objects.getobj(1, 2);
+    int aa = objects.addobj(h);
+    _system_.consoleWrite("ok" + aa);
+    const String TAG = "myApp";
+    try{
+		int [] p = new int[-5];
+    }catch(Exception e){
+    
+    }
+    int i = 0;
+    Thread.sleep(1000);
+    
+    //_system_.setupLogSource("myapp");
+    
+    while(i++ < 100){
+		_system_.log(TAG, _system_.LOG_LEV_ERR, "" + i + "\n", false);
+    }
+    
+    _system_.consoleWrite("ok");
+    
+    Thread.sleep(-1);
+    
+
+	return 0;
+}

@@ -1,0 +1,71 @@
+//xlang 
+package System{
+	class out{
+		static int println(String text){
+			return _system_.consoleWrite(text + "\n");
+		}
+		static int print(String text){
+			return _system_.consoleWrite(text);
+		}
+	};
+	
+	class Console{
+		Console(){
+			_system_.createConsole();
+		}
+        
+        static byte readByte(){
+			byte [] data = new byte[3];
+            _system_.consoleRead(data,0,3);
+            return data[0];
+        }
+	};
+    
+};
+
+
+using { System; };
+
+
+int main(String [] args){
+
+	new Console();
+
+	System.out.println("hello world");
+
+	/**
+    注册对SIGINT信号的接收
+    */
+	_system_.registrySystemSignalHandler(_system_.SIGINT,
+    
+		/** 信号处理接口 */
+		new ISystemSignalHandler(){
+        
+			// 接收信号
+			int onSignal(int signal)override{
+				/** 收到SIGINT提示是否中断程序 */
+				System.out.println("interrupt the current program? Y/N\n");
+                
+                /** 等待用户输入确认 */
+                byte tb = System.Console.readByte();
+                
+                /** 如果输入了Y 或者 y*/
+                if (tb == 'y' || tb == 'Y'){
+					/** 返回SIGNAL_UNINTERESTED让系统按照默认方式处理*/
+					return _system_.SIGNAL_UNINTERESTED;
+                }
+                
+                /** 否则返回SIGNAL_DISCARD让系统丢弃此信号 */
+                return _system_.SIGNAL_DISCARD;
+			}
+		}
+    ,true);
+    
+    System.out.println("press CTRL + C\n");
+    
+	while(true){
+		/** 在linux或者darwin系统下, SIGINT会激活sleep ， 所以要使用while */
+		Thread.sleep(3000);
+	}
+	return 0;
+}

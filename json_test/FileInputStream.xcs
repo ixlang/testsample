@@ -1,0 +1,37 @@
+class FileInputStream {
+	long filehandler;
+
+	FileInputStream(String path){
+		filehandler = _system_.openFile(path, "r");
+	}
+
+	bool attach(String path){
+		if (filehandler != 0){
+			_system_.closeFile(filehandler);
+			filehandler = 0;
+		}
+		filehandler = _system_.openFile(path, "r");
+        return true;
+	}
+
+	long length(){
+		return _system_.fileLength(filehandler);
+	}
+
+	byte[] read(){
+		byte[] data = new byte[length()];
+		_system_.readFile(filehandler, data, 0, data.length);
+		return data;
+	}
+
+	long read(byte [] data , long length){
+		return _system_.readFile(filehandler, data, 0, length);
+	}
+
+	void finalize(){
+		if (filehandler != 0){
+			_system_.closeFile(filehandler);
+			filehandler = 0;
+		}
+	}
+};

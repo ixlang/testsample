@@ -1,0 +1,370 @@
+class VURander 
+{
+	int m_loadMethod = 0;
+	int m_unloadMethod = 0;
+	int m_loadTime = 0;
+	int m_totalTime = 0;
+
+	bool m_bLoadLayout = false;
+    
+	IVULayout m_Layout = nilptr;
+	IVULayout m_newLayout = nilptr;
+	
+	double oldScreenX = 0;
+	double oldScreenY = 0;
+	
+	double newScreenX = 0;
+	double newScreenY = 0;
+	
+	double oldZoom = 0;
+	double newZoom = 0;
+	
+	long nColor = 0xFFff0000;
+	Object renderLock = new Object();
+	bool m_LayoutCreated = false;
+	Timer m_AnimationTimer = nilptr;
+	int   m_screenWidth = 0,m_screenHeight = 0;
+	bool m_bNewLayoutFront = true;
+	Object viewLock = new Object();
+	
+	Object getRenderLock()
+	{
+		return viewLock;
+	}
+	
+	void onPaint() {
+		// TODO Auto-generated method stub
+		long beforetime = _system_.currentTimeMillis();
+		long preparetime = 0;
+		long rendertime = 0;
+        
+		synchronized(viewLock){
+		
+			ParpareLayout();
+
+			if (m_bLoadLayout == false)
+			{
+				if (m_Layout != nilptr && m_Layout.Prepare())
+				{				
+					preparetime = _system_.currentTimeMillis();
+					m_Layout.OnRender();
+					rendertime = _system_.currentTimeMillis();
+				}
+			}else
+			{
+				IVULayout firstLayout = m_Layout;
+				IVULayout secondLayout = m_newLayout;
+				if (m_bNewLayoutFront == false)
+				{
+					firstLayout = m_newLayout;
+					secondLayout = m_Layout;
+				}
+				if (firstLayout != nilptr && firstLayout.Prepare())
+				{
+					if (secondLayout != nilptr && secondLayout.Prepare())
+					{
+						firstLayout.GetScenes().BeginRenderNaked();
+						firstLayout.GetScenes().RenderNaked();
+						secondLayout.GetScenes().RenderNaked();
+						firstLayout.GetScenes().EndRenderNaked();
+					}else
+					{
+						firstLayout.OnRender();
+					}
+				}else
+				if (secondLayout.Prepare())
+				{
+					secondLayout.OnRender();
+				}	
+			}
+		}
+	}
+	void Detach(){
+		synchronized(viewLock){
+			if (m_Layout != nilptr){
+				IVULayout tmpLayout = m_Layout;
+				m_Layout = nilptr;
+				tmpLayout.Detached(nilptr);
+			}
+		}
+	}
+	bool OnBack()
+	{
+		bool bResult = false;
+		synchronized(viewLock){
+			if (m_Layout != nilptr)
+			{
+				bResult = m_Layout.OnBack();
+			}
+		}
+		return bResult;
+	}	
+	bool LayoutCreateed()
+	{
+		return m_LayoutCreated;
+	}
+	IVULayout GetCurrentLayout()
+	{
+		return m_Layout;
+	}
+	void executeLoadStep()
+	{
+		double lx = newScreenX, ly = newScreenY;
+		double loadPresent = (double)m_loadTime / (double)m_totalTime;
+		VUScenes engine = nilptr;
+		if (m_newLayout != nilptr)
+		{
+			engine = m_newLayout.GetScenes();
+			if (engine != nilptr)
+			{
+				if ((m_loadMethod & VLViewLayout.LAYOUTLOAD_EXPAND) == VLViewLayout.LAYOUTLOAD_EXPAND)
+				{
+					engine.SetZoom(newZoom * (1.f - loadPresent));
+				}
+
+				if ((m_loadMethod & VLViewLayout.LAYOUTLOAD_SHRINK) == VLViewLayout.LAYOUTLOAD_SHRINK)
+				{
+					engine.SetZoom(newZoom * (1.f + (10 * loadPresent)));
+				}
+		
+				if ((m_loadMethod & VLViewLayout.LAYOUTLOAD_SLIDLTR) == VLViewLayout.LAYOUTLOAD_SLIDLTR)
+				{
+					lx += (- m_screenWidth * loadPresent);
+				}
+				
+				if ((m_loadMethod &  VLViewLayout.LAYOUTLOAD_SLIDRTL) == VLViewLayout.LAYOUTLOAD_SLIDRTL)
+				{
+					lx += (m_screenWidth * loadPresent);
+				}
+		
+				if ((m_loadMethod & VLViewLayout.LAYOUTLOAD_SLIDTTB) ==  VLViewLayout.LAYOUTLOAD_SLIDTTB)
+				{
+					ly += (- m_screenHeight * loadPresent);
+				}				
+				if ((m_loadMethod & VLViewLayout.LAYOUTLOAD_SLIDBTT)== VLViewLayout.LAYOUTLOAD_SLIDBTT)
+				{
+					ly += (m_screenHeight * loadPresent);
+				}			
+				engine.SetScreenPoint(new VLPoint(lx,ly));
+			}
+		}
+		if (m_Layout != nilptr)
+		{
+			lx = oldScreenX;
+			ly = oldScreenY;
+		
+			engine = m_Layout.GetScenes();
+			if (engine != nilptr)
+			{
+				if ((m_unloadMethod & VLViewLayout.LAYOUTUNLOAD_EXPAND) ==  VLViewLayout.LAYOUTUNLOAD_EXPAND)
+				{
+					engine.SetZoom(oldZoom * (1 + (10 * (1.f -  loadPresent))));
+				}
+
+				if ((m_unloadMethod & VLViewLayout.LAYOUTUNLOAD_SHRINK) == VLViewLayout.LAYOUTUNLOAD_SHRINK)
+				{
+					engine.SetZoom(oldZoom * (loadPresent));
+				}
+
+				if ((m_unloadMethod & VLViewLayout.LAYOUTUNLOAD_SLIDLTR) ==  VLViewLayout.LAYOUTUNLOAD_SLIDLTR)
+				{
+					lx += (m_screenWidth * (1 - loadPresent));
+				}
+
+				if ((m_unloadMethod &  VLViewLayout.LAYOUTUNLOAD_SLIDRTL) == VLViewLayout.LAYOUTUNLOAD_SLIDRTL)
+				{
+					lx += (- m_screenWidth * (1 - loadPresent));
+				}
+
+				if ((m_unloadMethod & VLViewLayout.LAYOUTUNLOAD_SLIDTTB) == VLViewLayout.LAYOUTUNLOAD_SLIDTTB)
+				{
+					ly += (m_screenHeight * (1 - loadPresent));
+				}
+
+				if ((m_unloadMethod & VLViewLayout.LAYOUTUNLOAD_SLIDBTT) == VLViewLayout.LAYOUTUNLOAD_SLIDBTT)
+				{
+					ly += (- m_screenHeight * (1 - loadPresent));
+				}
+				engine.SetScreenPoint(new VLPoint(lx,ly));
+			}
+		}
+	}
+	void ParpareLayout()
+	{
+		if (m_bLoadLayout)//锟斤拷要锟斤拷锟斤拷锟斤拷锟斤拷锟�
+		{
+			if (m_loadTime == 0)
+			{
+
+				m_bLoadLayout = false;
+				
+				if (m_Layout != nilptr)
+				{
+					VUScenes engine = m_Layout.GetScenes();
+					if (engine != nilptr)
+					{						
+						engine.SetScreenPoint(new VLPoint(oldScreenX,oldScreenY));
+						engine.SetZoom(oldZoom);
+					}
+					m_Layout.Detached(m_newLayout);
+				}
+				m_Layout = m_newLayout;
+				m_newLayout = nilptr;
+				if (m_Layout != nilptr)
+				{
+					VUScenes engine = m_Layout.GetScenes();
+					if (engine != nilptr)
+					{
+						engine.SetScreenPoint(new VLPoint(newScreenX,newScreenY));
+						engine.SetZoom(newZoom);
+					}
+				}
+			}else
+			{
+				if (m_LayoutCreated == false && m_newLayout != nilptr)
+				{
+					m_newLayout.OnCreate();	
+					m_LayoutCreated = true;
+					VUScenes engine = nilptr;
+					
+					if (m_Layout != nilptr)
+					{
+						engine = m_Layout.GetScenes();
+						if (engine != nilptr)
+						{
+							oldScreenX = engine.GetScreenOffset().x();
+							oldScreenY = engine.GetScreenOffset().y();
+							oldZoom	   = engine.GetZoom();
+						}
+					}
+					
+					if (m_newLayout != nilptr)
+					{
+						engine = m_newLayout.GetScenes();
+						if (engine != nilptr)
+						{
+							newScreenX = engine.GetScreenOffset().x();
+							newScreenY = engine.GetScreenOffset().y();
+							newZoom	   = engine.GetZoom();
+						}
+					}
+					StartLoadLayout();
+				}
+				executeLoadStep();
+			}
+		}else
+		if (!m_LayoutCreated && m_Layout != nilptr)
+		{
+			m_LayoutCreated = true;
+			m_Layout.OnCreate();		
+		}
+	}
+	
+	void StartLoadLayout()
+	{
+		m_totalTime = m_loadTime;
+		//m_mainView.requestRender();
+		m_AnimationTimer = new Timer();
+		m_AnimationTimer.schedule(new TimerTask() {           
+            
+            void run() 
+            {
+            	if (m_loadTime > 0)
+            	{
+            		m_loadTime--;
+            	}
+            	if (m_loadTime <= 0)
+            	{
+            		m_loadTime = 0;
+            		m_AnimationTimer.cancel();
+            	}
+            }
+        }, 1, 1);			
+	}
+	
+	
+	void onSurfaceChanged(int width, int height) {
+		// TODO Auto-generated method stub
+		synchronized(viewLock){
+			if (m_Layout != nilptr)
+			{
+				m_Layout.OnLayoutChange(width, height);	
+			}
+		}
+	}
+
+	
+	void onSurfaceCreated() 
+	{
+		synchronized(viewLock){
+			ParpareLayout();
+		}
+	}
+
+	IVULayout Setup(VLViewLayout view,IVULayout Layout,int w,int h,int loadMethod,int unloadMethod,int loadTime,bool bNewLayoutFront)
+	{
+		IVULayout oldLayout = nilptr;
+		synchronized(viewLock){
+			m_bLoadLayout = false;
+			if (m_LayoutCreated == true || m_Layout == nilptr)
+			{
+				//m_mainView = view;
+				m_loadMethod = loadMethod;
+				m_unloadMethod = unloadMethod;
+				m_loadTime = loadTime;	
+				m_bNewLayoutFront = bNewLayoutFront;
+			}else
+			{
+				m_loadMethod = 0;
+				m_unloadMethod = 0;
+				m_loadTime = 0;
+			}
+			m_screenWidth = w;
+			m_screenHeight = h;
+			oldLayout = m_Layout;
+			m_LayoutCreated = false;
+			if ((nilptr != oldLayout) && (m_loadMethod == 0) && (m_unloadMethod == 0))
+			{
+				oldLayout.Detached(Layout);
+			}
+			Layout.Attached(view,w, h,oldLayout);
+			if (m_loadMethod == 0 && m_unloadMethod == 0)
+			{
+				m_Layout = Layout;
+			}else
+			{
+				m_bLoadLayout = true;
+				m_newLayout = Layout;
+			}
+		}
+		return oldLayout;
+	}
+	bool layoutLoadComplete()
+	{
+		return !m_bLoadLayout;
+	}
+	int TranslateMessage(VLMsg msg)
+	{
+		synchronized(viewLock){
+			if (m_bLoadLayout)
+			{	
+				if (m_newLayout != nilptr && m_LayoutCreated == true)
+				{
+					m_newLayout.TranslateMessage(msg);
+				}
+				if (m_Layout != nilptr)
+				{
+					m_Layout.TranslateMessage(msg);
+				}
+			}else
+			{
+				if (m_Layout != nilptr && m_LayoutCreated == true)
+				{
+					m_Layout.TranslateMessage(msg);
+				}			
+			}
+		}
+		return 0;
+	}	
+    
+};

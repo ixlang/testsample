@@ -1,0 +1,37 @@
+{
+	"rctest":	{
+		"version":	"1.2",
+		"language":	"xlang",
+		"sources":	["rctest.xcs"],
+		"configures":	{
+			"debug":	{
+				"path":	{
+					"incpath":	[],
+					"libpath":	[]
+				},
+				"libs":	[],
+				"options":	"",
+				"ignorewarning":	"",
+				"debugable":	"-dbg",
+				"debugdatabase":	"",
+				"wtype":	"",
+				"ostype":	"",
+				"outname":	"$(ProjectName).exe",
+				"outpath":	"$(ProjectDir)/$(Configure)",
+				"command":	"-ce",
+				"uaclevel":	"默认",
+				"prebuild":	"",
+				"preclean":	"",
+				"makebuild":	"",
+				"makeclean":	"",
+				"afterbuild":	"",
+				"afterclean":	"",
+				"cmd":	"$(Output)",
+				"args":	"$(Output)",
+				"workdir":	"$(ProjectDir)"
+			}
+		},
+		"versioninc":	"0",
+		"icofile":	""
+	}
+}

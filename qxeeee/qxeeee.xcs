@@ -1,0 +1,92 @@
+// xlang
+
+class MainDialog : QXDialog{
+
+	QXPushButton btnOk;
+	QXLineEdit ledt;
+    
+	QXWidget.onMouseEventListener mel = new onMouseEventListener(){
+		QXWidget seledobj;
+        bool selected;
+        QPoint sourcept;
+		void onMouseButtonPress(QXObject obj, int button, int x,int y,int flags, int source)override{
+			if (selected == false){
+				selected = true;
+                seledobj = (QXWidget)obj;
+                sourcept = new QPoint(x , y );
+            }
+		}
+		void onMouseMove(QXObject obj, int button, int x,int y,int flags, int source)override{
+			if (selected == true){
+				selected = true;
+                QPoint pt = seledobj.mapTo(MainDialog.this, x, y);
+                seledobj.move(pt.x - sourcept.x, pt.y - sourcept.y);
+            }
+		}
+        void onMouseButtonRelease(QXObject obj, int button, int x,int y,int flags, int source)override{
+			if (selected == true){
+				seledobj = nilptr;
+				selected = false;
+            }
+		}
+        
+    };
+    
+    
+	bool create()override{
+		QXBuffer qb = new QXBuffer();
+        byte [] buffer = __xPackageResource("ui/dialog.ui");
+        qb.setBuffer(buffer, 0, buffer.length);
+        
+		if (load(qb)){
+			ledt = new QXLineEdit();
+            ledt.create(this);
+            ledt.show();
+            ledt.setOnMouseEventListener(mel);
+            
+			btnOk = (QXPushButton)attachByName(new QXPushButton(), "btnOk");
+            btnOk.setOnMouseEventListener(mel);
+			/*btnOk.setOnClickListener(new onClickListener(){
+				void onClick(QXObject obj, bool checked)override{
+					QXMessageBox.Information("info", " Hello world!", QXMessageBox.Ok, QXMessageBox.Ok);
+				}
+			});*/
+            
+            return true;
+		}
+        return false;
+	}
+    
+    void onMouseButtonPress(int button, int x,int y,int flags, int source)override{
+		_system_.output("presss");
+    }
+    
+    
+};
+
+
+class XMyApp : QXApplication {
+
+	MainDialog dialog;
+
+    bool create(){
+        if (super.createQXApplication()){
+            dialog = new MainDialog();
+            if (dialog.create()){
+				dialog.show();
+                return true;
+            }
+        }
+        return false;
+    }
+    
+};
+
+
+int main(String [] args){
+	XMyApp app = new XMyApp();
+    if (app.create()){
+		app.run();
+    }
+	return 0;
+}

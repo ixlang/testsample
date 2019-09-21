@@ -1,0 +1,40 @@
+{
+	"testsql":	{
+		"version":	"1.2",
+		"language":	"xlang",
+		"icofile":	"",
+		"sources":	["testsql.xcs"],
+		"configures":	{
+			"debug":	{
+				"path":	{
+					"incpath":	[],
+					"libpath":	["libs"]
+				},
+				"libs":	["Sql_1.0.0.0.lix"],
+				"options":	"",
+				"command":	"-ce",
+				"debugable":	"-dbg",
+				"outpath":	"$(ProjectDir)/$(Arch)/$(Configure)",
+				"outname":	"$(ProjectName)$(Ext)",
+				"cmd":	"$(Output)",
+				"args":	"$(Output)",
+				"workdir":	"$(ProjectDir)"
+			},
+			"release":	{
+				"path":	{
+					"incpath":	[],
+					"libpath":	[]
+				},
+				"libs":	[],
+				"options":	"-nd",
+				"command":	"-ce",
+				"debugable":	"",
+				"outpath":	"$(ProjectDir)/$(Arch)/$(Configure)",
+				"outname":	"$(ProjectName)$(Ext)",
+				"cmd":	"$(Output)",
+				"args":	"$(Output)",
+				"workdir":	"$(ProjectDir)"
+			}
+		}
+	}
+}

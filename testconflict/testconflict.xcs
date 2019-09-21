@@ -1,0 +1,25 @@
+//xlang 
+
+class ksks{
+	static Object t = new Object();
+};
+int main(String [] args){
+	_system_.createConsole();
+     synchronized(ksks.t){
+		new Thread(){
+			void run(){
+				synchronized(ksks.t){
+					Thread.sleep(100);
+					_system_.consoleWrite("ok");
+					ksks.t.notify();
+					ksks.t = nilptr;
+				}
+			}
+		}.start();
+		_system_.consoleWrite("wait");
+		ksks.t.wait();
+		_system_.consoleWrite("ok1");
+    }    
+    Thread.sleep(-1);
+	return 0;
+}

@@ -1,0 +1,47 @@
+//xlang 
+package System{
+	class out{
+		static int println(String text){
+			return _system_.consoleWrite(text + "\n");
+		}
+		static int print(String text){
+			return _system_.consoleWrite(text);
+		}
+	};
+	
+	class Console{
+		Console(){
+			_system_.createConsole();
+		}
+	};
+};
+
+
+class Fuck : Stream{
+	
+};
+
+using { System; };
+
+
+int main(String [] args){
+	new Console();
+    StreamSocket socket = new StreamSocket();
+    
+    if (socket.connect("127.0.0.1",10036)){
+		StreamSocket [] sockets = new StreamSocket[1];
+        int [] sets = new int[1];
+        sockets[0] = socket;
+        socket.setSelectFlags(StreamSocket.FLAGS_READABLE);
+		int n = StreamSocket.select(sockets,0,1,sets,-1);
+        System.out.println("select ok");
+    }else{
+		System.out.println("connect failed");
+    }
+    
+	
+
+	Thread.sleep(3000);
+
+	return 0;
+}

@@ -1,0 +1,151 @@
+
+
+Object lock = new Object();
+
+int []data = new int[10];
+
+// 同步测试########################################################
+void onwrite_sycned(int start){
+    synchronized(lock)
+    {
+        for (int i =0; i < data.length; i++){
+            data[i] = i + start;
+            Thread.sleep((long)(Math.random() * 10));
+        }
+        
+        for (int i =0; i < data.length; i++){
+            if (data[i] != i + start){
+                throw new IllegalArgumentException("thread conflict!");
+            }
+        }
+        _system_.consoleWrite("check ok!" + start + "\n");
+    }
+}
+
+void loopwrite_sycned(int start){
+    for (int i =0; i < 1000; i ++){
+        onwrite_sycned(start);
+        Thread.sleep((long)(Math.random() * 100));
+    }
+}
+
+
+void testSync(){
+    for (int i =0; i < 3; i ++){
+        new Thread(){
+            void run(){
+                loopwrite_sycned(Thread.getId());
+            }
+        }.start();
+    }
+    loopwrite_sycned(100);
+}
+//########################################################
+
+
+
+// 非同步测试########################################################
+void onwrite_unsycned(int start){
+    for (int i =0; i < data.length; i++){
+        data[i] = i + start;
+        Thread.sleep((long)(Math.random() * 10));
+    }
+    for (int i =0; i < data.length; i++){
+        if (data[i] != i + start){
+            throw new IllegalArgumentException("thread conflict!");
+        }
+    }
+    _system_.consoleWrite("check ok!" + start + "\n");
+}
+
+
+void loopwrite_unsycned(int start){
+    for (int i =0; i < 1000; i ++){
+        onwrite_unsycned(start);
+        Thread.sleep((long)(Math.random() * 100));
+    }
+}
+
+
+void testunSync(){
+    //启动三个线程
+    for (int i =0; i < 3; i ++){
+        new Thread(){
+            void run(){
+                loopwrite_unsycned(Thread.getId());
+            }
+        }.start();
+    }
+    loopwrite_unsycned(100);
+}
+
+//########################################################
+
+void test_seh_sync(){
+    for (int i =0; i < 2; i ++){
+        synchronized(lock){
+            continue;
+            //throw new NullPointerException();
+        }
+    }
+}
+
+  
+void retest_seh_sync(){
+    synchronized(lock){
+        _system_.consoleWrite("lock ok!" + Thread.getId() + "\n");
+    }
+    _system_.consoleWrite("unlock ok!" + Thread.getId() + "\n");
+}
+
+
+void test_sync_on_seh(){
+    for (int i =0; i < 3; i ++){
+        new Thread(){
+            void run(){
+                 for (int i =0; i < 1000; i ++){
+                    retest_seh_sync();
+                    Thread.sleep((long)(Math.random() * 100));
+                }
+                _system_.consoleWrite("################ thread exit ok!" + Thread.getId() + "\n");
+            }
+        }.start();
+    }
+    
+    for (int i =0; i < 1000; i ++){
+        try{
+            test_seh_sync();
+        }catch(Exception e)
+        {
+            _system_.consoleWrite("exception!\n");
+        }
+        Thread.sleep((long)(Math.random() * 100));
+    }
+    _system_.consoleWrite("##########main exit ok!" + Thread.getId() + "\n");
+}
+
+int main(String [] args){
+	_system_.createConsole();
+    
+	try{
+		for (;;){
+			synchronized(lock){
+				String k ;
+				k.length;
+			}
+		}
+	}catch(Exception e){
+
+	}
+
+	_system_.consoleWrite("hello");
+	
+    testSync();
+    //testunSync();
+    //lock.wait();
+   /* lock.notify();
+    lock.notifyAll();
+    test_sync_on_seh();
+    Thread.sleep(-1);*/
+    return 0;
+}

@@ -1,0 +1,84 @@
+//xlang 
+
+
+class XObject{
+	XObject a;
+};
+
+
+
+long count = 0;
+long begintime = 0;
+long lastcount = 0;
+
+void count_t(){
+	new Thread(){
+		void run(){
+			while (true){
+				Thread.sleep(1000);
+				int second = (_system_.currentTimeMillis() - begintime) / 1000;
+                
+				_system_.consoleWrite("" + (count / second) + " - " + (count - lastcount) +"\n");
+				lastcount = count;
+			}
+        }
+    }.start();
+}
+
+void test(){
+	XObject a = new XObject();
+    a.a = new XObject();
+    a.a.a = a;
+}
+
+void testuc(){
+	XObject a = new XObject();
+    a.a = new XObject();
+}
+
+//大量循环引用性能
+void testCycle(){
+    begintime = _system_.currentTimeMillis();
+    count_t();
+    
+	for (count = 0; count < 2147483648l; count++){
+		test();
+    }
+}
+
+//非循环引用性能
+void testUNCycle(){
+    begintime = _system_.currentTimeMillis();
+    count_t();
+    
+	for (count  = 0; count < 2147483648l; count++){
+		testuc();
+    }
+}
+
+/** 测试条件: 少量非循环引用对象(13%), 大量小规模循环引用(87%), 未对对象堆进行分代处理 
+	@result:结论:在大量循环引用的情况下 逻辑处理性能下降约%5~27%, 该部分性能被用于处理循环引用
+			内存掌握较好, 能够稳定控制在最小使用内存, 无大幅度跳动以及缓慢增长现象
+			处理能力:285000/880000, 最大性能损耗约68%
+            
+            性能测试(启动第一秒内约低于正常水平1500)
+            在无循环引用(0%)情况下,处理器满载,处理能力稳定约140000左右, 每秒性能浮动约0~1300
+            在小规模循环引用占堆中总对象数量的约87%时 处理器满载, 处理能力下降至稳定100000左右, 每秒性能浮动约0~600
+            
+	@task:待测试案例: 
+			1.大量非循环引用以及大规模非循环引用干扰.
+			2.对象堆进行分代.
+			3.大量大规模循环引用.
+*/
+
+class MyThread : Thread{
+	void run()override{
+		testUNCycle();
+    }
+};
+
+int main(String [] args){
+	_system_.createConsole();
+	new MyThread().start();
+	return 0;
+}

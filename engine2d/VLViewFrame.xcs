@@ -1,0 +1,99 @@
+
+class IVLViewFrame : VLBase{
+
+    IVLViewFrame(int type, long handle)
+	{
+		_v = getIVLViewFrame(type, handle);
+	}
+
+	bool create(int type, long handle)
+	{
+		return VFCreate(_v, type, handle);
+	}
+	bool PointerDown(VLPoint pt, int flags)
+	{
+		return PointerDown(_v,pt._v, flags);
+	}
+	bool PointerUp(VLPoint pt, int flags)
+	{
+		return PointerUp(_v,pt._v, flags);
+	}
+    bool PointerMove(VLPoint pt, int flags)
+	{
+		return PointerMove(_v,pt._v, flags);
+	}
+    void onKeyDown(char n, int rep, int flags)
+	{
+		onKeyDown(_v, n, rep, flags);
+	}
+    void onKeyUp(char n, int rep, int flags)
+	{
+		onKeyUp(_v, n, rep, flags);
+	}
+    bool VFTranslateMessage(VLMSG msg)
+	{
+		VFTranslateMessage(_v, msg._v);
+	}
+    long SetViewLayout(IVULayout layout)
+	{
+		SetViewLayout(_v, layout._v);
+	}
+    long SetViewLayout(IVULayout layout, int loadMethod, int unloadMethod, int loadTime, bool bNewLayoutFront)
+	{
+		SetViewLayout_JJJJJZ(_v, layout._v, loadMethod, unloadMethod, loadTime, bNewLayoutFront);
+	}
+    void SetDefaultLoadLayoutMethod( int loadMethod, int unloadMethod, int loadTime, bool bNewLayoutFront)
+	{
+		SetDefaultLoadLayoutMethod(_v, loadMethod, unloadMethod, loadTime, bNewLayoutFront);
+	}
+    bool OnBack()
+	{
+		return OnBack(_v);
+	}
+    bool IsCurrentLayout(IVULayout layout)
+	{
+		return IsCurrentLayout(_v, layout);
+	}
+    bool GetCurrentVULayout()
+	{
+		return GetCurrentVULayout(_v);
+	}
+    void Detach()
+	{
+		Detach(_v);
+	}
+    void Render()
+	{
+		Render(_v);
+	}
+    void RequestRender()
+	{
+		RequestRender(_v);
+	}
+    int SetRenderMode(int mode)
+	{
+		return SetRenderMode(_v, mode);
+	}
+    bool LayoutCreateed()
+	{
+		return LayoutCreateed(_v);
+	}
+    void VFRelease()
+	{
+		VFRelease(_v);
+	}
+    void UpdateViewSize(double w,double h)
+	{
+		UpdateViewSize(_v, w, h);
+	}
+    VUPlatformContext GetPlatformContext()
+	{
+		return new VUPlatformContext(GetPlatformContext(_v));
+	}
+	void finalize()
+    {
+		if (_v != 0)
+			DeallocRect(_v);
+    }		
+
+};

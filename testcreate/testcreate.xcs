@@ -1,0 +1,10 @@
+//xlang 
+
+int main(String [] args){
+	_system_.createConsole();
+	for (int i = 0; i < 1000; i++){
+		String h = "i=" + i;
+        _system_.consoleWrite(h);
+    }
+	return 0;
+}

@@ -1,0 +1,49 @@
+{
+	"uicontrol":	{
+		"version":	"1.2",
+		"language":	"xlang",
+		"sources":	["uicontrol.xcs", "ui/dialog.ui"],
+		"configures":	{
+			"debug":	{
+				"path":	{
+					"incpath":	[],
+					"libpath":	["libs"]
+				},
+				"options":	"",
+				"debugable":	"-dbg",
+				"prebuild":	"",
+				"preclean":	"",
+				"makebuild":	"",
+				"makeclean":	"",
+				"afterbuild":	"",
+				"afterclean":	"",
+				"cmd":	"$(Output)",
+				"args":	"$(Output)",
+				"workdir":	"$(ProjectDir)",
+				"wtype":	"",
+				"ostype":	"",
+				"outname":	"$(ProjectName).exe",
+				"outpath":	"$(ProjectDir)/$(Arch)/$(Configure)",
+				"command":	"-ce",
+				"uaclevel":	"默认",
+				"libs":	["Qt5.9.15.9.1.3.lix"]
+			},
+			"release":	{
+				"path":	{
+					"incpath":	[],
+					"libpath":	["libs"]
+				},
+				"libs":	["QXLibrary.lix"],
+				"options":	"-nd",
+				"command":	"-ce",
+				"debugable":	"",
+				"outpath":	"$(ProjectDir)/$(Arch)/$(Configure)",
+				"outname":	"$(ProjectName).exe",
+				"cmd":	"$(Output)",
+				"args":	"$(Output)",
+				"workdir":	"$(ProjectDir)"
+			}
+		},
+		"icofile":	""
+	}
+}

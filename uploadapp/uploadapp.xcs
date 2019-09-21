@@ -1,0 +1,115 @@
+//xlang 
+package System{
+	class out{
+		static int println(String text){
+			return _system_.consoleWrite(text + "\n");
+		}
+		static int print(String text){
+			return _system_.consoleWrite(text);
+		}
+	};
+	
+	class Console{
+		Console(){
+			_system_.createConsole();
+		}
+	};
+};
+
+
+
+/**
+	@caution: 注意 该示例用到System; FileStream; FileSystem;三个包 ， 
+    如果不能编译 需要通过菜单[工具]->[包管理]引入到项目中, 
+    如果发生重复引用 需要通过菜单[项目]->[属性]查看 编译设置中是否存在同名(包括不同版本)的包
+*/
+
+using { System; FileStream; FileSystem;};
+
+void uploadFile(){
+	FileInputStream fis;
+	try{
+		//打开一个文件输入流
+		fis = new FileInputStream("./img.jpg");
+        
+        //new 一个HTTP请求对象
+        HttpRequest req = new HttpRequest();
+        
+        //添加 form 字段为 name， 值为xlang
+        req.putField("name","xlang");
+        
+        
+        /**
+        同时上传提交两个文件
+        */
+        
+        //添加 form 文件数据 字段为file， 文件名img.jpg  数据为byte数组
+        req.putField("file0","img.jpg","image/jpeg",new byte[1000]);
+        
+        //添加 form 文件数据 字段为file， 文件名img.jpg  文件类型为"image/jpeg" 输入流为文件流
+        req.putField("file1","img1.jpg", "image/jpeg", fis);
+
+		//向服务器post数据 超时10000 毫秒，在此时间内未连接成功将返回失败， 最后的false 表明不使用安全连接
+        if (req.post("http://127.0.0.1/phproot/phpupload.php", 10000, false)){
+        
+			//如果post成功 则取响应码
+			int res = req.getResponseCode();
+            
+            //HTTP响应码大于等于200  说明成功
+			if (res >= 200){
+            
+				/**
+                检查HTTP服务器是否有返回的数据可读 ， 
+                参数为 true 表明没有数据可读时将阻塞等待到有数据可读为止
+                返回可读的数据长度， 注意返回值仅为本次可读的长度,并不是全部长度
+                **/
+				while (req.available(true) > 0){
+					byte [] data = new byte[1024];
+                    
+                    //读取HTTP返回的数据
+                    int len = req.readData(data, 0, 1024);
+                    
+                    //在控制台打印
+                    System.out.println(new String(data, 0, len));
+                }
+            }
+        }
+	}catch(Exception e){
+		//异常处理
+        System.out.println("Exception:" + e.getMessage());
+    }finally{
+    
+		//关闭文件流
+        /**
+			关闭操作放到finally中可以保证不管有没有错误一定会执行
+            也可以不手动关闭 由GC自动关闭 但GC的时机可能会不确定, 
+            这将会导致在GC关闭前再次访问文件失败,所以如果有需要再次访问此文件的逻辑,一定要手动关闭
+        */
+		if (fis != nilptr){
+			fis.close();
+        }
+    }
+}
+
+/**
+	@Caution : 将项目根目录下的 phpupload.php 文件放到web环境中, 
+		再将下面URL更换为 phpupload.php 的地址
+*/
+
+int main(String [] args){
+	//创建控制台
+	new Console();
+    
+	System.out.println("uploading ...");
+    
+	uploadFile();
+    
+    byte[] wc = new byte[2];
+    
+    System.out.println("\npress any key exit");
+    
+    //consoleRead 需要相应回车符\n， 所以最小缓冲区必须是2
+    _system_.consoleRead(wc,0,2);
+
+	return 0;
+}

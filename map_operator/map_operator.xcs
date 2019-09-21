@@ -1,0 +1,48 @@
+require ("../../common/system.xcs")
+/**
+*重载操作符以适配map容器测试
+
+*/
+class key{
+	int v;
+
+	key(int _v){
+		v = _v;
+	}
+
+	bool operator >(key k){
+		return v > k.v;
+	}
+	bool operator <(key k){
+		return v < k.v;
+	}
+	bool operator ==(key k){
+		return v == k.v;
+	}
+	bool operator !=(key k){
+		return v != k.v;
+	}
+};
+
+
+int main(String [] args){
+    _system_.createConsole();
+
+	Map.Iterator<key, int> iter;
+
+	Map<key, int> _map = new Map<key, int>();
+
+	for (int i =0; i < 10000; i++){
+		_map.put(new key(i), 10000 - i);
+	}
+	
+	iter = _map.iterator();
+
+	while (iter.hasNext()){
+		System.out.print("key = " + iter.getKey().v + " value = " + iter.getValue() + "\n");
+		iter.next();
+	}
+	
+    Thread.sleep(1000);
+	return 0;
+}

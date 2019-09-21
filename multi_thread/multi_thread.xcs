@@ -1,0 +1,36 @@
+//require ("../common/System.xcs")
+
+class MyThread 
+	: Thread
+{
+	void run(){
+		Thread.sleep(1000);
+		_system_.consoleWrite(String.format("threadid:%d\n", Thread.getId()));
+        super.run();
+	}
+};
+
+int main(String [] args){
+
+    _system_.createConsole();
+    
+	_system_.consoleWrite(String.format("main :%d\n", Thread.getId()));
+	Thread t = new MyThread();
+	t.start();
+    int  h = 0;
+    
+    Object hl = new Object();
+    
+	synchronized(hl){
+		Thread.sleep(10);
+		h = 10;
+	}
+    
+	t.join();
+    
+	_system_.consoleWrite(String.format("joined :%d\n", Thread.getId()));
+    
+    Thread.sleep(1000);
+    
+	return 2;
+}

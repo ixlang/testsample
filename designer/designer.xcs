@@ -1,0 +1,53 @@
+// xlang
+
+class MainDialog : QXDialog{
+
+	QXPushButton btnOk;
+	UIDesigner canvas = new UIDesigner();
+    
+	bool create()override{
+		QXBuffer qb = new QXBuffer();
+        byte [] buffer = __xPackageResource("ui/dialog.ui");
+        qb.setBuffer(buffer, 0, buffer.length);
+        
+		if (load(qb)){
+			btnOk = (QXPushButton)attachByName(new QXPushButton(), "btnOk");
+            attachByName(canvas, "canvas");
+			btnOk.setOnClickListener(new onClickListener(){
+				void onClick(QXObject obj, bool checked)override{
+					canvas.addObject("button","./image/type/button.png");
+				}
+			});
+            
+            return true;
+		}
+        return false;
+	}
+};
+
+
+class XMyApp : QXApplication {
+
+	MainDialog dialog;
+
+    bool create(){
+        if (super.createQXApplication()){
+            dialog = new MainDialog();
+            if (dialog.create()){
+				dialog.show();
+                return true;
+            }
+        }
+        return false;
+    }
+    
+};
+
+
+int main(String [] args){
+	XMyApp app = new XMyApp();
+    if (app.create()){
+		app.run();
+    }
+	return 0;
+}

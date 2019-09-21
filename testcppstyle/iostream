@@ -1,0 +1,36 @@
+//xlang Source, Name:stdlib.xcsm 
+//Date: Wed Sep 19:17:03 2018 
+
+static StdOut cout = new StdOut();
+static String endl = "\n";
+
+class StdOut{
+
+	StdOut operator << (String txt){
+		_system_.consoleWrite(txt);
+        return this;
+    }
+    
+    StdOut operator << (int txt){
+		_system_.consoleWrite("" + txt);
+        return this;
+    }
+    
+    StdOut operator << (long txt){
+		_system_.consoleWrite("" + txt);
+        return this;
+    }
+    
+    StdOut operator << (double txt){
+		_system_.consoleWrite("" + txt);
+        return this;
+    }
+};
+
+void sleep(int n){
+	Thread.sleep(n);
+}
+
+void AllocConsole(){
+	_system_.createConsole();
+}

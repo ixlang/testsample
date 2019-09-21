@@ -1,0 +1,69 @@
+require ("../../common/system.xcs")
+
+using 
+{
+    IOControl;  
+    audio; 
+    media; 
+};
+
+
+package IOControl{
+    interface Control{
+        void play();
+    };
+};
+
+
+package audio{
+	class AudioControl : Control{
+		void play(){
+			System.out.print("AudioControl play\n");
+		}
+	};
+};
+
+package media{
+	class MediaControl : Control{
+		void play(){
+			System.out.print("MediaControl play\n");
+		}
+	};
+};
+
+
+class SClass{
+	void play(){
+		System.out.print("fuck in\n");
+	}
+};
+
+
+int main(String [] args){
+    _system_.createConsole();
+	fuck (new SClass(){
+		static void playa(){
+            System.out.print("fuck out\n");
+		}
+        
+        void play(){
+            System.out.print("fuck SClass\n");
+		}
+	});
+    
+    MediaControl mc  =new MediaControl();
+    AudioControl ac = new AudioControl();
+    run(mc);
+    run(ac);
+    Thread.sleep(1000);
+    return 0;
+}
+
+void fuck(SClass d){
+	d.play();
+}
+
+
+void run(Control c){
+	c.play();
+}

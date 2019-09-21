@@ -1,0 +1,60 @@
+
+class Button : Window{
+    String onGetClassName(){
+        return "button";
+    }
+    
+    int onGetStyle(){
+        return 0x44000000;
+    }
+};
+
+
+class MyWindow : Window{
+    void onMouseMove(int flags, int x,int y){
+        _system_.output("flags:" + flags + " x:" + x + " y:" + y + " \n");
+    }
+    
+    void onCommand(int id, int event){
+        switch(id){
+            case 1:
+            alert("tips", "button clicked");
+            break;
+        }
+    }
+
+    bool onCreate(){
+        //_system_.consoleWrite("on Create \n");
+        Button b = new Button();
+        b.create(1, this);
+        b.setVisible(1);
+        b.setPosition(10, 10);
+        b.setSize(100, 30);
+        return true;
+    }
+};
+
+
+
+int testWin(){
+    Window win = new MyWindow();
+    
+    if (win.create(0, nilptr)){
+        win.setVisible(1);
+    }else{
+        win.close();
+    }
+
+    return 0;
+}
+
+
+
+int main(String [] args){
+    //_system_.consoleWrite("gf");
+
+    testWin();
+    Window.Loop();
+
+    return 0;
+}

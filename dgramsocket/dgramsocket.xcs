@@ -1,0 +1,69 @@
+//xlang 
+package System{
+	class out{
+		static int println(String text){
+			return _system_.consoleWrite(text + "\n");
+		}
+		static int print(String text){
+			return _system_.consoleWrite(text);
+		}
+	};
+	
+	class Console{
+		Console(){
+			_system_.createConsole();
+		}
+	};
+};
+
+
+using { System; };
+
+
+
+void client(){
+    DgramSocket socket = new DgramSocket();
+    if (socket.connect("127.0.0.1", 7000)){
+        socket.write("111111".getBytes(), 0, 6);
+        while (0 <= socket.available(true)){
+            byte []data = new byte[1024];
+            int rd = socket.read(data, 0, 1024);
+            _system_.consoleWrite(new String(data, 0, rd));
+        }
+    }
+}
+
+
+
+void server(){
+    DgramSocket socket = new DgramSocket();
+    if (socket.bind("127.0.0.1", 8000)){
+        while (0 < socket.available(true)){
+			DgramSocket.DgramPacket packet = socket.recvPacket();
+			InetAddress inet = packet.getRemoteInetAddress();
+            byte []data = packet.getData();
+   
+            _system_.consoleWrite("data:" + new String(data) + "\n");
+            
+            if (inet != nilptr){
+                _system_.consoleWrite("addr:" + inet.getAddressString() + ":" + inet.getPort() + "\n");
+                socket.sendPacket(packet);
+            }else{
+                _system_.consoleWrite("cant get addr\n");
+            }
+        }
+    }
+}
+
+
+
+int main(String [] args){
+
+	new Console();
+
+	server();
+
+	Thread.sleep(3000);
+
+	return 0;
+}

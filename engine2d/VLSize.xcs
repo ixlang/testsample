@@ -1,0 +1,44 @@
+
+class VLSize  : VLBase
+{
+	static VLSize InvalidSize()
+	{
+		return new VLSize(0);
+	}
+	VLSize()
+	{
+		_v = AllocSize();
+	}
+	
+	VLSize(long hSize)
+	{
+		_v = hSize;
+	}	
+	VLSize(double _cx, double _cy) {
+		// TODO Auto-generated constructor stub
+		_v = AllocSize();
+		SizeSetData(_v,_cx,_cy);
+	}
+
+	double cx()
+	{
+		return SizeGetCx(_v);
+	}
+	double cy()
+	{
+		return SizeGetCy(_v);
+	}
+	void Set(double _cx,double _cy)
+	{
+		SizeSetData(_v,_cx,_cy);
+	}
+	
+	void finalize()
+    {
+		if (_v != 0)
+		{
+			DeallocSize(_v);
+			_v = 0;
+		}
+    }		
+};

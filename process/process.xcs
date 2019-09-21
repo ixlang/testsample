@@ -1,0 +1,20 @@
+int main(String [] args){
+	_system_.createConsole();
+    
+    String []_args = {"netstat", "-na"};
+    Process p = new Process("C:\\Windows\\System32\\netstat.exe", _args);
+    p.create(false, true, false, true);
+    
+    try{
+        byte [] data = new byte[1024];
+        int len = 0;
+        while ((len = p.read(data, 0, 1024)) > 0)
+            _system_.output(new String(data, 0, len));
+        
+    }catch(Exception e){
+        _system_.consoleWrite(e.getMessage());
+    }
+    p.waitFor(-1);
+    _system_.consoleWrite("process exit, exit code:" + p.getExitCode());
+    return 0;
+}

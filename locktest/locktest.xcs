@@ -1,0 +1,43 @@
+//xlang 
+package System{
+	class out{
+		static int println(String text){
+			return _system_.consoleWrite(text + "\n");
+		}
+		static int print(String text){
+			return _system_.consoleWrite(text);
+		}
+	};
+	
+	class Console{
+		Console(){
+			_system_.createConsole();
+		}
+	};
+};
+
+
+using { System; };
+
+RWLock lock = new ReadWriteLock();
+
+void testLock(){
+	lock.lockRead();
+    lock.lockRead();
+    
+    lock.lockRead();
+    if (lock.trylockWrite()){
+        throw new IllegalArgumentException("lock error");
+    }
+}
+
+int main(String [] args){
+
+	new Console();
+
+	testLock();
+
+	Thread.sleep(3000);
+
+	return 0;
+}

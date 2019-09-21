@@ -1,0 +1,130 @@
+// xlang
+
+class MainDialog : QXDialog{
+
+	QXPushButton btnMin, btnMax, btnClose;
+    
+	bool mDown = false;
+    
+    QPoint lastpt, downpt;
+    Switche swlogin;
+    
+    RegexPage pagereg;
+    HttpPage httppage;
+    PageDns ndspage ;
+    PageNetstat netpage;
+	bool create()override{
+		QXBuffer qb = new QXBuffer();
+        byte [] buffer = __xPackageResource("ui/dialog.ui");
+        qb.setBuffer(buffer, 0, buffer.length);
+        
+		if (load(qb)){
+        
+			btnMin = (QXPushButton)attachByName(new QXPushButton(), "btnMin");
+            btnMax = (QXPushButton)attachByName(new QXPushButton(), "btnMax");
+            btnClose = (QXPushButton)attachByName(new QXPushButton(), "btnClose");
+            
+			btnMin.setOnClickListener(new onClickListener(){
+				void onClick(QXObject obj, bool checked)override{
+					_system_.log("click", 5, "min clicked", false);
+					QXMessageBox.Information("info", " min clicked!", QXMessageBox.Ok, QXMessageBox.Ok);
+				}
+			});
+            
+			btnMax.setOnClickListener(new onClickListener(){
+				void onClick(QXObject obj, bool checked)override{
+					_system_.log("click", 5, "max clicked", false);
+					QXMessageBox.Information("info", " max clicked!", QXMessageBox.Ok, QXMessageBox.Ok);
+				}
+			});
+            
+			btnClose.setOnClickListener(new onClickListener(){
+				void onClick(QXObject obj, bool checked)override{
+					if (ndspage.isBusy){
+						QXMessageBox.Information("注意", "程序正忙, 请稍候!", QXMessageBox.Ok, QXMessageBox.Ok);
+                        return;
+                    }
+					if (QXMessageBox.Question("info", " you sure ?", QXMessageBox.Ok, QXMessageBox.No) == QXMessageBox.Ok){
+						_system_.log("click", 5, "close clicked", false);
+                        close();
+                    }
+				}
+			});
+            
+            pagereg = new RegexPage((QXWidget)attachByName(new QXWidget(), "regwidget"));
+            httppage = new HttpPage((QXWidget)attachByName(new QXWidget(), "httpwidget"));
+            ndspage = new PageDns((QXWidget)attachByName(new QXWidget(), "dnswidget"));
+            netpage = new PageNetstat((QXWidget)attachByName(new QXWidget(), "netwidget"));
+            
+            pagereg.create();
+            httppage.create();
+            ndspage.create();
+            netpage.create();
+            
+            setWindowTitle("XTools Box");
+            //setAttribute(WA_TranslucentBackground, true);
+            setWindowFlags(FramelessWindowHint);
+            setOpacity(0.98);
+
+			swlogin = new Switche();
+            swlogin.create(this);
+            
+            swlogin.move(745, 560);
+            swlogin.show();
+            
+
+            return true;
+		}
+        return false;
+	}
+    
+    void onMouseButtonPress(int Button, int x, int y, int flags, int source){
+		mDown = true;
+        lastpt = new QPoint(x(), y());
+        downpt = mapToGlobal(x, y);
+      
+    }
+    
+    void onMouseButtonRelease(int Button, int x, int y, int flags, int source){
+        mDown = false;
+    }
+    
+    
+    void onMouseMove(int Button, int x, int y, int flags, int source){
+        if (mDown){
+			QPoint newpt = mapToGlobal(x, y);
+			move(lastpt.x + (newpt.x - downpt.x),lastpt.y +  (newpt.y - downpt.y));
+            _system_.log("click", 5, "mouse point:" + x + "," + y, false);
+        }
+    }
+};
+
+
+class XMyApp : QXApplication {
+
+	MainDialog dialog;
+
+    bool create(){
+        if (super.createQXApplication()){
+			setStyleSheet("gray.qss");
+            
+            dialog = new MainDialog();
+            if (dialog.create()){
+				
+				dialog.show();
+                return true;
+            }
+        }
+        return false;
+    }
+    
+};
+
+
+int main(String [] args){
+	XMyApp app = new XMyApp();
+    if (app.create()){
+		app.run();
+    }
+	return 0;
+}

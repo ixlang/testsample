@@ -1,0 +1,75 @@
+//xlang 
+
+
+package System{
+	class out{
+		static int println(String text){
+			return _system_.consoleWrite(text + "\n");
+		}
+		static int print(String text){
+			return _system_.consoleWrite(text);
+		}
+	};
+	
+	class Console{
+		Console(){
+			_system_.createConsole();
+		}
+	};
+};
+
+using { System; };
+
+
+
+OClass last_freed = nilptr;
+int free_count = 0;
+
+class OClass{
+	int j;
+    OClass(int _j){
+		last_freed = this;
+		j = _j;
+    }
+};
+
+void test(){
+    
+	camapex<int ,OClass> map = new camapex<int ,OClass>();
+
+	long start = _system_.currentTimeMillis();
+	for (int i = 0; i < 5000; i ++){
+		map.put(i, new OClass(-i));
+	}
+
+	OClass h ;
+	
+    long end = _system_.currentTimeMillis();
+	camapex<int ,OClass>._iterator<carbtree<camapitem<int, OClass> , int>._Node<camapitem<int, OClass>>> iterator = map.Find(2000);
+
+	try{
+		h = iterator.val();
+	}catch(Exception e){
+		System.out.print("not found\n");
+	}
+	 
+	System.out.print(String.format("map size = %d,found %d fc:%s, time: %d free_count:%d\n" ,map.size(), map.get(5).j, (h == nilptr) ? "nilptr" : "" + h.j, end - start, free_count));
+}
+
+int main(String [] args){
+
+    new Console();
+    
+    while (true){
+		test();
+    }
+   
+    System.out.print("ok");
+    int a = 1 + 2;
+    a++;
+	//Native.MessageBoxA(0, String.format("putcompleted size = %d,found %d fc:%d" ,map.size(), map.get(1000), h), "tips", 0);
+    Thread.sleep(-1);
+	return a;
+}
+
+

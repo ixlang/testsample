@@ -1,0 +1,49 @@
+
+class VLPoint  : VLBase
+{
+	static VLPoint InvalidPoint()
+	{
+		return new VLPoint(0);
+	}
+	VLPoint()
+	{
+		_v = AllocPoint();
+	}
+	VLPoint(long v)
+	{
+		_v = v;
+	}	
+	VLPoint(double x, double y)
+	{
+		_v = AllocPoint();
+		PointSetValue(_v,x,y);
+	}		
+	double x()
+	{
+		return PointGetXValue(_v);
+	}
+	double y()
+	{
+		return PointGetYValue(_v);
+	}
+	void OffsetPoint(double x,double y)
+	{
+		PointOffset__JFF(_v,x,y);
+	}
+	void Set(double x,double y)
+	{
+		PointSetValue(_v,x,y);
+	}	
+	void OffsetPoint(VLPoint point)
+	{
+		PointOffset__JJ(_v,point._v);
+	}	
+	
+	void finalize()
+    {
+		if (_v != 0)
+		{
+			DeallocPoint(_v);
+		}
+    }	
+};

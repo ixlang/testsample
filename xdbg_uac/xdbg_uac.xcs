@@ -1,0 +1,55 @@
+//xlang 
+package System{
+	class out{
+		static int println(String text){
+			return _system_.consoleWrite(text + "\n");
+		}
+		static int print(String text){
+			return _system_.consoleWrite(text);
+		}
+	};
+	
+	class Console{
+		Console(){
+			_system_.createConsole();
+		}
+	};
+};
+
+
+using { System; };
+
+
+int main(String [] args){
+	
+String filepath = _system_.getAppDirectory().appendPath("xdbg.server");
+        
+	try{
+		long fp = _system_.openFile(filepath, "r");
+        int length = _system_.fileLength(fp);
+        
+		byte[] data  = new byte[length];
+		_system_.readFile(fp, data, 0, data.length);
+		_system_.closeFile(fp);
+		_system_.deleteFile(filepath);
+        
+        String command = new String(data);
+        String[] _args = command.split('\n');
+        
+		String path = _system_.getAppDirectory().appendPath("XStudio.exe");
+		String[] _cmd = new String[_args.length + 1];
+        _cmd[0] = path;
+        
+        for (int i =0; i < _args.length; i++){
+			_cmd[i + 1] = _args[i];
+        }
+        
+        Process process = new Process(path, _cmd); 
+        process.setWorkDirectory(_system_.getAppDirectory());
+        process.create(true, false, false, false);
+	}catch(Exception e){
+    
+	}
+
+	return 0;
+}

@@ -1,0 +1,434 @@
+class VUPlatformContext : VLBase
+{
+    static const int LOGFONT_TYPE_NAME =	0;
+	static const int LOGFONT_TYPE_ASSETS =	1;
+	static const int LOGFONT_TYPE_FILE =	2;
+	
+	static const int TEXT_STYLE_FILL	=	0;
+	static const int TEXT_STYLE_STROKE	=	1;
+	static const int TEXT_STYLE_BOTH	=	2;
+	
+	static const int LOAD_FROM_FILE = 0;
+	static const int LOAD_FROM_PACKAGE = 1;
+	static const int VLNEW_TIMER = -1;
+    
+
+	VUPlatformContext(int width,int height) 
+	{
+		this._v = GetNewDevice();
+        if (_v == 0){
+            _system_.consoleWrite("fuck!");
+        }
+		this.SetClientSize(width, height);
+	}
+	
+	/*bool LoadPackage(String szPackagePath)
+	{
+		return LoadPackage(_v,szPackagePath);
+	}*/
+	
+	/*void ReleasePackage()
+	{
+		ReleasePackage(_v);
+	}	*/
+	
+	/*bool SetLoadImageMethod(int nMethod)
+	{
+		return SetLoadImageMethod(_v,nMethod);
+	}*/
+	
+	long getObject()
+	{
+		return _v;
+	}
+	int TranslateMessage(VLMsg msg)
+	{
+	//	Log.e("NDK-THREAD", "slog");
+		/*if (m_hWnd != null)
+		{
+			return m_hWnd.TranslateMessage(msg);
+		}
+		return 0;*/
+        return 0;
+	}
+
+	VUPlatformContext(long v) {
+		_v = v;
+	}
+	double GetZoom()
+	{
+		return GetZoom(_v);
+	}
+	int SetZoom(double flZoom)
+	{
+		return SetZoom(_v,flZoom);
+	}
+	int SetBackColor(int nColor)
+	{
+		return SetBackColor(_v,nColor);
+	}
+	int SetQualityMode(int nMode) 
+	{
+		return SetQualityMode(_v, nMode) ;
+	}
+	int GetQualityMode( ) 
+	{
+		return GetQualityMode(_v) ;
+	}
+	int SetClientSize(VLSize nSize) 
+	{
+		return SetClientSize__JJ(_v,nSize._v);
+	}
+	int SetClientSize(int cx, int cy) 
+	{
+		return SetClientSize__JII(_v,cx,cy);
+	}
+	VLSize GetClientSize() 
+	{
+		return new VLSize(GetClientSize(_v));
+	}
+	int SetDrawMode(int nMode) 
+	{
+		return SetDrawMode(_v,nMode);
+	}
+	bool InitDevice(VLViewLayout view) 
+	{
+		return InitDevice(_v, view.getHandle());
+	}
+	long MessageCall(int msg,long wParam,long lParam) 
+	{
+		return MessageCall(_v,msg,wParam,lParam);
+	}
+	
+	/*static String FixString(String strText,Paint paint,double setWidth)
+	{
+		String strOut = null;
+		double [] dotWidths = new double[3];
+		double dotWidth = 0;
+		paint.getTextWidths("...", dotWidths);
+		dotWidth = (dotWidths[0] + dotWidths[1] + dotWidths[2]);
+		double [] widths = new double[strText.length()];
+		paint.getTextWidths(strText, widths);
+		double textWidth = 0;
+		for (int i = 0; i < strText.length(); i++)
+		{
+			if (textWidth + widths[i] >= setWidth)
+			{
+				setWidth -= dotWidth;
+				i--;
+				while(textWidth > setWidth && i >= 0)
+				{
+					textWidth -=  widths[i];
+					i--;
+				}
+				if (i <= 0)
+				{
+					i =1;
+				}
+				strOut = strText.substring(0, i);
+				strOut += "...";
+				return strOut;
+			}
+			textWidth += widths[i];
+		}
+		return strText;
+	}*/
+
+	/*static Typeface getTypeface(Context context,String lfName,int lfType,bool bBold,bool bItalic){
+		Typeface typeface = null;
+		if (lfName != null){
+			String szKey = lfName;
+			if (lfType == LOGFONT_TYPE_NAME){
+				szKey += "[n]";
+			}else
+			if (lfType == LOGFONT_TYPE_ASSETS){
+				szKey += "[a]";
+			}else
+			if (lfType == LOGFONT_TYPE_FILE){
+				szKey += "[f]";
+			}
+				
+			if (bBold){
+				szKey += "{b}";
+			}
+			if (bItalic){
+				szKey += "(i)";
+			}			
+				
+			typeface = m_fontCached.get(szKey);
+			
+			if (typeface == null){
+				if (lfType == LOGFONT_TYPE_NAME){
+					if (bBold == false && bItalic == false)
+					{
+						typeface = Typeface.create(lfName, Typeface.NORMAL);
+					}else
+					if (bBold && bItalic)
+					{
+						typeface = Typeface.create(lfName, Typeface.BOLD_ITALIC);
+					}else
+					if (bBold)
+					{
+						typeface = Typeface.create(lfName, Typeface.BOLD);
+					}else
+					{
+						typeface = Typeface.create(lfName, Typeface.ITALIC);
+					}
+				}else
+				if (lfType == LOGFONT_TYPE_ASSETS){
+					typeface = Typeface.createFromAsset(context.getAssets(), lfName);
+				}else
+				if (lfType == LOGFONT_TYPE_FILE){
+					typeface = Typeface.createFromFile(lfName);
+				}	
+				m_fontCached.put(szKey,typeface);
+			}
+		}
+		return typeface;
+	}*/
+	
+	/*static int[] generateTextBuffer(Context context,String strText,String lfName,int lfType,int generateStyle,bool bBold,bool bItalic,long nColor,int nSize,double setWidth,CLSize widthHeight)
+	{
+		String szText = new String(strText);
+		Paint paint = new Paint();
+
+		Typeface typeface = getTypeface(context,lfName,lfType,bBold,bItalic);
+		
+		paint.setTypeface(typeface);
+		paint.setTextSize(nSize);
+		paint.setAntiAlias(true);
+		
+		if (generateStyle == TEXT_STYLE_FILL){
+			paint.setStyle(Paint.Style.FILL);
+		}else
+		if (generateStyle == TEXT_STYLE_STROKE){
+			paint.setStyle(Paint.Style.STROKE);
+		}else
+		if (generateStyle == TEXT_STYLE_BOTH){
+			paint.setStyle(Paint.Style.FILL_AND_STROKE);
+		}					
+		
+		paint.setARGB(0xFF, (int)(0xFF & (nColor >> 16)),(int)(0xFF & (nColor >>8)),(int)(0xFF & (nColor)));
+		
+		if (setWidth != 0)
+		{
+			szText = FixString(szText,paint,setWidth);
+		}
+		
+		double [] widths = new double[szText.length()];
+		paint.getTextWidths(szText, widths);
+		
+		FontMetrics metrics = new FontMetrics();
+		paint.getFontMetrics(metrics);
+		double fwidth = 0;
+		widthHeight.cy = (int) (metrics.bottom - metrics.top + .5f);
+		for (int i = 0 ; i < szText.length(); i++)
+		{
+			fwidth += widths[i];
+		}
+		fwidth += .5f;
+		
+		widthHeight.cx = (int)fwidth;
+		
+		if (widthHeight.cx == 0 || widthHeight.cy == 0)
+		{
+			return null;
+		}
+		Bitmap bitmap = Bitmap.createBitmap(widthHeight.cx, widthHeight.cy, Bitmap.Config.ARGB_8888);
+		Canvas canvas = new Canvas(bitmap);
+		//canvas.setBitmap(bitmap);
+		canvas.drawColor(0);
+		canvas.drawText(szText, 0, widthHeight.cy - metrics.descent, paint);
+		
+		int []buffer = new int[widthHeight.cx * widthHeight.cy];
+		bitmap.getPixels(buffer, 0, widthHeight.cx, 0, 0, widthHeight.cx, widthHeight.cy);
+		paint.reset();
+		if (!bitmap.isRecycled()){
+			bitmap.recycle();
+		}
+		return buffer;
+	}*/
+
+	
+/*	int TranslateMessage(VLMSG msg) 
+	{
+		return TranslateMessage(_v,msg._v);
+	}*/
+	int ExitDevice() 
+	{
+		return ExitDevice(_v);
+	}
+	int SetTimer(int nEventID,int TimeInterval) 
+	{
+		return DCSetTimer(_v,nEventID,TimeInterval);
+	}
+	long CreateThread(long pRoutine,long lParam) 
+	{
+		return DCCreateThread(_v,pRoutine,lParam);
+	}
+	void KillTimer(int nEventID) 
+	{
+		 DCKillTimer(_v,nEventID);
+	}
+	int GetMapRect(VLRect lpRect) 
+	{
+		return GetMapRect(_v,lpRect._v);
+	}
+	int UpdateDisplay()//通知更新视图
+	{
+		return UpdateDisplay(_v);
+	}
+	int BeginRender() 
+	{
+		return BeginRender(_v);
+	}
+	int EndRender() 
+	{
+		return EndRender(_v);
+	}
+	int PrepareDevice() 
+	{
+		return PrepareDevice(_v);
+	}
+	int SetTopMost() 
+	{
+		return SetTopMost(_v);
+	}
+	long CreateLock() 
+	{
+		return CreateLock(_v);
+	}
+	/*void GetLock(long hLock) 
+	{
+		GetLock(_v,hLock);
+	}
+	void ReleaseLock(long hLock) 
+	{
+		ReleaseLock(_v,hLock);
+	}
+	void DestroyLock(long hLock) 
+	{
+		DestroyLock(_v,hLock);
+	}*/
+	long GetWindowHandle() 
+	{
+		return GetWindowHandle(_v);
+	}
+	long ImageFromResource(long hModule,int nID, String  sTR) 
+	{
+		return ImageFromResource(_v,hModule,nID,sTR);
+	}
+	long ImageFromMemory(long lpMemory,int nSize) 
+	{
+		return ImageFromMemory(_v,lpMemory,nSize);
+	}
+	long ImageFromFile(String szFile) 
+	{
+		return ImageFromFile(_v,szFile);
+	}
+	long ImageFromObjectHandle(long hGdiObject) 
+	{
+		return ImageFromObjectHandle(_v,hGdiObject);
+	}
+	VLSize GetImageSize(long hImage)
+	{
+		return new VLSize(GetImageSize(_v,hImage));
+	}
+	void ReleaseImage(long hImage)
+	{
+		ReleaseImage(_v,hImage);
+	}
+	void ReleaseText(long hText) 
+	{
+		ReleaseText(_v,hText);
+	}
+	int DrawText(long hFont,String szText,long pt,long pRectSize,int nAlign,int nColor,int bSingline,int nTransparency,double Rotation,long ptRotateCenter) 
+	{
+		return DCDrawText(_v, hFont,  szText, pt, pRectSize, nAlign, nColor, bSingline, nTransparency, Rotation, ptRotateCenter);
+	}
+	int DrawImage(long hImage,VLPoint pt,long Size,int nTransparency,double Rotation,long ptRotateCenter,long scrPT ,long scrSize) 
+	{
+		return DrawImage(_v, hImage, pt._v, Size, nTransparency, Rotation, ptRotateCenter, scrPT , scrSize);
+	}
+	String GetText(long hText) 
+	{
+		return GetText(_v,hText);
+	}
+	int SetText(long hText,String szText) 
+	{
+		return SetText(_v,hText,szText);
+	}
+	VLSize GetTextSize(long hText) 
+	{
+		return new VLSize(GetTextSize(_v,hText));
+	}
+	VLSize GetStringScales(long hText,String szText,long len)
+	{
+		return new VLSize(GetStringScales(_v,hText,szText,len));
+	}
+	void SetClip(double left,double top,double right,double bottom,int bUnionClip)
+	{
+		SetClip(_v,left,top,right,bottom,bUnionClip);
+	}
+	void ClearClip( )
+	{
+		ClearClip(_v);
+	}
+	int MsgCallback(int msg,long wParam,long lParam,long time,double x,double y)
+	{
+		return MsgCallback(_v,msg,wParam,lParam,time,x,y);
+	}
+	int UpdateDeviceProperty()
+	{
+		return UpdateDeviceProperty(_v);
+	}
+	long CreateTextObject(
+	                         String szText,
+	                         int bSingle,
+	                         int nColor,
+	                         String pFaceName,
+	                         int nHeight,
+	                         int nWidth,
+	                         int Weight,
+	                         int MipLevels,
+	                         int Italic,
+	                         long CharSet,
+	                         long OutputPrecision,
+	                         long Quality,
+	                         long PitchAndFamily)
+	{
+		return CreateTextObject(_v,
+	              szText,
+	             bSingle,
+	             nColor,
+	              pFaceName,
+	             nHeight,
+	             nWidth,
+	             Weight,
+	             MipLevels,
+	             Italic,
+	             CharSet,
+	             OutputPrecision,
+	             Quality,
+	             PitchAndFamily);
+	}
+	
+	void Release()
+	{
+		if (_v != 0)
+		{
+			ReleaseDevice(_v);
+			_v = 0;
+		}		
+	}
+	
+	void finalize()
+	{
+		
+	/*	if (_v != 0)
+		{
+			ReleaseDevice(_v);
+			_v = 0;
+		}*/
+	}		
+};

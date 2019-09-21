@@ -1,0 +1,195 @@
+//xlang 
+package System{
+	class out{
+		static int println(String text){
+			return _system_.consoleWrite(text + "\n");
+		}
+		static int print(String text){
+			return _system_.consoleWrite(text);
+		}
+	};
+	
+	class Console{
+		Console(){
+			_system_.createConsole();
+		}
+	};
+};
+
+
+using { System; };
+
+
+int main(String [] args){
+
+	new Console();
+
+    byte b = 127;
+    short s = 16383;
+    char c = 32760;
+    int a = 2147483640;
+    long l = 5;
+    double d = 6.6f;
+    //bool o = false;
+
+    /*_system_.consoleWrite("" + (b + d) + "\n");
+    
+    String [] tss = {"b", "s", "c", "a", "l", "d"};
+    String [] ops = {"+", "-", "*", "/"};
+    
+    for (int i = 0; i < ops.length; i++){
+        for (int x = 0; x < tss.length ; x++){
+            for (int y = 0; y < tss.length ; y++){
+                _system_.consoleWrite(String.format(" _system_.consoleWrite(\" %s %s %s = \" + %s + \" %s \" + %s + \"=\" +  (%s %s %s) + \"\\n\"); \n",tss[x], ops[i], tss[y] , tss[x], ops[i], tss[y] ,tss[x], ops[i], tss[y] ));
+            }
+        }
+    }*/
+    
+	_system_.consoleWrite(" b + b = " + b + " + " + b + "=" +  (b + b) + "\n"); 
+	 _system_.consoleWrite(" b + s = " + b + " + " + s + "=" +  (b + s) + "\n"); 
+	 _system_.consoleWrite(" b + c = " + b + " + " + c + "=" +  (b + c) + "\n"); 
+	 _system_.consoleWrite(" b + a = " + b + " + " + a + "=" +  (b + a) + "\n"); 
+	 _system_.consoleWrite(" b + l = " + b + " + " + l + "=" +  (b + l) + "\n"); 
+	 _system_.consoleWrite(" b + d = " + b + " + " + d + "=" +  (b + d) + "\n"); 
+	 _system_.consoleWrite(" s + b = " + s + " + " + b + "=" +  (s + b) + "\n"); 
+	 _system_.consoleWrite(" s + s = " + s + " + " + s + "=" +  (s + s) + "\n"); 
+	 _system_.consoleWrite(" s + c = " + s + " + " + c + "=" +  (s + c) + "\n"); 
+	 _system_.consoleWrite(" s + a = " + s + " + " + a + "=" +  (s + a) + "\n"); 
+	 _system_.consoleWrite(" s + l = " + s + " + " + l + "=" +  (s + l) + "\n"); 
+	 _system_.consoleWrite(" s + d = " + s + " + " + d + "=" +  (s + d) + "\n"); 
+	 _system_.consoleWrite(" c + b = " + c + " + " + b + "=" +  (c + b) + "\n"); 
+	 _system_.consoleWrite(" c + s = " + c + " + " + s + "=" +  (c + s) + "\n"); 
+	 _system_.consoleWrite(" c + c = " + c + " + " + c + "=" +  (c + c) + "\n"); 
+	 _system_.consoleWrite(" c + a = " + c + " + " + a + "=" +  (c + a) + "\n"); 
+	 _system_.consoleWrite(" c + l = " + c + " + " + l + "=" +  (c + l) + "\n"); 
+	 _system_.consoleWrite(" c + d = " + c + " + " + d + "=" +  (c + d) + "\n"); 
+	 _system_.consoleWrite(" a + b = " + a + " + " + b + "=" +  (a + b) + "\n"); 
+	 _system_.consoleWrite(" a + s = " + a + " + " + s + "=" +  (a + s) + "\n"); 
+	 _system_.consoleWrite(" a + c = " + a + " + " + c + "=" +  (a + c) + "\n"); 
+	 _system_.consoleWrite(" a + a = " + a + " + " + a + "=" +  (a + a) + "\n"); 
+	 _system_.consoleWrite(" a + l = " + a + " + " + l + "=" +  (a + l) + "\n"); 
+	 _system_.consoleWrite(" a + d = " + a + " + " + d + "=" +  (a + d) + "\n"); 
+	 _system_.consoleWrite(" l + b = " + l + " + " + b + "=" +  (l + b) + "\n"); 
+	 _system_.consoleWrite(" l + s = " + l + " + " + s + "=" +  (l + s) + "\n"); 
+	 _system_.consoleWrite(" l + c = " + l + " + " + c + "=" +  (l + c) + "\n"); 
+	 _system_.consoleWrite(" l + a = " + l + " + " + a + "=" +  (l + a) + "\n"); 
+	 _system_.consoleWrite(" l + l = " + l + " + " + l + "=" +  (l + l) + "\n"); 
+	 _system_.consoleWrite(" l + d = " + l + " + " + d + "=" +  (l + d) + "\n"); 
+	 _system_.consoleWrite(" d + b = " + d + " + " + b + "=" +  (d + b) + "\n"); 
+	 _system_.consoleWrite(" d + s = " + d + " + " + s + "=" +  (d + s) + "\n"); 
+	 _system_.consoleWrite(" d + c = " + d + " + " + c + "=" +  (d + c) + "\n"); 
+	 _system_.consoleWrite(" d + a = " + d + " + " + a + "=" +  (d + a) + "\n"); 
+	 _system_.consoleWrite(" d + l = " + d + " + " + l + "=" +  (d + l) + "\n"); 
+	 _system_.consoleWrite(" d + d = " + d + " + " + d + "=" +  (d + d) + "\n"); 
+	 _system_.consoleWrite(" b - b = " + b + " - " + b + "=" +  (b - b) + "\n"); 
+	 _system_.consoleWrite(" b - s = " + b + " - " + s + "=" +  (b - s) + "\n"); 
+	 _system_.consoleWrite(" b - c = " + b + " - " + c + "=" +  (b - c) + "\n"); 
+	 _system_.consoleWrite(" b - a = " + b + " - " + a + "=" +  (b - a) + "\n"); 
+	 _system_.consoleWrite(" b - l = " + b + " - " + l + "=" +  (b - l) + "\n"); 
+	 _system_.consoleWrite(" b - d = " + b + " - " + d + "=" +  (b - d) + "\n"); 
+	 _system_.consoleWrite(" s - b = " + s + " - " + b + "=" +  (s - b) + "\n"); 
+	 _system_.consoleWrite(" s - s = " + s + " - " + s + "=" +  (s - s) + "\n"); 
+	 _system_.consoleWrite(" s - c = " + s + " - " + c + "=" +  (s - c) + "\n"); 
+	 _system_.consoleWrite(" s - a = " + s + " - " + a + "=" +  (s - a) + "\n"); 
+	 _system_.consoleWrite(" s - l = " + s + " - " + l + "=" +  (s - l) + "\n"); 
+	 _system_.consoleWrite(" s - d = " + s + " - " + d + "=" +  (s - d) + "\n"); 
+	 _system_.consoleWrite(" c - b = " + c + " - " + b + "=" +  (c - b) + "\n"); 
+	 _system_.consoleWrite(" c - s = " + c + " - " + s + "=" +  (c - s) + "\n"); 
+	 _system_.consoleWrite(" c - c = " + c + " - " + c + "=" +  (c - c) + "\n"); 
+	 _system_.consoleWrite(" c - a = " + c + " - " + a + "=" +  (c - a) + "\n"); 
+	 _system_.consoleWrite(" c - l = " + c + " - " + l + "=" +  (c - l) + "\n"); 
+	 _system_.consoleWrite(" c - d = " + c + " - " + d + "=" +  (c - d) + "\n"); 
+	 _system_.consoleWrite(" a - b = " + a + " - " + b + "=" +  (a - b) + "\n"); 
+	 _system_.consoleWrite(" a - s = " + a + " - " + s + "=" +  (a - s) + "\n"); 
+	 _system_.consoleWrite(" a - c = " + a + " - " + c + "=" +  (a - c) + "\n"); 
+	 _system_.consoleWrite(" a - a = " + a + " - " + a + "=" +  (a - a) + "\n"); 
+	 _system_.consoleWrite(" a - l = " + a + " - " + l + "=" +  (a - l) + "\n"); 
+	 _system_.consoleWrite(" a - d = " + a + " - " + d + "=" +  (a - d) + "\n"); 
+	 _system_.consoleWrite(" l - b = " + l + " - " + b + "=" +  (l - b) + "\n"); 
+	 _system_.consoleWrite(" l - s = " + l + " - " + s + "=" +  (l - s) + "\n"); 
+	 _system_.consoleWrite(" l - c = " + l + " - " + c + "=" +  (l - c) + "\n"); 
+	 _system_.consoleWrite(" l - a = " + l + " - " + a + "=" +  (l - a) + "\n"); 
+	 _system_.consoleWrite(" l - l = " + l + " - " + l + "=" +  (l - l) + "\n"); 
+	 _system_.consoleWrite(" l - d = " + l + " - " + d + "=" +  (l - d) + "\n"); 
+	 _system_.consoleWrite(" d - b = " + d + " - " + b + "=" +  (d - b) + "\n"); 
+	 _system_.consoleWrite(" d - s = " + d + " - " + s + "=" +  (d - s) + "\n"); 
+	 _system_.consoleWrite(" d - c = " + d + " - " + c + "=" +  (d - c) + "\n"); 
+	 _system_.consoleWrite(" d - a = " + d + " - " + a + "=" +  (d - a) + "\n"); 
+	 _system_.consoleWrite(" d - l = " + d + " - " + l + "=" +  (d - l) + "\n"); 
+	 _system_.consoleWrite(" d - d = " + d + " - " + d + "=" +  (d - d) + "\n"); 
+	 _system_.consoleWrite(" b * b = " + b + " * " + b + "=" +  (b * b) + "\n"); 
+	 _system_.consoleWrite(" b * s = " + b + " * " + s + "=" +  (b * s) + "\n"); 
+	 _system_.consoleWrite(" b * c = " + b + " * " + c + "=" +  (b * c) + "\n"); 
+	 _system_.consoleWrite(" b * a = " + b + " * " + a + "=" +  (b * a) + "\n"); 
+	 _system_.consoleWrite(" b * l = " + b + " * " + l + "=" +  (b * l) + "\n"); 
+	 _system_.consoleWrite(" b * d = " + b + " * " + d + "=" +  (b * d) + "\n"); 
+	 _system_.consoleWrite(" s * b = " + s + " * " + b + "=" +  (s * b) + "\n"); 
+	 _system_.consoleWrite(" s * s = " + s + " * " + s + "=" +  (s * s) + "\n"); 
+	 _system_.consoleWrite(" s * c = " + s + " * " + c + "=" +  (s * c) + "\n"); 
+	 _system_.consoleWrite(" s * a = " + s + " * " + a + "=" +  (s * a) + "\n"); 
+	 _system_.consoleWrite(" s * l = " + s + " * " + l + "=" +  (s * l) + "\n"); 
+	 _system_.consoleWrite(" s * d = " + s + " * " + d + "=" +  (s * d) + "\n"); 
+	 _system_.consoleWrite(" c * b = " + c + " * " + b + "=" +  (c * b) + "\n"); 
+	 _system_.consoleWrite(" c * s = " + c + " * " + s + "=" +  (c * s) + "\n"); 
+	 _system_.consoleWrite(" c * c = " + c + " * " + c + "=" +  (c * c) + "\n"); 
+	 _system_.consoleWrite(" c * a = " + c + " * " + a + "=" +  (c * a) + "\n"); 
+	 _system_.consoleWrite(" c * l = " + c + " * " + l + "=" +  (c * l) + "\n"); 
+	 _system_.consoleWrite(" c * d = " + c + " * " + d + "=" +  (c * d) + "\n"); 
+	 _system_.consoleWrite(" a * b = " + a + " * " + b + "=" +  (a * b) + "\n"); 
+	 _system_.consoleWrite(" a * s = " + a + " * " + s + "=" +  (a * s) + "\n"); 
+	 _system_.consoleWrite(" a * c = " + a + " * " + c + "=" +  (a * c) + "\n"); 
+	 _system_.consoleWrite(" a * a = " + a + " * " + a + "=" +  (a * a) + "\n"); 
+	 _system_.consoleWrite(" a * l = " + a + " * " + l + "=" +  (a * l) + "\n"); 
+	 _system_.consoleWrite(" a * d = " + a + " * " + d + "=" +  (a * d) + "\n"); 
+	 _system_.consoleWrite(" l * b = " + l + " * " + b + "=" +  (l * b) + "\n"); 
+	 _system_.consoleWrite(" l * s = " + l + " * " + s + "=" +  (l * s) + "\n"); 
+	 _system_.consoleWrite(" l * c = " + l + " * " + c + "=" +  (l * c) + "\n"); 
+	 _system_.consoleWrite(" l * a = " + l + " * " + a + "=" +  (l * a) + "\n"); 
+	 _system_.consoleWrite(" l * l = " + l + " * " + l + "=" +  (l * l) + "\n"); 
+	 _system_.consoleWrite(" l * d = " + l + " * " + d + "=" +  (l * d) + "\n"); 
+	 _system_.consoleWrite(" d * b = " + d + " * " + b + "=" +  (d * b) + "\n"); 
+	 _system_.consoleWrite(" d * s = " + d + " * " + s + "=" +  (d * s) + "\n"); 
+	 _system_.consoleWrite(" d * c = " + d + " * " + c + "=" +  (d * c) + "\n"); 
+	 _system_.consoleWrite(" d * a = " + d + " * " + a + "=" +  (d * a) + "\n"); 
+	 _system_.consoleWrite(" d * l = " + d + " * " + l + "=" +  (d * l) + "\n"); 
+	 _system_.consoleWrite(" d * d = " + d + " * " + d + "=" +  (d * d) + "\n"); 
+	 _system_.consoleWrite(" b / b = " + b + " / " + b + "=" +  (b / b) + "\n"); 
+	 _system_.consoleWrite(" b / s = " + b + " / " + s + "=" +  (b / s) + "\n"); 
+	 _system_.consoleWrite(" b / c = " + b + " / " + c + "=" +  (b / c) + "\n"); 
+	 _system_.consoleWrite(" b / a = " + b + " / " + a + "=" +  (b / a) + "\n"); 
+	 _system_.consoleWrite(" b / l = " + b + " / " + l + "=" +  (b / l) + "\n"); 
+	 _system_.consoleWrite(" b / d = " + b + " / " + d + "=" +  (b / d) + "\n"); 
+	 _system_.consoleWrite(" s / b = " + s + " / " + b + "=" +  (s / b) + "\n"); 
+	 _system_.consoleWrite(" s / s = " + s + " / " + s + "=" +  (s / s) + "\n"); 
+	 _system_.consoleWrite(" s / c = " + s + " / " + c + "=" +  (s / c) + "\n"); 
+	 _system_.consoleWrite(" s / a = " + s + " / " + a + "=" +  (s / a) + "\n"); 
+	 _system_.consoleWrite(" s / l = " + s + " / " + l + "=" +  (s / l) + "\n"); 
+	 _system_.consoleWrite(" s / d = " + s + " / " + d + "=" +  (s / d) + "\n"); 
+	 _system_.consoleWrite(" c / b = " + c + " / " + b + "=" +  (c / b) + "\n"); 
+	 _system_.consoleWrite(" c / s = " + c + " / " + s + "=" +  (c / s) + "\n"); 
+	 _system_.consoleWrite(" c / c = " + c + " / " + c + "=" +  (c / c) + "\n"); 
+	 _system_.consoleWrite(" c / a = " + c + " / " + a + "=" +  (c / a) + "\n"); 
+	 _system_.consoleWrite(" c / l = " + c + " / " + l + "=" +  (c / l) + "\n"); 
+	 _system_.consoleWrite(" c / d = " + c + " / " + d + "=" +  (c / d) + "\n"); 
+	 _system_.consoleWrite(" a / b = " + a + " / " + b + "=" +  (a / b) + "\n"); 
+	 _system_.consoleWrite(" a / s = " + a + " / " + s + "=" +  (a / s) + "\n"); 
+	 _system_.consoleWrite(" a / c = " + a + " / " + c + "=" +  (a / c) + "\n"); 
+	 _system_.consoleWrite(" a / a = " + a + " / " + a + "=" +  (a / a) + "\n"); 
+	 _system_.consoleWrite(" a / l = " + a + " / " + l + "=" +  (a / l) + "\n"); 
+	 _system_.consoleWrite(" a / d = " + a + " / " + d + "=" +  (a / d) + "\n"); 
+	 _system_.consoleWrite(" l / b = " + l + " / " + b + "=" +  (l / b) + "\n"); 
+	 _system_.consoleWrite(" l / s = " + l + " / " + s + "=" +  (l / s) + "\n"); 
+	 _system_.consoleWrite(" l / c = " + l + " / " + c + "=" +  (l / c) + "\n"); 
+	 _system_.consoleWrite(" l / a = " + l + " / " + a + "=" +  (l / a) + "\n"); 
+	 _system_.consoleWrite(" l / l = " + l + " / " + l + "=" +  (l / l) + "\n"); 
+	 _system_.consoleWrite(" l / d = " + l + " / " + d + "=" +  (l / d) + "\n"); 
+	 _system_.consoleWrite(" d / b = " + d + " / " + b + "=" +  (d / b) + "\n"); 
+	 _system_.consoleWrite(" d / s = " + d + " / " + s + "=" +  (d / s) + "\n"); 
+	 _system_.consoleWrite(" d / c = " + d + " / " + c + "=" +  (d / c) + "\n"); 
+	 _system_.consoleWrite(" d / a = " + d + " / " + a + "=" +  (d / a) + "\n"); 
+	 _system_.consoleWrite(" d / l = " + d + " / " + l + "=" +  (d / l) + "\n"); 
+	 _system_.consoleWrite(" d / d = " + d + " / " + d + "=" +  (d / d) + "\n"); 
+	 
+    Thread.sleep(-1);
+    return 0;
+}

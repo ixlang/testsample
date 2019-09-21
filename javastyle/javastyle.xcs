@@ -1,0 +1,21 @@
+//xlang 
+include("System.xcsm")
+
+using {  System; };
+
+class JavaStyle{
+
+
+
+	static int main(String [] args){
+    
+		System.out.createConsole();
+        
+		System.out.println(String.format("%s", "hello world"));
+        
+        Thread.sleep(-1);
+        
+		return 0;
+	}
+    
+};

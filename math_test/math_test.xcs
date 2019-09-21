@@ -1,0 +1,36 @@
+
+int main(String [] args){
+    _system_.createConsole();
+    long a = 45;
+    long b = 5;
+    Math.floorDiv(a, b);
+    _system_.consoleWrite("" + Math.abs(-1) + "\n");
+    _system_.consoleWrite("" + Math.abs(1) + "\n");
+    _system_.consoleWrite("" + Math.abs(-Math.PI) + "\n");
+    _system_.consoleWrite("" + Math.log(0) + "\n");
+    _system_.consoleWrite("" + Math.log(-1.0) + "\n");
+    _system_.consoleWrite("" + Math.acos(0.9f) + "\n");
+    _system_.consoleWrite("" + Math.asin(0.9f) + "\n");
+    _system_.consoleWrite("" + Math.atan(0.9f) + "\n");
+    _system_.consoleWrite("" + Math.atan2(0.1f,0.9f) + "\n");
+    _system_.consoleWrite("" + Math.tanh(0.9f) + "\n");
+    _system_.consoleWrite("" + Math.cbrt(8) + "\n");
+    _system_.consoleWrite("" + Math.ceil(1.23456f) + "\n");
+    _system_.consoleWrite("" + Math.cos(45) + "\n");
+    _system_.consoleWrite("" +  Math.cosh(45) + "\n");
+    _system_.consoleWrite("" +  Math.exp(45) + "\n");
+    _system_.consoleWrite("" +  Math.expm1(45) + "\n");
+    _system_.consoleWrite("" +  Math.floor(45) + "\n");
+    _system_.consoleWrite("" +  Math.floorDiv(45, 5) + "\n");
+    _system_.consoleWrite("" +  Math.max(1, 5) + "\n");
+    _system_.consoleWrite("" +  Math.min(1, 5) + "\n");
+    _system_.consoleWrite("" +  Math.pow(2, 3) + "\n");
+    _system_.consoleWrite("" +  Math.sinh(90) + "\n");
+    _system_.consoleWrite("" +  Math.log1p(35) + "\n");
+    _system_.consoleWrite("" +  Math.log1p(99) + "\n");
+    _system_.consoleWrite("" +  Math.round(1.54) + "\n");
+    _system_.consoleWrite("" +  Math.isNan(Math.log(-1.0)) + "\n");
+    _system_.consoleWrite("" +  Math.isINF(Math.log(0)) + "\n");
+    Thread.sleep(1000);
+    return 0;
+}

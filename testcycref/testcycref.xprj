@@ -1,0 +1,37 @@
+{
+	"testcycref":	{
+		"version":	"1.2",
+		"language":	"xlang",
+		"sources":	["testcycref.xcs"],
+		"configures":	{
+			"debug":	{
+				"path":	{
+					"incpath":	[],
+					"libpath":	[]
+				},
+				"options":	"",
+				"prebuild":	"",
+				"preclean":	"",
+				"makebuild":	"",
+				"makeclean":	"",
+				"afterbuild":	"",
+				"afterclean":	"",
+				"libs":	[],
+				"wtype":	"",
+				"ostype":	"",
+				"outname":	"$(ProjectName)",
+				"outpath":	"$(ProjectDir)/$(Configure)",
+				"command":	"-ce",
+				"uaclevel":	"默认",
+				"cmd":	"$(Output)",
+				"args":	"",
+				"workdir":	"$(ProjectDir)",
+				"ignorewarning":	"",
+				"debugable":	"-dbg",
+				"debugdatabase":	""
+			}
+		},
+		"icofile":	"",
+		"versioninc":	"0"
+	}
+}

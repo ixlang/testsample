@@ -1,0 +1,102 @@
+//xlang 
+package System{
+	class out{
+		static int println(String text){
+			return _system_.consoleWrite(text + "\n");
+		}
+		static int print(String text){
+			return _system_.consoleWrite(text);
+		}
+	};
+	
+	class Console{
+		Console(){
+			_system_.createConsole();
+		}
+	};
+};
+
+
+using { System; };
+
+
+int ko = 0;
+String getStr(){
+	return "" + ko++;
+}
+
+class Integer{
+
+	int ok;
+	Integer(){
+		ok = 0;
+	}
+	Integer(int i){
+		ok = i;
+	}
+	Integer  operator +( Integer  o){
+		_system_.consoleWrite(String.format("%d + %d\n", ok, o.ok));
+		return new Integer(ok + o.ok);
+	}
+	Integer  operator -( Integer  o){
+		_system_.consoleWrite(String.format("%d - %d\n", ok, o.ok));
+		return new Integer(ok - o.ok);
+	}
+	Integer  operator *( Integer  o){
+		_system_.consoleWrite(String.format("%d * %d\n", ok, o.ok));
+		return new Integer(ok * o.ok);
+	}
+	Integer  operator /( Integer  o){
+		_system_.consoleWrite(String.format("%d / %d\n", ok, o.ok));
+		return new Integer(ok / o.ok);
+	}
+};
+
+int oi = 0;
+Integer geti1(){
+	return new Integer(oi++);
+}
+
+Integer geti2(){
+	return new Integer(oi++);
+}
+
+Integer geti3(){
+	return new Integer(oi++);
+}
+
+Integer geti4(){
+	return new Integer(oi++);
+}
+
+int main(String [] args){
+
+	new Console();
+    
+	String cstr = getStr() + getStr() + getStr() + getStr();
+    
+    Integer r = geti1() - geti2() - geti3() * geti4();
+    
+    if (cstr.equals("0123") == false){
+		throw new IllegalArgumentException("顺序不对");
+    }
+    if (r.ok != -7){
+		throw new IllegalArgumentException("四则运算不正确");
+    }
+
+	String [] strs = new String[10];
+    Object [] objs = strs;
+
+	bool pass = false;
+	try{
+		objs[0] = 0;
+    }catch(ArrayStoreException e){
+		pass = true;
+    }
+    
+    if (pass == false){
+		throw new IllegalArgumentException("数组赋值不正确");
+    }
+    
+	return 0;
+}

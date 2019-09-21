@@ -1,0 +1,10 @@
+
+
+class VLBase 
+{
+	long _v = 0;
+	bool EqualsNativeObject(VLBase object)
+	{
+		return _v == object._v;
+	}	
+};

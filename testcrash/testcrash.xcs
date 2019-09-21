@@ -1,0 +1,66 @@
+//xlang 
+
+String tester = "";
+
+class onClickListener{
+	void onclick(){
+    
+    }
+};
+
+class MultiEvent <T> : onClickListener{
+	List<T> list = new List<T>();
+    
+    void operator += (T t){
+		list.add(t);
+    }
+    
+
+    void onclick(){
+		int h = list.size();
+		List.Iterator<T> iter = list.iterator();
+        while (iter.hasNext()){
+			T t = iter.next();
+            t.onclick();
+        }
+    }
+};
+
+class Window{
+	MultiEvent<onClickListener> onClick = new MultiEvent<onClickListener>();
+    
+	void onClickEvent(){
+		onClick.onclick();
+    }
+};
+
+
+
+int main(String [] args){
+	_system_.createConsole();
+    
+	Window w = new Window();
+    
+    w.onClick += (new onClickListener(){
+		void onclick(){
+			tester = tester + "click 1";
+		}
+    });
+    w.onClick += (new onClickListener(){
+		void onclick(){
+			tester = tester + "click 2";
+		}
+    });
+    w.onClick += (new onClickListener(){
+		void onclick(){
+			tester = tester + "click 3";
+		}
+    });
+    
+    w.onClickEvent();
+    
+    if (tester.equals("click 1click 2click 3") == false){
+		throw new IllegalArgumentException();
+    }
+	return 0;
+}

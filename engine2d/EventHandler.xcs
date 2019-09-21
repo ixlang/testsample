@@ -1,0 +1,124 @@
+
+class EventHandler 
+{
+	static const int  ANDROID_EVENT_POINTERCLCK 	=	0x40008001;
+	static const int  ANDROID_EVENT_POINTERMOVE 	=	0x40008002;
+	static const int  ANDROID_EVENT_POINTERDOWN 	=	0x40008003;
+	static const int  ANDROID_EVENT_POINTERUP 		=	0x40008004;
+	static const int  ANDROID_EVENT_KEYDOWN 		=	0x40008005;
+	static const int  ANDROID_EVENT_KEYUP 			=	0x40008006;
+	static const int  ANDROID_EVENT_CHAR 			=	0x40008007;
+	static const int  ANDROID_EVENT_CURSOR			=	0x40008008;
+	static const int  ANDROID_EVENT_MOVEOUT		=	0x40008009;
+	static const int  ANDROID_EVENT_SETFOCUS		=	0x4000800A;
+	static const int  ANDROID_EVENT_LOSTFOCUS		=	0x4000800B;
+	static const int  ANDROID_EVENT_HITTEST		=	0x4000800C;
+	static const int  ANDROID_EVENT_ANIMATION		=	0x4000800D;
+	static const int  ANDROID_EVENT_OFFSETOK		=	0x4000800E;
+	
+	static IVULayout m_eventLayout = nilptr;
+	static Map<long,VUObject>object_ref = nilptr;
+	
+	EventHandler(IVULayout layout)
+	{
+		m_eventLayout = layout;
+		object_ref = new Map<long,VUObject>();
+	}
+	
+	bool hasObject(VUObject object)
+	{
+		return object_ref.containsKey(object._v);
+	}
+    
+	void refObject(VUObject object)
+	{
+		if (false == hasObject(object))
+		{
+			object_ref.put(object._v,object);
+		}
+	}
+	
+	void unrefObject(VUObject object)
+	{
+		object_ref.remove(object._v);
+	}	
+    
+	VUObject getObject(long _v)
+	{
+		return object_ref.get(_v);
+	}
+	
+	bool TranslateMessage(VLMsg arg0) {
+        bool bRet = false;
+        long lparam = 0,wparam = 0;
+        switch((int)arg0.message())
+        {
+        case ANDROID_EVENT_POINTERCLCK:
+            m_eventLayout.OnLbuttonClick(getObject(arg0.hwnd()), 0, 0);
+            bRet = true;
+            break;
+        case ANDROID_EVENT_POINTERMOVE:
+            lparam = arg0.lParam();
+            m_eventLayout.OnLbuttonMove(getObject(arg0.hwnd()), (short)(0xFFFF & lparam), (short)(lparam >> 16));
+            bRet = true;
+            break;
+        case ANDROID_EVENT_POINTERDOWN:
+            lparam = arg0.lParam();
+            m_eventLayout.OnLbuttonDown(getObject(arg0.hwnd()), (short)(0xFFFF & lparam), (short)(lparam >> 16));
+            bRet = true;
+            break;
+        case ANDROID_EVENT_POINTERUP:
+            lparam = arg0.lParam();
+            m_eventLayout.OnLbuttonUp(getObject(arg0.hwnd()), (short)(0xFFFF & lparam), (short)(lparam >> 16));
+            bRet = true;
+            break;
+        case ANDROID_EVENT_KEYDOWN:
+            m_eventLayout.OnKeyDown(getObject(arg0.hwnd()), arg0.lParam(), arg0.time(), arg0.wParam());
+            bRet = true;
+            break;
+        case ANDROID_EVENT_KEYUP:
+            m_eventLayout.OnKeyUp(getObject(arg0.hwnd()), arg0.lParam(), arg0.time(), arg0.wParam());
+            bRet = true;
+            break;
+        case ANDROID_EVENT_CHAR:
+            m_eventLayout.OnChar(getObject(arg0.hwnd()), arg0.lParam(),arg0.time(), arg0.wParam());
+            bRet = true;
+            break;
+        case ANDROID_EVENT_CURSOR:
+            m_eventLayout.OnSetCursor(getObject(arg0.hwnd()), arg0.lParam(), arg0.wParam());
+            bRet = true;
+            break;
+        case ANDROID_EVENT_MOVEOUT:
+            lparam = arg0.lParam();
+            m_eventLayout.OnMoveOut(getObject(arg0.hwnd()), getObject(arg0.wParam()), arg0.time(), (short)(0xFFFF & lparam), (short)(lparam >> 16));
+            bRet = true;
+            break;
+        case ANDROID_EVENT_SETFOCUS:
+            m_eventLayout.OnSetFocus(getObject(arg0.hwnd()), getObject(arg0.wParam()), arg0.time(), arg0.lParam());
+            bRet = true;
+            break;
+        case ANDROID_EVENT_LOSTFOCUS:
+            m_eventLayout.OnLostFocus(getObject(arg0.hwnd()), getObject(arg0.wParam()), arg0.time(), arg0.lParam());
+            bRet = true;
+            break;
+        case ANDROID_EVENT_HITTEST:
+            lparam = arg0.lParam();
+            wparam = arg0.time();
+            m_eventLayout.OnHitTest(getObject(arg0.hwnd()), 
+                    getObject(arg0.wParam()),
+                    (short)(0xFFFF & lparam), (short)(lparam >> 16),
+                    (short)(0xFFFF & wparam), (short)(wparam >> 16));
+            bRet = true;
+            break;
+        case ANDROID_EVENT_ANIMATION:
+            m_eventLayout.AnimationCall(getObject(arg0.hwnd()), arg0.lParam());
+            bRet = true;
+            break;
+        case ANDROID_EVENT_OFFSETOK:
+            m_eventLayout.OnOffsetOK(getObject(arg0.hwnd()), arg0.lParam(), arg0.wParam());
+            bRet = true;
+            break;
+        }
+        return bRet;
+	}
+};

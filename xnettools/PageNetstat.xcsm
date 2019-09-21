@@ -1,0 +1,76 @@
+//xlang Source, Name:PageNetstat.xcsm 
+//Date: Fri Nov 03:56:28 2018 
+
+class PageNetstat{
+	QXWidget page;
+	QXTreeView reslist;
+    QXPushButton btnnetstat = nilptr;
+    
+	PageNetstat(QXWidget _page){
+		page = _page;
+    }
+    
+    bool create(){
+
+         btnnetstat = (QXPushButton)page.attachByName(new QXPushButton(), "btnnetstat");
+         reslist = (QXTreeView)page.attachByName(new QXTreeView(), "reslist");
+         
+         String [] columns = {"协议","本地地址","外部地址","状态"};
+         reslist.setColumns(columns);
+         
+         btnnetstat.setOnClickListener(new QXWidget.onClickListener(){
+				void onClick(QXObject obj, bool checked)override{
+                btnnetstat.setEnabled(false);
+                new Thread(){
+					void run(){
+						String []_args = {"netstat", "-ano"};
+						Process p = new Process("C:\\Windows\\System32\\netstat.exe", _args);
+                        String content = "";
+                        
+						if (p.create(false, true, false, true)){
+							
+							try{
+								byte [] data = new byte[1024];
+								int len = 0;
+								while ((len = p.read(data, 0, 1024)) > 0){
+									content = content + new String(data, 0, len);
+								}
+							}catch(Exception e){
+							}
+                        }
+                        page.runOnUi(new Runnable(){
+                        
+							void run(){
+								String finalcontent = content;
+                                reslist.clear();
+                                
+								do{
+									content = finalcontent;
+									finalcontent = content.replace("  ", " ");
+                                }while (finalcontent.equals(content) == false);
+                                
+                                String []lines = finalcontent.split("\n");
+                                
+                                if (lines.length > 4){
+									for (int i = 4; i < lines.length; i++){
+										String [] items = lines[i].trim(true).split(' ');
+										
+                                        if (items.length > 0){
+											long item = reslist.addItem(nilptr, items[0]);
+											for (int n = 1; n < items.length; n++){
+												reslist.setItemText(item, n, items[n]);
+											}
+                                        }
+									}
+                                }
+								btnnetstat.setEnabled(true);
+                            }
+                        });
+                    }
+                }.start();
+
+				}
+			});
+         return true;
+    }
+};

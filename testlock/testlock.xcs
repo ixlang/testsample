@@ -1,0 +1,20 @@
+//xlang 
+enum BBB{
+	cpp, java
+};
+
+class My{
+
+	Object lock = new Object();
+	void	fuck(){
+		synchronized(lock){
+			lock.wait();
+        }
+    }
+
+};
+int main(String [] args){
+	My m = new My();
+    m.fuck();
+	return 0;
+}

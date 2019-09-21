@@ -1,0 +1,26 @@
+//xlang 
+
+
+class BBB{
+	String a;
+    String b;
+    BBB(String aa,String bb){
+		a = aa;
+        b = bb;
+    }
+};
+
+int main(String [] args){
+	/*Map<String, BBB> mp = new Map<String, BBB>();
+    while (true){
+		mp.put(String.format("%d",4), new BBB("" + Math.random(), "" + Math.random()));
+    }
+    */
+    List<String> sv = new List<String>();
+    
+    while (true){
+		sv.add(String.format("%d",4));
+		sv.remove(sv.iterator());
+    }
+	return 0;
+}

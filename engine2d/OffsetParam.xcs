@@ -1,0 +1,89 @@
+
+class OffsetParam {
+	long _v = 0;
+	static const int OFFSET_NORMAL = 0;
+	static const int OFFSET_ACCELERATION = 1;
+	static const double GAOE = 9.806f;
+    
+	OffsetParam()
+	{
+		_v = AllocParam();
+	}
+	
+	void ComputeParam(VUScenes engine,double fAcceleration,VUObject object,VLPoint point)
+	{
+		double distance = engine.GetStraightDistance(object.GetObjectPoint(),point);
+		double vt = engine.GetInitialVelocity(fAcceleration,distance,engine.GetCurrentOffsetQuality(object));
+		if (vt < 0)
+		{
+			vt = 0;
+		}
+		SetInitialvelocity(vt);		
+		SetType(OFFSET_ACCELERATION);
+		SetAcceleration(fAcceleration);
+	}
+	
+    OffsetParam(long v) {
+		_v = v;
+	}
+	int	nType()//OFFSET_NORMAL or OFFSET_ACCSPEED/
+	{
+		return  OffsetParamGetType(_v);
+	}
+	double Initialvelocity()
+	{
+		return  GetInitialvelocity(_v);
+	}
+	double Acceleration()
+	{
+		return  GetAcceleration(_v);
+	}
+	int	nTime()
+	{
+		return  GetnTime(_v);
+	}
+	double fAngle()
+	{
+		return  GetfAngle(_v);
+	}
+	
+	double fWeight()
+	{
+		return  GetfWeight(_v);
+	}
+	
+	void	SetType(int nType)//OFFSET_NORMAL or OFFSET_ACCSPEED/
+	{
+		SetType(_v,nType);
+	}
+	void SetInitialvelocity(double fInitialvelocity)
+	{
+		SetInitialvelocity(_v,fInitialvelocity);
+	}
+	void SetAcceleration(double fAcceleration)
+	{
+		SetAcceleration(_v,fAcceleration);
+	}
+	void	SetTime(int nTime)
+	{
+		SetTime(_v,nTime);
+	}
+	void SetAngle(double fAngle)
+	{
+		SetfAngle(_v,fAngle);
+	}
+	void SetWeight(double fWeight)
+	{
+		SetfWeight(_v,fWeight);
+	}
+
+	
+	void finalize()
+    {
+		if (_v != 0)
+		{
+			DeallocParam(_v);
+			_v = 0;
+		}
+    }	
+};

@@ -1,0 +1,99 @@
+//xlang 
+
+package System{
+	class out{
+		static int println(String text){
+			return _system_.consoleWrite(text + "\n");
+		}
+		static int print(String text){
+			return _system_.consoleWrite(text);
+		}
+	};
+	
+	class Console{
+		Console(){
+			_system_.createConsole();
+		}
+	};
+};
+
+
+class EchoServer: 
+	AsyncInput
+{
+
+	Unsi _unsi = new Unsi();
+	byte [] hello = "Hello".getBytes();
+    
+    bool create(int port){
+		if (_unsi.create(this, 1, port, 90000) == false){
+			System.out.print("创建服务器失败\n");
+            return false;
+		}
+        
+        _unsi.config(2, 1024, 90000);
+        _unsi.setNamelistMode(0);
+        if (_unsi.start() == false){
+			System.out.print("开启服务器失败\n");
+		}else{
+			System.out.print("server already start! 127.0.0.1:" + port + "\n");
+			return true;
+		}
+        return false;
+    }
+    
+	void notify(AsyncOutput output, int type, long bind, bool bsucceed, long context,int length)override{
+
+	}
+
+	bool newInstance(AsyncOutput output, int type, long bind, long context)override{
+		
+		InetAddress inet = _unsi.getRemoteInetAddress(context);
+        
+		String host = String.format("%s:%d",  inet.getAddressString(),  inet.getPort());
+		System.out.print("new connect " + host + "\n");
+
+		output.dataDeparture(this, context, 0, hello, 0, hello.length);
+        
+		return true;
+	}
+
+	bool dataArrives(AsyncOutput output, long context, byte[] data, int offset, int length)override{
+		//String msg = new String(data);
+		//System.out.print("msg received:" + msg + "\n");
+		output.dataDeparture(this, context, 0, data, offset, length);
+		return true;
+	}
+
+	bool deleteInstance(AsyncOutput output, long context)override{
+		/*InetAddress inet = _unsi.getRemoteInetAddress(context);
+        String host = String.format("%s:%d",  inet.getAddressString(),  inet.getPort());
+		System.out.print(host + " - disconnected\n");*/
+		return true;
+	}
+
+	bool inactiveTimeoutVerify(AsyncOutput output, long context)override{
+		/*InetAddress inet = _unsi.getRemoteInetAddress(context);
+        String host = String.format("%s:%d",  inet.getAddressString(),  inet.getPort());
+		System.out.print(host + " - timed out\n");*/
+		return true;
+	}
+};
+
+
+
+using { System; };
+
+
+int main(String [] args){
+
+	new Console();
+
+	EchoServer es = new EchoServer();
+    
+	if (es.create(10036)){
+		Thread.sleep(-1);
+    }
+
+	return 0;
+}

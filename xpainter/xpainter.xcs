@@ -1,0 +1,81 @@
+// xlang
+
+class MainDialog : QXDialog{
+
+	QXPushButton btnOk, linepen, sqpen, cirpen;
+	Canvas canvas = new Canvas();
+    
+    onClickListener penclick = new onClickListener(){
+		void onClick(QXObject obj, bool checked)override{
+			String name = obj.getName();
+            
+            if (checked){
+				if (name.equals("linepen") ){
+					canvas.setCurrentPen(new LinePen());
+				}else
+				if (name.equals("sqpen") ){
+					canvas.setCurrentPen(new PolygonPen());
+				}
+            }
+		}
+	};
+            
+	bool create()override{
+		QXBuffer qb = new QXBuffer();
+        byte [] buffer = __xPackageResource("ui/dialog.ui");
+        qb.setBuffer(buffer, 0, buffer.length);
+        
+		if (load(qb)){
+			btnOk = (QXPushButton)attachByName(new QXPushButton(), "btnOk");
+            linepen = (QXPushButton)attachByName(new QXPushButton(), "linepen");
+            sqpen = (QXPushButton)attachByName(new QXPushButton(), "sqpen");
+            cirpen = (QXPushButton)attachByName(new QXPushButton(), "cirpen");
+            
+            attachByName(canvas, "wpaint");
+			btnOk.setOnClickListener(new onClickListener(){
+				void onClick(QXObject obj, bool checked)override{
+					QXMessageBox.Information("info", " Hello world!", QXMessageBox.Ok, QXMessageBox.Ok);
+				}
+			});
+            
+            linepen.setOnClickListener(penclick);
+            sqpen.setOnClickListener(penclick);
+            cirpen.setOnClickListener(penclick);
+            canvas.setCurrentPen(new LinePen());
+
+            
+            return true;
+		}
+        return false;
+	}
+    
+
+
+};
+
+
+class XMyApp : QXApplication {
+
+	MainDialog dialog;
+
+    bool create(){
+        if (super.createQXApplication()){
+            dialog = new MainDialog();
+            if (dialog.create()){
+				dialog.show();
+                return true;
+            }
+        }
+        return false;
+    }
+    
+};
+
+
+int main(String [] args){
+	XMyApp app = new XMyApp();
+    if (app.create()){
+		app.run();
+    }
+	return 0;
+}

@@ -1,0 +1,126 @@
+//xlang Source, Name:Lexer.xcsm 
+//Date: Fri Sep 00:06:28 2019 
+
+class Lexer{
+
+    /**
+    exp=factor((+|-)factor)*
+    factor=term((*|/)term)*
+    term=0-9
+    */
+    /*** 用于接收每一步的结果 */
+    static class Result{    
+    
+        int value;
+        
+        /*** 合并计算结果*/
+        void patch(Result ctx, char v){
+            String resstr = (String.format("%d %c %d",value, v, ctx.value));
+            switch(v){
+                case '+':
+                value = value + ctx.value;
+                break;
+                
+                case '-':
+                value = value - ctx.value;
+                break;
+                
+                case '*':
+                value = value * ctx.value;
+                break;
+                
+                case '/':
+                value = value / ctx.value;
+                break;
+            }
+            
+            /** 打印计算过程 **/
+            _system_.output(resstr + " = " + value);
+        }
+    };
+    
+    /** term=0-9 */
+    static int term(byte[] data, int offset,  int len, Result ctx){
+        int pos = offset;
+        
+        for (; pos < len; pos ++){
+            if (!(data[pos] >= '0' && data[pos] <= '9')){
+                break;
+            }
+        }
+        
+        if (pos == offset){
+            return -1;
+        }
+        
+        ctx.value = new String(data, offset, pos - offset).parseInt();
+        return pos - offset;
+    }
+
+    /** factor=term((*|/)term)* **/
+    static int factor(byte[] data, int offset,  int len, Result ctx){
+        Result res = new Result(),
+                res1 = new Result();
+                
+        int pos = offset;
+        int nt = term(data, pos, len, res);
+        while (nt > 0){
+            pos += nt;
+            if (pos >= len){
+                break;
+            }
+            if (data[pos] == '*' || data[pos] == '/'){
+                nt = term(data, pos + 1, len, res1);
+                if (nt > 0){
+                    nt += 1;
+                    res.patch(res1, data[pos]);
+                }
+            }else{
+                break;
+            }
+        }
+        
+        if (pos == offset){
+            return -1;
+        }
+        
+        ctx.value = res.value;
+        return pos - offset;
+    }
+
+    /** exp=factor((+|-)factor)* **/
+    static int exp(byte[] data, int offset,  int len, Result ctx){
+        Result res = new Result(),
+                res1 = new Result();
+                
+        int pos = offset;
+        int nt = factor(data, pos, len, res);
+        while (nt > 0){
+            pos += nt;
+            if (pos >= len){
+                break;
+            }
+            if (data[pos] == '+' || data[pos] == '-'){
+                nt = factor(data, pos + 1, len, res1);
+                if (nt > 0){
+                    nt += 1;
+                    res.patch(res1, data[pos]);
+                }
+            }else{
+                break;
+            }
+        }
+        if (pos == offset){
+            return -1;
+        }
+        
+        ctx.value = res.value;
+        return pos - offset;
+    }
+    
+    /** 做解析运算 **/
+    static bool parse(String text, Result ctx){
+        byte [] data = text.getBytes();
+        return data.length == exp(data, 0, data.length, ctx);
+    }
+};

@@ -1,0 +1,367 @@
+//xlang Source, Name:UIDesigner.xcsm 
+//Date: Wed May 00:54:09 2019 
+
+class UIDesigner : QXWidget{
+	QXImage backimg ;
+    QXImage background;
+    QXPainter.Paint seldot, seldotback;
+    
+    QXRect []stretchRect = new QXRect[8];
+	QXRect	selectedRect;
+    QXRect 	savedRect;
+	bool bPressed = false;
+    int trackerId = -1;
+    
+    static class UIObject{
+		UIObject(String type, String imagefile){
+			image = new QXImage(imagefile, nilptr);
+            typename = type;
+            sourceRect = new QXRect(0, 0, image.width(), image.height());
+            rect = new QXRect(0, 0, image.width(), image.height());
+        }
+        
+        
+		double pl,pt,pr,pb, gw, gh;
+        
+		QXImage image;
+        
+        QXImage display;
+        QXRect stretch ;
+		
+        QXRect sourceRect;
+        
+        QXRect rect;
+        bool hasString ;
+        String defaultText;
+        QXPoint txtPoint;
+        
+        bool isContianer;
+        List<UIObject> subObject = new List<UIObject>();
+        
+        
+        String typename;
+        String name;
+        
+        void savePosition(QXRect global){
+			gw = global.width();
+            gh = global.height();
+			pl = ((double)rect.left - global.left) / gw;
+            pt = ((double)rect.top - global.top) / gh;
+            pr = ((double)rect.right - global.left) / gw;
+            pb = ((double)rect.bottom - global.top) / gh;
+        }
+        
+        bool isContain(int x,int y){
+			if (rect.left <= x && rect.right >= x && rect.top <= y && rect.bottom >= y){
+				return true;
+			}
+            return false;
+        }
+        
+        void offset(int cx, int cy){
+			rect.left += cx;
+            rect.right += cx;
+            
+            rect.top += cy;
+            rect.bottom += cy;
+        }
+        
+        void resizeTo(QXRect global){
+			
+			double l = global.left + pl * global.width();
+            double t = global.top + pt * global.height(); 
+            double r = global.left + pr * global.width(); 
+            double b = global.top + pb * global.height();
+            
+            rect = new QXRect(Math.min(l,r), Math.min(t,b),Math.max(l,r),Math.max(t,b));
+        }
+        
+        
+    };
+    
+    List<UIObject> controls = new List<UIObject>();
+    List<UIObject> selected = new List<UIObject>();
+    
+	void onAttach() override {
+		//TODO:	
+		backimg = new QXImage("./image/workspace.png", "png");
+        
+        seldot = new QXPainter.Paint();
+        seldot.setStyle(QXPainter.Paint.FILL);
+        seldot.setColor(0xff08a1ef);
+        
+        seldotback = new QXPainter.Paint();
+        seldotback.setStyle(QXPainter.Paint.FILL);
+        seldotback.setColor(0xffffffff);
+	}
+
+	QXPoint downpt;
+	void onMouseMove(int Button,int x,int y,int flags,int source)override{
+		//TODO 
+        if (!bPressed){
+			onFreeMove(x, y);
+        }else
+        if (trackerId == 8){
+			offsetSelect(x - downpt.x, y - downpt.y);
+            downpt = new QXPoint(x, y);
+        }else
+        if (trackerId != -1){
+			resizeSelect(x - downpt.x, y - downpt.y, trackerId);
+           // downpt = new QXPoint(x, y);
+        }
+	}
+
+	void onFreeMove(int x,int y){
+		int sid = getSelectId(x, y);
+		switch(sid){
+			case 0:
+            case 4:
+				setCursor(SizeFDiagCursor);
+            break;
+            case 1:
+            case 5:
+				setCursor(SizeVerCursor);
+            break;
+            case 2:
+            case 6:
+				setCursor(SizeBDiagCursor);
+            break;
+            case 3:
+            case 7:
+				setCursor(SizeHorCursor);
+            break;
+            
+            default:
+				setCursor(ArrowCursor);
+            break;
+        }
+    }
+    
+    QXRect getNewRect(int cx, int cy,int type){	
+		switch(type){
+			case 0:
+				return new QXRect(savedRect.left + cx, savedRect.top + cy, savedRect.right, savedRect.bottom);
+			break;
+			case 1:
+				return new QXRect(savedRect.left, savedRect.top + cy, savedRect.right, savedRect.bottom);
+			break;
+			case 2:
+				return new QXRect(savedRect.left, savedRect.top + cy, savedRect.right + cx, savedRect.bottom);
+			break;
+			case 3:
+				return new QXRect(savedRect.left, savedRect.top, savedRect.right + cx, savedRect.bottom);
+			break;
+			case 4:
+				return new QXRect(savedRect.left, savedRect.top, savedRect.right + cx, savedRect.bottom + cy);
+			break;
+			case 5:
+				return new QXRect(savedRect.left, savedRect.top, savedRect.right , savedRect.bottom + cy);
+			break;
+			case 6:
+				return new QXRect(savedRect.left + cx, savedRect.top, savedRect.right , savedRect.bottom + cy);
+			break;
+			case 7:
+				return new QXRect(savedRect.left + cx, savedRect.top, savedRect.right , savedRect.bottom);
+			break;
+		}
+		return nilptr;
+	}
+	
+    void resizeSelect(int cx,int cy, int type){
+		QXRect newrect = getNewRect(cx, cy, type);
+        if (newrect != nilptr){
+			List.Iterator<UIObject> iter = selected.iterator();
+			while (iter.hasNext()){
+				UIObject obj = iter.next();
+				obj.resizeTo(newrect);
+			}
+			update();
+        }
+    }
+    
+    void offsetSelect(int cx,int cy){
+		List.Iterator<UIObject> iter = selected.iterator();
+        while (iter.hasNext()){
+			UIObject obj = iter.next();
+            obj.offset(cx, cy);
+        }
+        update();
+    }
+    
+	int getSelectId(int x,int y){
+        for (int i = 0; i < 8; i ++){
+			QXRect cr = stretchRect[i];
+            if (cr != nilptr){
+				if (cr.left <= x && cr.right >= x && cr.top <= y && cr.bottom >= y){
+					return i;
+				}
+            }
+        }
+        
+        if (selectedRect != nilptr){
+			if (selectedRect.left <= x && selectedRect.right >= x && selectedRect.top <= y && selectedRect.bottom >= y){
+				return 8;
+			}
+        }
+        
+        return -1;
+    }
+
+	void onMouseButtonRelease(int Button,int x,int y,int flags,int source)override{
+		//TODO 
+        bPressed = false;
+	}
+
+
+	void onMouseButtonPress(int Button,int x,int y,int flags,int source)override{
+		trackerId = getSelectId(x, y);
+        downpt = new QXPoint(x, y);
+        if (trackerId == -1){
+			UIObject object = getControlOnPoint(x, y, controls);
+			if (object != nilptr){
+				selected.add(object);
+			}else{
+				selected.clear();
+			}
+			update();
+        }else{
+			savePosition();
+        }
+        
+        bPressed = true;
+	}
+
+	void savePosition(){
+		savedRect = selectedRect;
+		List.Iterator<UIObject> iter = selected.iterator();
+        while (iter.hasNext()){
+			UIObject obj = iter.next();
+            obj.savePosition(savedRect);
+        }
+    }
+	void onMouseButtonDblClick(int Button,int x,int y,int flags,int source)override{
+		//TODO 
+        
+	}
+
+
+	void onPaint(int l,int t,int r,int b,long hpaint)override{
+		//TODO 
+        QXPainter paint = new QXPainter(hpaint);
+        paint.setAntialiasing(true);
+        if (background != nilptr){
+			paint.drawImage(background,0,0);
+        }
+        
+        drawControls(paint, controls);
+        drawSelected(paint);
+	}
+
+	void drawControls(QXPainter paint, List<UIObject> list){
+		List.Iterator<UIObject> iter = list.iterator();
+        while (iter.hasNext()){
+			UIObject obj = iter.next();
+            drawObject(paint, obj);
+        }
+    }
+    
+    UIObject getControlOnPoint(int x,int y, List<UIObject> list){
+		UIObject selObject = nilptr;
+		List.Iterator<UIObject> iter = list.iterator();
+        while (iter.hasNext()){
+			UIObject obj = iter.next();
+            if (obj.isContain(x, y)){
+				selObject = obj;
+            }else{
+				selObject = getControlOnPoint(x, y, obj.subObject);
+            }
+            if (selObject != nilptr){
+				return selObject;
+            }
+        }
+        return nilptr;
+    }
+    
+    void drawObject(QXPainter paint, UIObject object){
+		paint.drawImage(object.image,object.rect,object.sourceRect,QXPainter.CompositionMode.CompositionMode_SourceOver);
+    }
+
+
+	void addObject(String type, String imagefile){
+		UIObject uo = new UIObject(type, imagefile);
+        controls.add(uo);
+        update();
+    }
+    
+    void drawSelected(QXPainter paint){
+		QXRect rect = new QXRect( 65535, 65535, -65535, -65535);
+		List.Iterator<UIObject> iter = selected.iterator();
+        while (iter.hasNext()){
+			UIObject obj = iter.next();
+            if (obj.rect.left < rect.left){
+				rect.left = obj.rect.left;
+            }
+            if (obj.rect.top < rect.top){
+				rect.top = obj.rect.top;
+            }
+            if (obj.rect.right > rect.right){
+				rect.right = obj.rect.right;
+            }
+            if (obj.rect.bottom > rect.bottom){
+				rect.bottom = obj.rect.bottom;
+            }
+        }
+        selectedRect = rect;
+        drawSelectRect(paint, selectedRect);
+    }
+    
+    void drawSelectRect(QXPainter paint, QXRect rect){
+		QXPath path = new QXPath();
+        
+        path.addRect(	rect.left, 
+						rect.top,
+						rect.right, 
+						rect.bottom
+                    );
+                    
+        paint.drawPath(path);
+        drawTrackerDot(0, paint, rect.left,rect.top);
+        drawTrackerDot(1, paint, (rect.left + rect.right) / 2,rect.top);
+        drawTrackerDot(2, paint, rect.right,rect.top);
+        
+        drawTrackerDot(3, paint, rect.right,(rect.top + rect.bottom) / 2);
+        drawTrackerDot(4, paint, rect.right,rect.bottom);
+        
+        drawTrackerDot(5, paint, (rect.left + rect.right) / 2,rect.bottom);
+        
+        drawTrackerDot(6, paint, rect.left,rect.bottom);
+        drawTrackerDot(7, paint, rect.left,(rect.top + rect.bottom) / 2);
+        
+    }
+    
+    void drawTrackerDot(int id, QXPainter paint, int x,int y){
+		paint.setPen(0,QXPainter.PenStyle.NoPen,0);
+		paint.drawCircle(x,y,7,seldotback);
+		paint.drawCircle(x,y,5,seldot);
+        stretchRect[id] = new QXRect(x - 7, y - 7, x + 7, y + 7);
+    }
+    
+	void onResize(int w,int h,int oldw,int oldh)override{
+		//TODO 
+        background = new QXImage(w, h, QXImage.Format_ARGB32);
+        QXPainter paint = new QXPainter(background);
+        int bw = backimg.width(), bh = backimg.height();
+        int wc = w / bw + 1;
+        int hc = h / bh + 1;
+        
+        for (int x = 0;x < wc; x++){
+			for (int y = 0;y < hc; y++){
+				paint.drawImage(backimg,x * bw, y * bh);
+			}
+        }
+        
+        paint = nilptr;
+	}
+
+
+};

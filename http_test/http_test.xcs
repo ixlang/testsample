@@ -1,0 +1,71 @@
+//xlang 
+package System{
+	class out{
+		static int println(String text){
+			return _system_.consoleWrite(text + "\n");
+		}
+		static int print(String text){
+			return _system_.consoleWrite(text);
+		}
+	};
+	
+	class Console{
+		Console(){
+			_system_.createConsole();
+		}
+	};
+};
+
+
+using { System; };
+
+
+int main(String [] args){
+    _system_.createConsole();
+	_system_.consoleWrite("loading...\n");
+    //Thread.sleep(15000);
+	HttpRequest req = new HttpRequest();
+
+	if (req.get("http://news.163.com", 100000, false)){
+		byte [] data = new byte[1024];
+		String content = "";
+
+		if (req.getResponseCode() >= 200){
+			while (req.available(true) > 0){
+				int len = req.readData(data, 0, 1024);
+				String _txt = new String(data, 0, len);
+				content = content + _txt;
+			}
+			System.out.print("content : \n" + content);
+            
+            findAllUrl(content);
+		}else{
+			System.out.print(String.format("res code = %d", req.getResponseCode()));
+		}
+
+	}
+
+	//Thread.sleep(-1);
+    
+	return 0;
+}
+
+
+void findAllUrl(String text){
+
+
+    Pattern url = new Pattern("((http[s]{0,1}|ftp)://[a-zA-Z0-9\\.\\-]" + 
+		"+\\.([a-zA-Z]{2,4})(:\\d+)?(/[a-zA-Z0-9\\.\\-~!@#$%^&*+?:_/=<>]*)?)|" + 
+		"(www.[a-zA-Z0-9\\.\\-]+\\.([a-zA-Z]{2,4})(:\\d+)?(/[a-zA-Z0-9\\.\\-~!@#$%^&*+?:_/=<>]*)?)");
+        
+    Pattern.Result rt = url.match(text, 0);
+    
+    System.out.print("\n length = " + rt.length() + "\n"); 
+    
+	for (int i =0; i < rt.length(); i++){
+		System.out.print("match " + i + ": " + rt.get(i).start() + "-" + rt.get(i).end() + " -> " + text.substring(rt.get(i).start(), rt.get(i).end()) + "\n");
+	}
+    
+    Thread.sleep(3000);
+}
+

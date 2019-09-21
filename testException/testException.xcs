@@ -1,0 +1,58 @@
+//xlang 
+package System{
+	class out{
+		static int println(String text){
+			return _system_.consoleWrite(text + "\n");
+		}
+		static int print(String text){
+			return _system_.consoleWrite(text);
+		}
+	};
+	
+	class Console{
+		Console(){
+			_system_.createConsole();
+		}
+	};
+};
+
+
+using { System; };
+
+class Myclass{
+    int k(){
+        return 0;
+    }
+    
+    void finalize(){
+        try{
+            System.out.println("Myclass finalize");
+            int a = 8 / k();
+        }catch(Exception e){
+            System.out.println("Exception in finalize");
+        }
+    }
+};
+
+void fuck(){
+    Myclass m = new Myclass();
+    int k = 9 / m.k();
+}
+
+int main(String [] args){
+
+    /** 创建控制台 */
+    new Console();
+    
+    try{
+        fuck();
+    }catch(Exception e){
+        System.out.println("Exception");
+    }
+
+	System.out.println("hello world");
+
+	Thread.sleep(3000);
+
+	return 0;
+}

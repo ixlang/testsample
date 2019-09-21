@@ -1,0 +1,13 @@
+
+void printf(String fmt, Object [] args){
+	String str = String.format(fmt, args);
+    _system_.consoleWrite(str);
+}
+
+void sleep(int n){
+	Thread.sleep(n);
+}
+
+void AllocConsole(){
+	_system_.createConsole();
+}

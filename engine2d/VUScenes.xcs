@@ -1,0 +1,632 @@
+
+class VUScenes  : VLBase
+{
+    EventHandler m_handlerManager = nilptr;
+
+    static const int VT_PIXELS24_RGB888	=	0x1;			//24位压缩  位图
+    static const int VT_PIXELS32_RGB8880	=	0x2;		//32位  不带通道
+    static const int VT_PIXELS32_ARGB8888	=	0x3;		//32位ARGB
+    static const int VT_PIXELS32_RGBA8888	=	0x4;
+    static const int VT_PIXELS32_BGRA8888	=	0x5;
+
+    static const int QUALITY_DEFAULT = 0;
+    static const int QUALITY_QUALITYHIGH = 1;
+    static const int QUALITY_SPEEDHIGH = 2;
+    static const int QUALITY_INVALID = 3;
+    
+    static const int VUL_TEXTTOP = 0x00000000;
+    static const int VUL_TEXTLEFT = 0x00000000;
+    static const int VUL_TEXTCENTER = 0x00000001;
+    static const int VUL_TEXTRIGHT = 0x00000002;
+    static const int VUL_TEXTVCENTER = 0x00000004;
+    static const int VUL_TEXTBOTTOM = 0x00000008;
+
+    static const int CVUENGINE_SINGLE_THREAD = 0x0;							//单线程模式
+    static const int CVUENGINE_MULTI_THREAD  = 0x1;						//多线程模式
+
+    static const int VUL_MOUSEEVENT		=	0x1;								//事件开启标志 开启响应鼠标事件
+    static const int VUL_KEYBOARDEVENT	=	0x2;								//开启响应键盘事件
+    static const int VUL_FOCUSEVENT		=	0x4;								//焦点事件
+    static const int VUL_MESSAGEEVENT	=	0x8;								//消息事件
+    static const int VUL_ANIMATIONEVENT	=	0x10;							//动画事件
+    static const int VUL_INPUT_EVENT		=	(VUL_KEYBOARDEVENT|VUL_FOCUSEVENT);//输入事件  组合
+
+    static const int  OBJECT_CHANGE_SIZE 	=	0x1;
+    static const int  OBJECT_CHANGE_POS 		=	0x2;
+    static const int  OBJECT_CHANGE_COLOR 	=	0x4;
+    static const int  OBJECT_CHANGE_TRANS 	=	0x8;
+    static const int  OBJECT_CHANGE_ROTATE 	=	0x10;
+
+    static const int  OBJECT_CHANGE_TXTSIZE 	=	0x20;
+    static const int  OBJECT_CHANGE_TXTPOS 	=	0x40;
+    static const int  OBJECT_CHANGE_TXTTRANS =	0x80;
+    static const int  OBJECT_CHANGE_TXTROTATE =	0x100;
+
+
+    static const int VLWM_PAINT  = 0x000F;
+    static const int VLWM_KEYDOWN  =  0x0100;
+    static const int VLWM_KEYUP    = 0x0101;
+    static const int VLWM_CHAR    =  0x0102;
+    static const int VLWM_TIMER  = 0x0113;
+    static const int VLWM_MOUSEFIRST   = 0x0200;
+    static const int VLWM_MOUSEMOVE   = 0x0200;
+    static const int VLWM_MOVEIN	= 0x0401;
+    static const int VLWM_MOVEOUT	= 0x0402;
+    static const int VLWM_OFFSETOK	= 0x0403;
+    static const int VLWM_LBUTTONDOWN  = 0x0201;
+    static const int VLWM_LBUTTONUP   = 0x0202;
+    static const int VLWM_LBUTTONDBLCLK = 0x0203;
+    static const int VLWM_RBUTTONDOWN    = 0x0204;
+    static const int VLWM_RBUTTONUP   = 0x0205;
+    static const int VLWM_RBUTTONDBLCLK  = 0x0206;
+    static const int VLWM_MBUTTONDOWN   = 0x0207;
+    static const int VLWM_MBUTTONUP    = 0x0208;
+    static const int VLWM_MBUTTONDBLCLK  = 0x0209;
+    static const int VLWM_SETCURSOR   = 0x0020;
+    static const int VLWM_COMMAND  = 0x111;	
+
+    static int VLRGB(int a,int r,int g,int b)
+    {
+        return ((int)(((byte)(r)|((short)((byte)(g))<<8))|(((int)(byte)(b))<<16)));
+    }
+    static int VLARGB(int a,int r,int g,int b)
+    {
+        return ((int)(((((int)(byte)(a))<<24))|(((byte)(r)|((short)((byte)(g))<<8))|(((int)(byte)(b))<<16))));
+    }
+
+    static int  VLLOWORD(int l)          
+    {
+        return ((short)((int)(l) & 0xffff));
+    }
+    static int  VLHIWORD(int l)
+    {
+        return ((short)((int)(l) >> 16));
+    }
+    static double VLGET_X_LPARAM(int lp)   
+    {
+        return ((double)(short)VLLOWORD(lp));
+    }
+    static double VLGET_Y_LPARAM(int lp)   
+    {
+        return ((double)(short)VLHIWORD(lp));
+    }
+    static int VLPOINT_TO_LPARAM(VLPoint _pt)  
+    {
+        return ((((int)(_pt.y()))<<16)|(int)(_pt.x())); // The coordinates
+    }
+    static byte VLLOBYTE(int v)
+    {
+        return (byte)v;
+    }
+    static byte VLHIBYTE(int v)
+    {
+        return (byte)(v >> 8);
+    }
+    static int VLGetAValue(int argb)
+    {
+        return (VLLOBYTE(argb>>24));
+    }
+    static int VLGetRValue(int argb)	
+    {
+        return (VLLOBYTE(argb));
+    }
+    static int VLGetGValue(int argb)	
+    {
+        return (VLLOBYTE(((short)(argb)) >> 8));
+    }
+    static int VLGetBValue(int argb)		
+    {
+        return (VLLOBYTE((argb)>>16));
+    }
+    static const int DEFAULT_COLOR	=  VLARGB(0xFF,0,0,0);
+
+
+    VUScenes()
+    {
+        _v = AllocScenes();
+    }
+    VUScenes(long v)
+    {
+        _v = v;
+    }
+
+    static double GetAngle(double x,double y)
+    {
+        return Math.atan2(x,y) * 180.f / Math.PI;
+    }
+
+    static double GetAngleOf(double srcx,double srcy,double refx,double refy)
+    {
+        return  (double) (180.f - GetAngle(srcx - refx,srcy - refy));
+    }
+
+    VUObject addRef(VUObject object)
+    {
+        if (m_handlerManager != nilptr)
+        {
+            EnableEvent(object,true);
+            m_handlerManager.refObject(object);
+        }
+        return object;
+    }
+
+    VUObject unRef(VUObject object)
+    {
+        if (m_handlerManager != nilptr)
+        {
+            m_handlerManager.unrefObject(object);
+            EnableEvent(object,false);
+        }
+        return object;
+    }
+
+    double GetZoom() 
+    {
+        return GetZoom(_v);
+    }
+    bool SetZoom(double flZoom) 
+    {
+        return SCSetZoom(_v,flZoom);
+    }
+    long GetEventFlags() 
+    {
+        return GetEventFlags(_v);
+    }
+    long SetEventFlags(long nFlags)
+    {
+        return SetEventFlags(_v,nFlags);
+    }
+    void EnableDetectHitTest(bool  bEnable) 
+    {
+        EnableDetectHitTest(_v,bEnable);
+    }
+    bool IsDetectHitTestEnabled() 
+    {
+        return IsDetectHitTestEnabled(_v);
+    }
+    VUObject GetFocusObject() 
+    {
+        return new VUObject(GetFocusObject(_v));
+    }
+    VUObject GetMouseOverObject() 
+    {
+        return new VUObject(GetMouseOverObject(_v));
+    }
+    bool HasObject(VUObject pObject) 
+    {
+        return HasObject(_v,pObject._v);
+    }
+    void SetObjectFocus(VUObject  pObject) 
+    {
+        SetObjectFocus(_v,pObject._v);
+    }
+    int GetObjectIndex(VUObject  pObject) 
+    {
+        return GetObjectIndex(_v,pObject._v);
+    }
+    void SetObjectMouseOver(VUObject  pObject) 
+    {
+        SetObjectMouseOver(_v,pObject._v);
+    }
+    void Uninit() 
+    {
+        Uninit(_v);
+    }
+    bool SetPlatformContext(VUPlatformContext  pDevice) 
+    {
+        return SetPlatformContext(_v, pDevice._v);
+    }
+    VUPlatformContext GetPlatformContext() 
+    {
+        return new VUPlatformContext(GetPlatformContext(_v));
+    }
+    long GetWindowHandle() 
+    {
+        return GetWindowHandle(_v);
+    }
+    bool DrawObject(VUObject pObject) 
+    {
+        return DrawObject(_v,pObject._v);
+    }
+    bool SetBackColor(long nColor) 
+    {
+        return SCSetBackColor(_v,nColor);
+    }
+    bool MoveLast(VUObject pMoved) 
+    {
+        return MoveLast(_v,pMoved._v);
+    }
+    bool MoveFirst(VUObject pMoved) 
+    {
+        return MoveFirst(_v,pMoved._v);
+    }
+    bool MoveFront(VUObject pMoved) 
+    {
+        return MoveFront(_v,pMoved._v);
+    }
+    bool MoveBack(VUObject pMoved) 
+    {
+        return MoveBack(_v,pMoved._v);
+    }
+    VUObject GetObjectPointer(VLPoint pt,bool  bCheckVisible) 
+    {
+        return new VUObject(GetObjectPointer(_v,pt._v,bCheckVisible));
+    }
+    bool SetGdjObjectInterface(VLEvent  pObject) 
+    {
+        return SetGdjObjectInterface(_v,pObject._v);
+    }
+    bool ChangeSizeObject(VUObject  pObject,double cx,double cy,bool  bForce) 
+    {
+        return ChangeSizeObject(_v,pObject._v,cx,cy,bForce);
+    }
+    void SetSynchronization(bool  bSync) 
+    {
+        SetSynchronization(_v,bSync);
+    }
+    bool GetSynchronization() 
+    {
+        return GetSynchronization(_v);
+    }
+    long SetDrawMode(long nMode) 
+    {
+        return SetDrawMode(_v,nMode);
+    }
+    long GetDrawMode() 
+    {
+        return GetDrawMode(_v);
+    }
+    bool SetQualityMode(long nMode) 
+    {
+        return SCSetQualityMode(_v,nMode);
+    }
+    long GetQualityMode() 
+    {
+        return GetQualityMode(_v);
+    }
+    bool OffsetObject(VUObject pObject,double x,double y,bool  bForce) 
+    {
+        return OffsetObject__JJFFZ(_v,pObject._v,x,y,bForce);
+    }
+    bool OffsetObject(VUObject IObject,double fAngle,int nDistance,VLRect rcLimit,bool  bForce) 
+    {
+        return OffsetObject__JJFIJZ(_v,IObject._v,fAngle,nDistance,rcLimit._v,bForce);
+    }
+    bool OffsetObject(VUObject IObject,double fAngle,int nDistance,bool  bForce) 
+    {
+        return OffsetObject__JJFIZ(_v,IObject._v,fAngle,nDistance,bForce);
+    }
+    bool OffsetObjectImage(VUObject pObject,double x,double y,bool  bForce) 
+    {
+        return OffsetObjectImage(_v,pObject._v,x,y,bForce);
+    }
+    bool OffsetObjectText(VUObject pObject,double x,double y,bool  bForce) 
+    {
+        return OffsetObjectText(_v,pObject._v,x,y,bForce);
+    }
+    bool Clear() 
+    {
+        return Clear(_v);
+    }
+    void SetWindowSize(double cx,double cy) 
+    {
+        SetWindowSize(_v,cx,cy);
+    }
+    bool DeleteObject(VUObject  pImage) 
+    {
+        return SCDeleteObject(_v,unRef(pImage)._v);
+    }
+    bool RemoveObject(VUObject  pImage) 
+    {
+        return RemoveObject(_v,unRef(pImage)._v);
+    }
+    double GetHeight()
+    {
+        return GetHeight(_v);
+    }
+    double GetWidth() 
+    {
+        return GetWidth(_v);
+    }
+
+    VUObject AddObject(long hModule,String strResourceName,long nCID,VLPoint  pt ,VLSize  pSize ,long Trans) 
+    {
+        return addRef(new VUObject(AddObject_lang_String_2JJJJ(_v,hModule,strResourceName,nCID,pt._v,pSize._v,Trans)));
+    }
+    VUObject AddObject(String szFile,VLPoint  pt ,VLSize  pSize ,long Trans) 
+    {
+        return addRef(new VUObject(AddObject_lang_String_2JJJ(_v,szFile,pt._v,pSize._v,Trans)));
+    }
+    VUObject AddObject(long hGdiObject,VLPoint  pt ,VLSize  pSize ,long Trans) 
+    {
+        return addRef(new VUObject(AddObject__JJJJJ(_v,hGdiObject,pt._v,pSize._v,Trans)));
+    }
+
+    VUObject AddObject(String strText,VLPoint pt,double widthLimit,bool  bSingline,String  lfName ,int lfType,int generateStyle,bool bBold,bool bItalic,long nColor,int nSize,long Trans) 
+    {
+        /*CLSize size = new CLSize() ;
+        int [] buffer = VUPlatformContext.generateTextBuffer(context,strText,lfName,lfType,generateStyle,bBold,bItalic,nColor,nSize,widthLimit,size);
+        if (buffer == nilptr)
+        {
+            return nilptr;
+        }
+        VUObject object = new VUObject(AddObject_lang_String_lang_String_2JIJ(_v,buffer,size.cx,size.cy,VT_PIXELS32_ARGB8888,pt._v,0,Trans));
+        object.SetTextProperities(strText,lfName,lfType,generateStyle,bBold,bItalic, nColor, nSize,widthLimit);
+        return addRef(object);*/
+        return nilptr;
+    }
+
+    VUObject AddObject(VUObject  pImageLink,VLPoint ScrPT,VLSize nScrSize,VLPoint pt ,VLSize  nSize ,long Trans) 
+    {
+        return addRef(new VUObject(AddObject__JJJJJJJ(_v,pImageLink._v,ScrPT._v,nScrSize._v,pt._v,nSize._v,Trans)));
+    }
+    VUObject AddObject(long lpData,long lpSize,VLPoint  pt ,VLSize  pSize ,long Trans) 
+    {
+        return addRef(new VUObject(AddObject__JJJJJJ(_v,lpData,lpSize,pt._v,pSize._v,Trans)));
+    }
+    VUObject AddObject(int[] lpData,long width,long height,long nFormat,VLPoint  pt ,VLSize  pSize ,long Trans) 
+    {
+        return addRef(new VUObject(AddObject__J_3IJJJJJJ(_v,lpData,lpData.length, width,height,nFormat,pt._v,pSize._v,Trans)));
+    }
+
+    VUObject GetNewObject(int[] lpData,long width,long height,long nFormat,VLPoint  pt ,VLSize  pSize ,long Trans) 
+    {
+        return new VUObject(GetNewObject__J_3IJJJJJJ(_v,lpData, lpData.length,width,height,nFormat,pt._v,pSize._v,Trans));
+    }
+    VUObject GetNewObject(long lpData,long nSize,VLPoint  pt ,VLSize  pSize ,long Trans) 
+    {
+        return new VUObject(GetNewObject__JJJJJJ(_v,lpData,nSize,pt._v,pSize._v,Trans));
+    }
+    VUObject GetNewObject(long hModule,String strResourceName,long nCID,VLPoint  pt ,VLSize  pSize ,long Trans) 
+    {
+        return new VUObject(GetNewObject_lang_String_2JJJJ(_v,hModule,strResourceName,nCID,pt._v,pSize._v,Trans));
+    }
+    VUObject GetNewObject(String szFile,VLPoint  pt ,VLSize  pSize ,long Trans) 
+    {
+        return new VUObject(GetNewObject_lang_String_2JJJ(_v,szFile,pt._v,pSize._v,Trans));
+    }
+    VUObject GetNewObject(String strText,VLPoint pt,double widthLimit,
+            bool  bSingline,String  lfName ,int lfType,int generateStyle,bool bBold,bool bItalic,long nColor,int nSize,long Trans)
+    {
+        //		String strText,VLPoint pt,VLSize  szRect ,bool  bSingline,String  lfName ,long nColor,int nSize,long Trans) 
+       /* CLSize size = new CLSize() ;
+        int [] buffer = VUPlatformContext.generateTextBuffer(context,strText,lfName,lfType,generateStyle,bBold,bItalic,nColor,nSize,widthLimit,size);
+        if (buffer == nilptr)
+        {
+            return nilptr;
+        }
+        VUObject object = new VUObject(GetNewObject(_v,buffer,size.cx,size.cy,VT_PIXELS32_ARGB8888,pt._v,0,Trans));
+        object.SetTextProperities(strText,lfName,lfType,generateStyle,bBold,bItalic, nColor, nSize,widthLimit);
+        return object;*/
+        return nilptr;
+    }
+    VUObject GetNewObject(VUObject  pImageLink,VLPoint ScrPT,VLSize nScrSize,VLPoint pt ,VLSize  nSize ,long Trans) 
+    {
+        return new VUObject(GetNewObject__JJJJJJJ(_v,pImageLink._v,ScrPT._v,nScrSize._v,pt._v,nSize._v,Trans));
+    }
+
+
+    bool AddObject(VUObject  pImage) 
+    {
+        return AddObject__JJ(_v,pImage._v);
+    }
+    /*bool OnTop(bool  Top) 
+    {
+        return OnTop(_v,Top);
+    }*/
+    bool UpdateDisplay() //通知更新视图
+    {
+        return SCUpdateDisplay(_v);
+    }
+    bool Render(int Transparent) //渲染视图
+    {
+        return Render__JI(_v,Transparent);
+    }
+    bool Render() //渲染视图
+    {
+        return Render__J(_v);
+    }
+    long GetTransparent() 
+    {
+        return GetTransparent(_v);
+    }
+    void SetTransparent(long Trans) 
+    {
+        SetTransparent(_v,Trans);
+    }
+    /*bool Attach(long hWnd) 
+    {
+        return Attach(_v,hWnd);
+    }*/
+    bool ChangeSizeObjectText(VUObject  pObject, double x, double y,bool  bForce)
+    {
+        return ChangeSizeObjectText(_v,pObject._v,x,y,bForce);
+    }
+    void DetectHit() 
+    {
+        DetectHit__J(_v); 
+    }
+    bool DetectHit(VUObject pScrObject,VUObject pDstObject,VLRect  rc) 
+    {
+        return DetectHit__JJJJ(_v,pScrObject._v,pDstObject._v,rc._v);
+    }
+    bool ChangeSizeObjectImage(VUObject  pObject, double x, double y,bool  bForce) 
+    {
+        return ChangeSizeObjectImage(_v,pObject._v,x,y,bForce);
+    }
+    bool ObjectInPlug(VUObject  pObject) 
+    {
+        return ObjectInPlug(_v,pObject._v);
+    }
+    bool MoveFrontOf(VUObject  pMoved,VUObject  pRefObject)
+    {
+        return MoveFrontOf(_v,pMoved._v,pRefObject._v);
+    }
+    bool MoveBackOf(VUObject  pMoved, VUObject  pRefObject) 
+    {
+        return MoveBackOf(_v,pMoved._v,pRefObject._v);
+    }
+    void ThreadUnlock() 
+    {
+        ThreadUnlock(_v);
+    }
+    void ThreadLock() 
+    {
+        ThreadLock(_v);
+    }
+    void SetScreenPoint(VLPoint point) 
+    {
+        SetScreenPoint(_v,point._v);
+    }
+    VLPoint OffsetScreen(int x,int y) 
+    {
+        return new VLPoint(OffsetScreen(_v,x,y));
+    }
+    VLPoint GetScreenOffset() 
+    {
+        return new VLPoint(GetScreenOffset(_v));
+    }
+    /*bool TranslateMessage(VLMsg pMsg) 
+    {
+        if (m_handlerManager != nilptr)
+        {
+            if (false == m_handlerManager.TranslateMessage(pMsg))
+            {
+                return TranslateMessage(_v,pMsg._v);
+            }
+        }else
+        {
+            return TranslateMessage(_v,pMsg._v);
+        }
+        return false;
+    }*/
+    bool BeginRenderNaked()
+    {
+        return BeginRenderNaked(_v);
+    }
+    void RenderNaked()
+    {
+        RenderNaked(_v);
+    }
+
+    bool EndRenderNaked()
+    {
+        return EndRenderNaked(_v);
+    }
+    VLPoint ClientToScreen(VLPoint pt) 
+    {
+        return new VLPoint(ClientToScreenPoint(_v,pt._v));
+    }
+    VLPoint ScreenToClient(VLPoint pt) 
+    {
+        return new VLPoint (ScreenToClientPoint(pt._v,pt._v));
+    }
+    VLRect ClientToScreen(VLRect lpRc) 
+    {
+        return new VLRect(ClientToScreenRect(_v,lpRc._v));
+    }
+    VLRect ScreenToClient(VLRect lpRc) 
+    {
+        return new VLRect(ScreenToClientRect(_v,lpRc._v));
+    }
+    VLRect GetVUObjectRect(VUObject  pObject) 
+    {
+        return new VLRect(GetVUObjectRect(_v,pObject._v));
+    }
+    void SendUpdateDisplay(long wParam,long lParam) 
+    {
+        SendUpdateDisplay(_v,wParam,lParam);
+    }
+    bool DeviceMsgCallback(VLMsg  pMsg)
+    {
+        return DeviceMsgCallback(_v,pMsg._v);
+    }
+
+    bool GetPhysEffectEnabled(){
+        return GetPhysEffectEnabled(_v);
+    }
+
+    bool SetWorldRhythm(int setpOnSecond){
+        return SetWorldRhythm(_v,setpOnSecond);
+    }
+
+    void EnablePhysEffect(bool bEnable){
+        EnablePhysEffect(_v,bEnable);
+    }
+
+    bool RotateObject(VUObject object,double angle,bool bForce)
+    {
+        return RotateObject(_v,object._v,angle,bForce);
+    }
+
+    bool TransparentObject(VUObject object,long transparent,bool bForce)
+    {
+        return TransparentObject(_v,object._v,transparent,bForce);
+    }
+    bool SetDefaultOffsetQuality(long nSteps)
+    {
+        return SetDefaultOffsetQuality(_v,nSteps);
+    }
+    long GetCurrentOffsetQuality()
+    {
+        return GetCurrentOffsetQuality(_v,0);
+    }
+    long GetCurrentOffsetQuality(VUObject object)
+    {
+        return GetCurrentOffsetQuality(_v,object._v);
+    }
+    bool EnableEvent(VUObject object,bool bEnable)
+    {
+        if (bEnable){
+            /*if (m_handlerManager.hasObject(object) == false){
+                Log.w("EnableEvent", "EnableEvent invaild! must call registryEvent before addObject")
+            }*/
+            m_handlerManager.refObject(object);
+        }
+        return EnableEvent(_v,object._v,bEnable);
+    }
+     double GetInitialVelocity( double fAcceleration,double fDistance,double fTime) 
+    {
+        return GetInitialVelocity(_v,fAcceleration,fDistance,fTime);
+    }
+     double GetAcceleration( double fInitialVelocity,double fDistance,double fTime) //求加速度
+    {
+        return SCGetAcceleration(_v,fInitialVelocity,fDistance,fTime);
+    }
+     double GetDistance( double fInitialVelocity,double fAcceleration,double fTime) //求距离
+    {
+        return GetDistance(_v,fInitialVelocity,fAcceleration,fTime);
+    }
+     double GetStraightDistance(VLPoint p1,VLPoint p2)
+    {
+        return GetStraightDistance(_v,p1._v,p2._v);
+    }
+    int GetObjectCount()
+    {
+        return GetObjectCount(_v);
+    }
+    void EnableAction(int flags,bool bEnable){
+        EnableAction(_v,flags,bEnable);
+    }
+    void SetActionFrequency(int flags,double fFrequency){
+        SetActionFrequency(_v,flags,fFrequency);
+    }
+    void Release()
+    {
+        if (_v != 0)
+        {
+            DeallocScenes(_v);
+            _v = 0;
+        }	
+    }
+   
+    void constize()
+    {
+    /*	if (_v != 0)
+        {
+            DeallocEngine(_v);
+            _v = 0;
+        }*/
+    }	
+
+};

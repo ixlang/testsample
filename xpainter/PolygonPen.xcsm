@@ -1,0 +1,68 @@
+//xlang Source, Name:PolygonPen.xcsm 
+//Date: Sun May 15:32:07 2019 
+
+class PolygonPen : Pen{
+
+	Vector<QXPoint> points = new Vector<QXPoint>();
+    
+    bool bpress =false;
+    QXPoint currentPt = nilptr;
+    
+	void onMouseMove(QXWidget widget, int Button,int x,int y,int flags,int source)override{
+		//TODO 
+        if (bpress){
+			currentPt = new QXPoint(x, y);
+			widget.update();
+        }
+	}
+
+
+	void onMouseButtonRelease(QXWidget widget, int Button,int x,int y,int flags,int source)override{
+		//TODO 
+        bpress = false;
+        if (currentPt != nilptr){
+			points.add(currentPt);
+            currentPt = nilptr;
+            widget.update();
+        }
+	}
+
+
+	void onMouseButtonPress(QXWidget widget, int Button,int x,int y,int flags,int source)override{
+		//TODO 
+        bpress = true;
+        currentPt = new QXPoint(x, y);
+        widget.update();
+	}
+
+	void init()override{
+		dotpt.setColor(0xffff0000);
+        dotpt.setStyle(QXPainter.Paint.FILL_AND_STROKE);
+    }
+    
+    QXPainter.Paint dotpt = new QXPainter.Paint();
+    
+	void onPaint(int l,int t,int r,int b,QXPainter painter)override{
+		QXPath path = new QXPath();
+        
+        if (points.size() > 0){
+			QXPoint fpt = points.get(0);
+			path.moveto(fpt.x, fpt.y);
+            
+			painter.drawCircle(fpt.x, fpt.y, 2 ,dotpt);
+            
+            QXPoint pt = nilptr;
+			for (int i = 1; i < points.size(); i++){
+				pt = points.get(i);
+				path.lineto(pt.x, pt.y);
+			}
+            
+            if (currentPt != nilptr && pt != nilptr){
+				path.lineto(currentPt.x, currentPt.y);
+            }
+        }
+        
+        
+        painter.drawPath(path);
+	}
+};

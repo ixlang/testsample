@@ -1,0 +1,225 @@
+
+ class VELayoutView : IVULayout {
+	
+	VUScenes _scenes = nilptr;
+	static VUPlatformContext _platform = nilptr;
+	VLViewLayout _parentView = nilptr;
+	int _viewWidth = 0;
+	int _viewHeight = 0;
+	
+
+	
+	bool Attached(VLViewLayout parentView, int w, int h,
+			IVULayout oldLayout) 
+    {
+		_parentView = parentView;
+		_viewWidth = w;
+		_viewHeight = h;
+		return initComponent();
+	}
+	
+	bool initComponent(){
+		VUPlatformContext platform = GetPlatformContext();
+		
+		//SizeMap.updateDevice(_viewWidth, _viewHeight);
+		_scenes = new VUScenes();
+		_scenes.SetPlatformContext(platform);
+		_scenes.SetBackColor(0xffFFffff);
+		return true;
+	}
+	
+	
+	bool Detached(IVULayout newLayout) {
+		// TODO Auto-generated method stub
+		_scenes.Release();	
+		return true;
+	}
+
+	
+	bool OnTouch(double x, double y, int idTouch) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	
+	bool OnTouchMove(double x, double y, int idTouch) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	
+	bool OnTouchUp(double x, double y, int idTouch) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	
+	bool OnDestroy() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	
+	bool OnRender() {
+		// TODO Auto-generated method stub
+		VUScenes scenes = GetScenes();
+		if (scenes != nilptr){
+			return scenes.Render();
+		}
+		return false;
+	}
+
+	
+	bool OnLayoutChange(int width, int height) {
+		VUPlatformContext platform = GetPlatformContext();
+		if (platform != nilptr){
+			platform.SetClientSize(width, height);
+			platform.UpdateDeviceProperty();
+		}
+		return true;
+	}
+
+	
+	bool SetZoom(double fZoom) {
+		// TODO Auto-generated method stub
+		VUScenes scenes = GetScenes();
+		if (scenes != nilptr){
+			return scenes.SetZoom(fZoom);
+		}
+		return false;
+	}
+
+	
+	void RequestRender() {
+		VLViewLayout parentView = _parentView;
+		if (parentView != nilptr){
+			parentView.requestRender();
+		}
+	}
+
+	
+	/*int TranslateMessage(VLMsg message) {
+		VUPlatformContext paltform = GetPlatformContext();
+		if (paltform != nilptr){
+			if (message.MatchDevice(paltform)){
+				_scenes.TranslateMessage(message);
+			}
+		}
+		return 0;
+	}*/
+
+	
+	bool OnLbuttonClick(VUObject object, long x, long y) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	
+	bool OnLbuttonMove(VUObject object, long x, long y) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	
+	bool OnLbuttonDown(VUObject object, long x, long y) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	
+	bool OnLbuttonUp(VUObject object, long x, long y) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	
+	bool OnKeyDown(VUObject object, long key, long rept, long flags) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	
+	bool OnKeyUp(VUObject object, long key, long rept, long flags) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	
+	bool OnChar(VUObject object, long key, long rept, long flags) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	
+	bool OnSetCursor(VUObject object, long nHitTest, long message) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	
+	bool OnMoveOut(VUObject object, VUObject newObject, long flags,
+			long x, long y) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	
+	bool OnSetFocus(VUObject object, VUObject oldObject, long wParam,
+			long lParam) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	
+	bool OnLostFocus(VUObject object, VUObject newObject,
+			long wParam, long lParam) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	
+	bool OnHitTest(VUObject object, VUObject hitObject, long left,
+			long top, long right, long bottom) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	
+	bool AnimationCall(VUObject object, long nFrame) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	
+	bool OnOffsetOK(VUObject object, long nID, long nType) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	
+	bool Prepare() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+	
+	
+	VUScenes GetScenes() {
+		// TODO Auto-generated method stub
+		return _scenes;
+	}
+	
+	VUPlatformContext GetPlatformContext(){
+		if (_platform == nilptr){				
+			_platform = new VUPlatformContext(_viewWidth, _viewHeight);
+			_platform.InitDevice(_parentView);			
+		}
+		return _platform;
+	}
+	
+	
+	bool OnBack() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+};

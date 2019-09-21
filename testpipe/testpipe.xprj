@@ -1,0 +1,31 @@
+{
+	"testpipe":	{
+		"version":	"1.2",
+		"language":	"xlang",
+		"sources":	["testpipe.xcs"],
+		"configures":	{
+			"debug":	{
+				"path":	{
+					"incpath":	[],
+					"libpath":	[]
+				},
+				"libs":	[],
+				"options":	"",
+				"wtype":	"",
+				"ostype":	"",
+				"outname":	"$(ProjectName).exe",
+				"outpath":	"$(ProjectDir)/$(Configure)",
+				"command":	"-ce",
+				"uaclevel":	"默认",
+				"cmd":	"$(Output)",
+				"args":	"",
+				"workdir":	"$(ProjectDir)",
+				"ignorewarning":	"",
+				"debugable":	"-dbg",
+				"debugdatabase":	""
+			}
+		},
+		"icofile":	"",
+		"versioninc":	"0"
+	}
+}

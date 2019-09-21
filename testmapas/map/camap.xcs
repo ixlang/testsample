@@ -1,0 +1,309 @@
+/*##########################################################################
+by cadaqs 
+
+·E_mail:cadaqs@vsylab.com
+　　　 　3.vc@163.com
+　　　 　3.vb@163.com
+　　　 　3.asm@163.com
+ 
+·ICQ:217085955
+ 
+·MSN:dxmier@hotmail.com
+##########################################################################*/
+
+
+class camapitem<_KeyType, _ObjType> {
+
+    camapitem() {
+    }
+    camapitem(_KeyType Key, _ObjType Val){
+        _Key = Key;
+        _Val = Val;
+    }
+    camapitem(_KeyType Key){
+        _Key = Key;
+    }
+    bool operator > (camapitem<_KeyType, _ObjType>  _Val) {
+        return _Key > _Val._Key;
+    }
+    bool operator < (camapitem<_KeyType, _ObjType>  _Val) {
+        return _Key < _Val._Key;
+    }
+    bool operator == (camapitem<_KeyType, _ObjType>  _Val) {
+        return _Key == _Val._Key;
+    }
+    bool operator != (camapitem<_KeyType, _ObjType>  _Val) {
+        return _Key != _Val._Key;
+    }
+	bool operator >(_KeyType  __key) {
+		return _Key > __key;
+	}
+	bool operator < (_KeyType  __key) {
+		return _Key < __key;
+	}
+	bool operator == (_KeyType  __key) {
+		return _Key == __key;
+	}
+	bool operator != (_KeyType  __key) {
+		return _Key != __key;
+	}
+    _KeyType _Key;
+    _ObjType _Val;
+};
+
+class camapex <_KeyType, _ObjType> : carbtree<camapitem<_KeyType, _ObjType> , _KeyType> {
+    class _iterator<_NodeType> {
+
+        _NodeType  _pNode;
+        bool _bEnd;
+
+        _iterator(){
+            _bEnd = true;
+        }
+
+        _iterator(_NodeType  pNode) {
+            _pNode = pNode;
+            _bEnd = (pNode != nilptr )? false : true;
+        }
+
+        _iterator(_NodeType  pNode, bool bEnd) {
+            _pNode = pNode;
+            _bEnd = bEnd;
+        }
+
+        void setNode(_NodeType pNode) {
+            if(pNode == nilptr) {
+                _bEnd = true;
+            }
+            _pNode = pNode;
+        }
+
+
+        bool isParentLeft(_NodeType  _Ptr) {
+            _NodeType  parent = _Ptr ._pParent;
+            if(parent != nilptr) {
+                if(parent ._pLeft == _Ptr) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        bool isParentRight(_NodeType  _Ptr) {
+            _NodeType  parent = _Ptr ._pParent;
+            if(parent != nilptr) {
+                if(parent ._pRight == _Ptr) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+
+        _iterator<_NodeType> operator --(int) {
+            if(_bEnd != false) {
+                _bEnd = false;
+                return this;
+            }
+            if(_pNode ._pLeft != nilptr) {
+                setNode(_pNode ._pLeft .maximum());
+                return this;
+            }
+            if(isParentRight(_pNode)) {
+                setNode(_pNode ._pParent);
+                return this;
+            }
+            _NodeType _tempNode = _pNode;
+            while(isParentLeft(_tempNode)) {
+                _tempNode = _tempNode ._pParent;
+            }   
+            setNode(_tempNode ._pParent);
+            return this;
+        }
+        _iterator<_NodeType> operator --() {
+            _iterator<_NodeType> oldIterator = new _iterator<_NodeType>(_pNode);
+            if(_bEnd != false) {
+                _bEnd = false;
+                return oldIterator;
+            }
+            if(_pNode ._pLeft != nilptr) {
+                setNode(_pNode ._pLeft .maximum());
+                return oldIterator;
+            }
+            if(isParentRight(_pNode)) {
+                setNode(_pNode ._pParent);
+                return oldIterator;
+            }
+            _NodeType  _tempNode = _pNode;
+            while(isParentLeft(_tempNode)) {
+                _tempNode = _tempNode ._pParent;
+            }   
+            setNode(_tempNode ._pParent);
+            return oldIterator;
+        }
+        _iterator<_NodeType> operator ++(int) {
+            if(_bEnd != false) {
+                return this;
+            }
+            if(_pNode ._pRight != nilptr) {
+                setNode(_pNode ._pRight .minimum());
+                return this;
+            }
+            if(isParentLeft(_pNode)) {
+                setNode(_pNode ._pParent);
+                return this;
+            }
+            _NodeType  _tempNode = _pNode;
+            while(isParentRight(_tempNode)) {
+                _tempNode = _tempNode ._pParent;
+            }   
+            setNode(_tempNode ._pParent);
+            return this;
+        }
+       /*_iterator<_NodeType> operator +(int n)  {
+           if (n < 0){
+               return operator-(-n);
+           }
+            _iterator<_NodeType> iter = this;
+            while(n-- > 0){
+                iter++;
+            }
+            return iter;
+        }*/
+       /*_iterator<_NodeType> operator -(int  n)  {
+           if (n < 0){
+               return operator+(-n);
+           }
+            _iterator<_NodeType> iter = this;
+            while(n-- > 0){
+                iter--;
+            }
+            return iter;
+        }*/
+        _iterator<_NodeType> operator ++() {
+            _iterator<_NodeType> oldIterator = new _iterator<_NodeType>(_pNode);
+            if(_bEnd != false) {
+                return oldIterator;
+            }
+            if(_pNode ._pRight != nilptr) {
+                setNode(_pNode ._pRight .minimum());
+                return oldIterator;
+            }
+            if(isParentLeft(_pNode)) {
+                setNode(_pNode ._pParent);
+                return oldIterator;
+            }
+            _NodeType  _tempNode = _pNode;
+            while(isParentRight(_tempNode)) {
+                _tempNode = _tempNode ._pParent;
+            }   
+            setNode(_tempNode ._pParent);
+            return oldIterator;
+        }
+        bool same(_iterator<_NodeType> iter)  {
+            if(_pNode == nilptr) {
+                return iter._bEnd;
+            }
+            if(iter._pNode == nilptr) {
+                return _bEnd;
+            }
+            return((_pNode == iter._pNode) && (_bEnd == iter._bEnd));
+        }
+        bool operator == (_iterator<_NodeType> iter)  {
+            return same(iter);
+        }
+        bool operator != (_iterator<_NodeType> iter)  {
+            return same(iter) == false;
+        }
+        _ObjType get()  {
+            return _pNode ._Var._Val;
+        }
+        _KeyType key()  {
+            return _pNode ._Var._Key;
+        }
+        _ObjType val() {
+            return _pNode ._Var._Val;
+        }
+        void set_value(_ObjType obj){
+            _pNode ._Var._Val = obj;
+        }
+    };
+
+    camapex() {
+    }
+    camapex(camapex<_KeyType, _ObjType> _Copy) {
+        copyFrom(_Copy);
+    }
+    void operator = (camapex<_KeyType, _ObjType>  _Copy) {
+        copyFrom(_Copy);
+    }
+
+    bool operator == (camapex<_KeyType, _ObjType>  _Copy) {
+        return compareTree(_Copy);
+    }
+
+    _ObjType  get(_KeyType  _Key) {
+        _Node<camapitem<_KeyType, _ObjType> > pNode = set(new camapitem<_KeyType, _ObjType>(_Key),false);
+        if(pNode == nilptr) {
+			return end().val();
+        }
+        return pNode ._Var._Val;
+    }
+
+    _iterator<_Node<camapitem<_KeyType, _ObjType>>>findless(  _KeyType  _Key) {
+        return new _iterator<_Node<camapitem<_KeyType, _ObjType> > >(findifless(_Key,true));
+    }
+    _iterator<_Node<camapitem<_KeyType, _ObjType>>>findmore(  _KeyType  _Key) {
+        return new _iterator<_Node<camapitem<_KeyType, _ObjType> > >(findifmore(_Key, true));
+    }
+    _iterator<_Node<camapitem<_KeyType, _ObjType>>>findifless(  _KeyType  _Key) {
+        return new _iterator<_Node<camapitem<_KeyType, _ObjType> > >(findifless(_Key,false));
+    }
+    _iterator<_Node<camapitem<_KeyType, _ObjType>>>findifmore(  _KeyType  _Key) {
+        return new _iterator<_Node<camapitem<_KeyType, _ObjType> > >(findifmore(_Key, false));
+    }
+    bool isContains(_KeyType  _Key) {
+			return find(_Key) != nilptr;
+	}
+    _iterator<_Node<camapitem<_KeyType, _ObjType>>>Find(  _KeyType  _Key)  {
+   
+        _iterator<_Node<camapitem<_KeyType, _ObjType>>>iter 
+        = new _iterator<_Node<camapitem<_KeyType, _ObjType> > >(super.find(_Key));
+
+        return iter;
+    }
+    _iterator<_Node<camapitem<_KeyType, _ObjType>>>begin()  {
+        _Node<camapitem<_KeyType, _ObjType> > pNode = minimum();
+    	if (pNode != nilptr){
+    		return new _iterator<_Node<camapitem<_KeyType, _ObjType>>>(pNode, false);
+    	}
+        return new _iterator<_Node<camapitem<_KeyType, _ObjType> > >(pNode);
+    }
+    _iterator<_Node<camapitem<_KeyType, _ObjType>>>end()  {
+        return new _iterator<_Node<camapitem<_KeyType, _ObjType> > >(maximum(),true);
+    }
+    _iterator<_Node<camapitem<_KeyType, _ObjType>>>nullend()  {
+        return new _iterator<_Node<camapitem<_KeyType, _ObjType> > >(nilptr);
+    }
+	static camapex <_KeyType, _ObjType>._iterator<carbtree<camapitem<_KeyType, _ObjType> , _KeyType>._Node<camapitem<_KeyType, _ObjType>>>NullEnd(){
+		return new camapex <_KeyType, _ObjType>._iterator<carbtree<camapitem<_KeyType, _ObjType> , _KeyType>._Node<camapitem<_KeyType, _ObjType> > >(nilptr);
+	}
+     _iterator<_Node<camapitem<_KeyType, _ObjType>>>cend()  {
+        return new _iterator<_Node<camapitem<_KeyType, _ObjType> > >(maximum(),true);
+    }
+     _iterator<_Node<camapitem<_KeyType, _ObjType>>>nullcend()  {
+        return new _iterator<_Node<camapitem<_KeyType, _ObjType> > >(nilptr);
+    }
+    bool erase(_KeyType  _Key) {
+        return nilptr != remove(new camapitem<_KeyType, _ObjType>(_Key));
+    }
+    _iterator<_Node<camapitem<_KeyType, _ObjType>>>put(  _KeyType  _Key,   _ObjType  _Val) {
+        camapitem<_KeyType, _ObjType> _item = new camapitem<_KeyType, _ObjType>(_Key, _Val);
+		return new _iterator<_Node<camapitem<_KeyType, _ObjType> > >(set(_item,true));
+    }
+
+    void erase(_iterator<_Node<camapitem<_KeyType, _ObjType>>>_Where) {
+        remove(_Where._pNode);
+    }
+};
+

@@ -1,0 +1,67 @@
+require ("native_class_test.xcsm")
+
+using {
+    glGriphics;
+};
+
+
+class GraphicsWindow : Window{
+    Canvas canvas = nilptr;
+    Image img = nilptr;
+    Bitmap bitmap = nilptr;
+    double angle = 1.f;
+    bool create(){
+        if (create(0, nilptr)){
+            setVisible(1);
+            
+            Timer timer = new Timer();
+            
+            //设置定时器  每10毫秒旋转3度
+            timer.schedule(new TimerTask(){
+                void run(){
+                
+                    //角度加3 然后刷新窗口
+					angle += 3;
+                    GraphicsWindow.this.update();
+                }
+            }, 1, -1);
+            
+            return true;
+        }
+        return false;
+    }
+    
+    int onGetWidth(){
+        return 300;
+    }
+    
+    int onGetHeight(){
+        return 300;
+    }
+    
+    bool onCreate(){
+            canvas = new Canvas(getDeviceContext(), getWidth(), getHeight());
+            canvas.setBackColor(0xffcccccc);
+            canvas.setAntiAliasing(true);
+            bitmap = new Bitmap("CD.png");
+            img = new Image(bitmap);
+            return true;
+    }
+    void onPaint(){
+        beginPaint();
+        canvas.prepare();
+        RectF rf = new RectF(20, 50, 20 + img.getWidth(), 50  +img.getHeight());
+        canvas.drawImage(img, rf, new RectF(0), angle, 0xffffffff, new PointF(0));
+        canvas.flush();
+        endPaint();
+    }
+};
+
+
+
+int main(String [] args){
+    GraphicsWindow win = new GraphicsWindow();
+    win.create();
+    Window.Loop();
+    return 0;
+}

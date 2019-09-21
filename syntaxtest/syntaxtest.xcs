@@ -1,0 +1,71 @@
+//xlang
+package System{
+    class out{
+        static int println(String text)
+        {
+            return _system_.consoleWrite(text + "\n");
+        }
+        static int print(String text)
+        {
+            return _system_.consoleWrite(text);
+        }
+    };
+
+    class Console{
+        Console()
+        {
+            _system_.createConsole();
+        }
+    };
+};
+
+
+class Ic{
+    static class OC<_T>{
+        _T t;
+        OC(_T y){
+            t = y;
+        }
+        _T fg(){
+            return t;
+        }
+        OC<_T> f(){
+            return this;
+        }
+        static OC<_T> c(_T s){
+            return new Ic.OC<_T>(s);
+        }
+    };
+    Ic fo(){
+        return this;
+    }
+};
+
+using { System; };
+
+class KL{
+  Ic[]   s = new Ic[2];
+  KL(){
+      s[0] = new Ic();
+  }
+  Ic[] g(){
+      return s;
+  }
+};
+
+Ic getic(){
+    return new Ic();
+}
+
+int main(String []  args)
+{
+    new Console();
+
+    KL a = new KL();
+    // 
+    System.out.println("hello world: res = " + (a.g()[0].fo()).OC<(getic()).OC<long>>.c(new (getic()).OC<long>(8 * 1.2e2)).f().fg().fg());
+
+    Thread.sleep(3000);
+
+    return 0;
+}

@@ -1,0 +1,68 @@
+
+int testTimer(TimerTask s){
+    Timer t = new Timer();
+    t.schedule(s, 100, 3);
+    return 0;
+}
+
+int test(){
+    int count = 0;
+    TimerTask s = new TimerTask(){
+        void run(){
+            _system_.consoleWrite("trigger " + ++count + "\n");
+        }
+        
+        void finalize(){
+            //testTimer(this);
+            _system_.consoleWrite("task finalized\n");
+            
+        }
+        
+    };
+    
+    testTimer(s);
+    
+    Thread.sleep(2000);
+    return 0;
+}
+
+
+int retime(){
+    
+    int time1_c = 0;
+    Timer t = new Timer();
+    
+    t.schedule(new TimerTask(){
+        void run(){
+            _system_.consoleWrite("trigger task 1 " + ++time1_c + "\n");
+            t.cancel();
+            int time2_c = 0;
+            t.schedule(new TimerTask(){
+                void run(){
+                    _system_.consoleWrite("trigger task 2 " + ++time2_c + "\n");
+                }
+                
+                void finalize(){
+                    _system_.consoleWrite("task1 finalized\n");
+                }
+                
+            }, 1000, 3);
+        }
+        
+        void finalize(){
+            _system_.consoleWrite("task2 finalized\n");
+        }
+        
+    }, 1000, 3);
+    return 0;
+}
+
+int main(String [] args){
+    _system_.createConsole();
+    
+    retime();
+    test();
+    Thread.sleep(5000);
+    return 0;
+}
+

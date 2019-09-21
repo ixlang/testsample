@@ -1,0 +1,536 @@
+
+
+class VUObject : VLBase {
+	String m_szText = "";
+	String m_lfName = "";
+	long   m_textColor = 0;
+	int    m_textSize = 0;
+	bool m_bBold = false;
+	bool m_bItialic = false;
+	double  m_widthLimit = 0;
+	int 	m_lfType = 0;
+	int 	m_generateStyle = 0;
+    
+	void SetItalic(bool bItalic)
+	{
+		m_bItialic = bItalic;
+	}
+	void SetBold(bool bBold)
+	{
+		m_bBold = bBold;
+	}	
+
+	void SetTextProperities(String szText,String lfName,int lfType,int generateStyle,bool bBold,bool bItalic,long color,int nTextSize,double widthLimit)
+	{
+		m_bBold = bBold;
+		m_lfType = lfType;
+		m_generateStyle = generateStyle;
+		m_bItialic = bItalic;
+		m_szText = szText;
+		m_lfName = lfName;
+		m_textColor = color;
+		m_textSize = nTextSize;
+		m_widthLimit = widthLimit;
+	}
+	
+	VUObject(VUScenes scenes)
+	{
+		_v = AllocObjectFromScenes(scenes._v);
+	}
+	VUObject(VUPlatformContext device)
+	{
+		_v = AllocObjectFromDevice(device._v);
+	}	
+	VUObject(long v) {
+		_v = v;
+	}
+	double GetAngleOf(VUObject pObject)
+	{
+		return GetAngleOf__JJ(_v,pObject._v);
+	}
+	double GetAngleOf(double x,double y)
+	{
+		return GetAngleOf__JFF(_v,x,y);
+	}
+	double GetManhattanDistanceOf(VUObject pObject) 
+	{
+		return GetManhattanDistanceOf__JJ(_v,pObject._v);
+	}
+
+	double GetManhattanDistanceOf(double x,double y)
+	{
+		return GetManhattanDistanceOf__JFF(_v,x,y);
+	}
+	void SetCurrentFrame(long nFrame)
+	{
+		SetCurrentFrame(_v,nFrame);
+	}
+	VLSize GetObjectSize() 
+	{
+		return new VLSize(GetObjectSize(_v));
+	}
+	VLPoint GetObjectPoint() 
+	{
+		return new VLPoint(GetObjectPoint(_v));
+	}
+	void SetObjectPoint(double x,double y) 
+	{
+		
+		SetObjectPoint(_v,x,y);
+	}
+	void SetObjectSize(double cx,double cy) 
+	{
+		SetObjectSize(_v,cx,cy);
+	}
+	bool SetTextAlign(long nAlign) 
+	{
+		return OBSetTextAlign(_v,nAlign);
+	}
+	bool GetTextAlign() 
+	{
+		return OBGetTextAlign(_v);
+	}
+	void SetSingleLine(bool bSingleLine) 
+	{
+		SetSingleLine(_v,bSingleLine);
+	}
+	bool GetSingleLine() 
+	{
+		return GetSingleLine(_v);
+	}
+	long GetTextSize() 
+	{
+		return m_textSize;
+		//return GetTextSize(_v);
+	}
+	long GetAnimationObject() 
+	{
+		return GetAnimationObject(_v);
+	}
+	VLSize GetTextRect() 
+	{
+		return new VLSize(GetTextRect(_v));
+	}
+	bool SetAutoTextRect(bool bAuto) 
+	{
+		return SetAutoTextRect(_v,bAuto);
+	}
+	bool GetAutoTextRect() 
+	{
+		return GetAutoTextRect(_v);
+	}
+	void SetTextRect(VLSize rcSize) 
+	{
+		SetTextRect(_v,rcSize._v);
+	}
+	bool TranslateMessage(long pScenes,VLMsg pMsg) 
+	{
+		return OBTranslateMessage(_v,pScenes,pMsg._v);
+	}
+	bool bOffsetOK() 
+	{
+		return bOffsetOK(_v);
+	}
+	VLSize GetSize() 
+	{
+		return new VLSize(GetSize(_v));
+	}
+	VLPoint GetImagePoint() 
+	{
+		return new VLPoint(GetImagePoint(_v));
+	}
+	void SetTextSize(long sz) 
+	{
+		SetTextSize(_v,sz);
+	}
+	void SetText(String strText) 
+	{
+		SetText__JL_lang_String_2(_v,strText);
+	}
+	void SetImageRotation(double fRotation,VLPoint ptCenter) 
+	{
+		SetImageRotation(_v,fRotation,ptCenter._v);
+	}
+	void SetImageRotation(double fRotation) 
+	{
+		SetImageRotation(_v,fRotation,0);
+	}	
+	void SetTextRotation(double fRotation) 
+	{
+		SetImageRotation(_v,fRotation,0);
+		//SetTextRotation(_v,fRotation,0);
+	}		
+	double GetImageRotation(VLPoint  ptCenter ) 
+	{
+		return GetImageRotation(_v,ptCenter._v);
+	}
+	VLPoint GetImageRotationPoint() 
+	{
+		return new VLPoint(GetImageRotationPoint(_v));
+	}
+	void SetTextRotation(double fRotation,VLPoint  ptCenter ) 
+	{
+		//SetTextRotation(_v,fRotation,ptCenter._v);
+		SetImageRotation(_v,fRotation,ptCenter._v);
+	}
+	double GetTextRotation(VLPoint  ptCenter ) 
+	{
+		return GetImageRotation(_v,ptCenter._v);
+		//return GetTextRotation(_v,ptCenter._v);
+	}
+	VLPoint GetTextRotationPoint() 
+	{
+		return new VLPoint(GetImageRotationPoint(_v));
+		//return new VLPoint(GetTextRotationPoint(_v));
+	}
+	void SetOffsetParam(OffsetParam pParam) 
+	{
+		SetOffsetParam(_v,pParam._v);
+	}
+	OffsetParam GetOffsetParam()
+	{
+		return new OffsetParam(GetOffsetParam(_v));
+	}
+	
+	/*bool UpdateTextTexture(Context context,VLPoint pt)
+	{
+		if (m_textSize == 0)
+		{
+			m_textSize = 12;
+		}
+		if (m_textColor == 0)
+		{
+			m_textColor = 0xff000000;
+		}
+		CLSize size = new CLSize();
+		int [] buffer = VUPlatformContext.generateTextBuffer(context,m_szText, m_lfName,m_lfType,m_generateStyle,this.m_bBold,this.m_bItialic, m_textColor, m_textSize,m_widthLimit,size);
+		if (buffer == nilptr)
+		{
+			return false;
+		}
+		return SetImage(_v,buffer,size.cx,size.cy,VUScenes.VT_PIXELS32_ARGB8888,pt._v,0,0xFF);		
+	}*/
+	
+	bool SetText(String strText,VLPoint pt,double widthLimit, bool bSingle, String lfName,int lfType,int generateStyle, long nColor, int nSize) 
+	{
+		/*this.SetTextProperities(strText, lfName,lfType, generateStyle, m_bBold,this.m_bItialic, nColor,nSize,widthLimit);
+		return UpdateTextTexture(context,pt);*/
+        
+		return SetText__JL_lang_String_lang_String(_v,strText,pt._v,new VLSize()._v,bSingle,lfName,nColor,nSize);
+	}
+	bool SetFont(String  lfName, int lfType,int generateStyle,long nColor, long nHeight, long nWidth , long nWeight , bool bItalic, long CharSet, VLRect  pRect ) 
+	{
+		return SetFont(_v,lfName,nColor,nHeight,nWidth,nWeight,bItalic,CharSet,pRect._v);
+	}
+	bool SetFontColor(long nColor) 
+	{
+		return SetFontColor(_v, nColor);
+	}
+	VLSize GetImageSize() 
+	{
+		return new VLSize(OBGetImageSize(_v));
+	}
+	bool SetImage(String strFileName, VLPoint pt , VLSize Size , long Trans) 
+	{
+		return SetImage_lang_String_2JJJ(_v,strFileName,pt._v,Size._v,Trans);
+	}
+	bool SetImage(long hGdiObject, VLPoint pt , VLSize Size , long Trans) 
+	{
+		return SetImage__JJJJJ(_v,hGdiObject,pt._v,Size._v,Trans);
+	}
+	bool SetImage(long hModule,String ReSourceName ,long ResourceId, VLPoint pt , VLSize Size , long Trans ) 
+	{
+		return SetImage__lang_String_2JJJJ(_v,hModule,ReSourceName,ResourceId,pt._v,Size._v,Trans);
+	}
+	bool SetImageLink(VUObject  pImageLink,VLPoint ScrPT,VLSize nScrSize,VLPoint pt,VLSize  nSize) 
+	{
+		return SetImageLink(_v,pImageLink._v,ScrPT._v,nScrSize._v,pt._v,nSize._v);
+	}
+	bool SetImage(long lpData,long nSize, VLPoint pt , VLSize Size , long Trans) 
+	{
+		return SetImage__JJJJJJ(_v,lpData,nSize,pt._v,Size._v,Trans);
+	}
+	bool SetImage(int[] pixels,int width,int height,int nFormat, VLPoint pt , VLSize Size , long Trans) 
+	{
+		return SetImage__J_3IJJJJJJ(_v,pixels, pixels.length,width,height,nFormat,pt._v,Size._v,Trans);
+	}	
+	void SetTransparent(long nTrans) 
+	{
+		SetTransparent(_v,nTrans);
+	}
+	long GetTransparent() 
+	{
+		return GetTransparent(_v);
+	}
+	void SetTextTransparent(long nTrans) 
+	{
+		SetTransparent(_v,nTrans);
+		//SetTextTransparent(_v,nTrans);
+	}
+	long GetTextTransparent() 
+	{
+		return GetTransparent(_v);
+		//return GetTextTransparent(_v); 
+	}
+	void SetImageSize(double cx,double cy) 
+	{
+		SetImageSize(_v,cx,cy);
+	}
+	void SetImagePoint(double x,double y) 
+	{
+		SetImagePoint(_v,x,y); 
+	}
+	void SetDestSize(double cx,double cy) 
+	{
+		SetDestSize(_v,cx,cy);
+	}
+	void SetDestPoint(double x,double y) 
+	{
+		SetDestPoint(_v,x,y);
+	}
+	void SetTextPoint(double x,double y) 
+	{
+		SetObjectPoint(_v,x,y);
+		//SetTextPoint(_v,x,y); 
+	}
+	void SetDestTxtPoint(double x,double y) 
+	{
+		SetDestTxtPoint(_v,x,y);
+	}
+	void SetDestTxtSize(long ch) 
+	{
+		SetDestTxtPoint(_v,ch);
+	}
+	bool GetAnimationPause() 
+	{
+		return GetAnimationPause(_v);
+	}
+	bool SetAnimationPause(bool bPuase) 
+	{
+		return SetAnimationPause(_v,bPuase);
+	}
+	VLPoint GetTextPoint() 
+	{
+		return new VLPoint(GetTextPoint(_v));
+	}
+	long InScenesRef() 
+	{
+		return InScenesRef(_v);
+	}
+	bool HasImage() 
+	{
+		return HasImage(_v);
+	}
+	bool HasText() 
+	{
+		return HasText(_v);
+	}
+	bool HasLink() 
+	{
+		return HasLink(_v);
+	}
+	bool SetVisible(bool bVisble) 
+	{
+		return SetVisible(_v,bVisble);
+	}
+	bool GetVisible() 
+	{
+		return GetVisible(_v);
+	}
+	long HasAnimation() 
+	{
+		return  HasAnimation(_v);
+	}
+	bool IsLinkFrom(VUObject  pObject) 
+	{
+		return IsLinkFrom(_v,pObject._v);
+	}
+	long GetImage() 
+	{
+		return GetImage(_v);
+	}
+	VLRect GetAllLinkRect() 
+	{
+		return new VLRect(GetAllLinkRect(_v));
+	}
+	long  RemoveFrame(int nFrame) 
+	{
+		return RemoveFrame__JI(_v,nFrame);
+	}
+	bool RemoveFrame(VUObject pFrame) 
+	{
+		return RemoveFrame__JJ(_v,pFrame._v);
+	}
+	VLRect GetObjectRect() 
+	{
+		return new VLRect(GetObjectRect(_v));
+	}
+	VUObject  GetFrameObject(long nFrame) 
+	{
+		return new VUObject(GetFrameObject(_v,nFrame));
+	}
+	long GetObjectFrame(VUObject pFrame) 
+	{
+		return GetObjectFrame(_v,pFrame._v);
+	}
+	long AddFrame(VUObject pFrame, long nBefore)
+	{
+		return AddFrame__JJJ(_v,pFrame._v,nBefore);
+	}
+	VUObject  AddFrame(String szFileName, VLPoint  pt , VLSize  pSize , long Trans) 
+	{
+		return new VUObject(AddFrame_lang_String_2JJJ(_v,szFileName,pt._v,pSize._v,Trans));
+	}
+	VUObject  AddFrame(long hModule,String strResourceName,long nCID, VLPoint  pt , VLSize  pSize , long Trans) 
+	{
+		return new VUObject(AddFrame_lang_String_2JJJJ(_v,hModule,strResourceName,nCID,pt._v,pSize._v,Trans));
+	}
+	VUObject  AddFrame(VUObject  IImageLink,VLPoint ScrPT,VLSize nScrSize, VLPoint pt , VLSize  pSize , long Trans)
+	{
+		return new VUObject(AddFrame__JJJJJJJ(_v,IImageLink._v,ScrPT._v,nScrSize._v,pt._v,pSize._v,Trans));
+	}
+	long GetCurrentFrame() 
+	{
+		return GetCurrentFrame(_v);
+	}
+	long GotoFrame(long nFrame) 
+	{
+		return GotoFrame(_v,nFrame);
+	}
+	bool NextFrame() 
+	{
+		return NextFrame(_v);
+	}
+	VUObject GetCurrentFrameObject() 
+	{
+		return new VUObject(GetCurrentFrameObject(_v));
+	}
+	bool SetFrameTime(long nFrames) 
+	{
+		return SetFrameTime(_v,nFrames);
+	}
+	long GetFrameTime() 
+	{
+		return GetFrameTime(_v);
+	}
+	long GetFrameCount() 
+	{
+		return GetFrameCount(_v);
+	}
+	bool SetScenes(VUScenes pScenes) 
+	{
+		return SetScenes(_v,pScenes._v);
+	}
+	bool SetHitTest(long uFlags) 
+	{
+		return SetHitTest(_v,uFlags);
+	}
+	bool ResetHit() 
+	{
+		return ResetHit(_v);
+	}
+	long GetHitTest() 
+	{
+		return GetHitTest(_v);
+	}
+	void SetTag(long lpTag) 
+	{
+		SetTag(_v,lpTag);
+	}
+	long GetTag() 
+	{
+		return GetTag(_v);
+	}
+	String GetText() 
+	{
+		return m_szText;
+		//return GetText(_v);
+	}
+	String GetFontName() 
+	{
+		return m_lfName;
+		//return GetFontName(_v);
+	}
+	long GetFontColor() 
+	{
+		return m_textColor;
+		//return GetFontColor(_v);
+	}
+/*	VLEvent GetEventHandler() 
+	{
+		return new VLEvent(GetEventHandler(_v));
+	}
+	void SetEventHandler(VLEvent pEvent) 
+	{
+		SetEventHandler(_v,pEvent._v);
+	}*/
+	bool ClearHitTestFlags() 
+	{
+		return ClearHitTestFlags(_v);
+	}
+	bool RemoveHitTestFlags(long uFlags) 
+	{
+		return RemoveHitTestFlags(_v,uFlags);
+	}
+	bool SetHitTestFlags(long uFlags) 
+	{
+		return SetHitTestFlags(_v,uFlags);
+	}
+	bool ClearHitTest() 
+	{
+		return ClearHitTest(_v);
+	}
+	bool RemoveHitTest(long uFlags) 
+	{
+		return RemoveHitTest(_v,uFlags);
+	}
+	bool HasHitTestFlags(long uFlags) 
+	{
+		return HasHitTestFlags(_v,uFlags);
+	}
+	long GetTextObject() 
+	{
+		return GetTextObject(_v);
+	}
+	bool TextSingle() 
+	{
+		return TextSingle(_v);
+	}
+	void SetLinkInfo(VLPoint  pt,VLSize  nSize)
+	{
+		SetLinkInfo(_v,pt._v,nSize._v);
+	}
+	VLPoint GetLinkInfo() 
+	{
+		return new VLPoint(GetLinkInfo(_v));
+	}
+	VLSize GetLinkSize() 
+	{
+		return new VLSize(GetLinkSize(_v));
+	}
+	void Release()
+	{
+		if (_v != 0)
+		{
+			DeallocObject(_v);
+			_v = 0;
+		}
+	}
+	long GetTextColor()
+	{
+		return m_textColor;
+		//return GetTextColor(_v);
+	}
+	void ClearAction(int flags){
+		ClearAction(_v,flags);
+	}
+	void EnableAction(int flags,bool bEnable){
+		EnableAction(_v,flags,bEnable);
+	}
+	void SetActionFrequency(int flags,double fFrequency){
+		SetActionFrequency(_v,flags,fFrequency);
+	}		
+	bool HitTest(double x,double y){
+		return HitTest(_v,x,y);
+	}
+};

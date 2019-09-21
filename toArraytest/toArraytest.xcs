@@ -1,0 +1,84 @@
+//xlang 
+package System{
+	class out{
+		static int println(String text){
+			return _system_.consoleWrite(text + "\n");
+		}
+		static int print(String text){
+			return _system_.consoleWrite(text);
+		}
+	};
+	
+	class Console{
+		Console(){
+			_system_.createConsole();
+		}
+	};
+};
+
+
+using { System; };
+
+void test1(){
+	Vector<int[]> m_vector = new Vector<int[]>();
+    for (int i =0; i < 100; i ++){
+		m_vector.add(new int[i]);
+    }
+    int [][] ai = m_vector.toArray(new int[0][0]);
+}
+
+
+void test2(){
+	Vector<int> m_vector = new Vector<int>();
+    for (int i =0; i < 100; i ++){
+		m_vector.add(i);
+    }
+    int [] ai = m_vector.toArray(new int[0]);
+}
+
+
+void test3(){
+	Vector<String> m_vector = new Vector<String>();
+    for (int i =0; i < 100; i ++){
+		m_vector.add("" + i);
+    }
+    String[] ai = m_vector.toArray(new String[0]);
+}
+
+void testl1(){
+	List<int[]> m_vector = new List<int[]>();
+    for (int i =0; i < 100; i ++){
+		m_vector.add(new int[i]);
+    }
+    int [][] ai = m_vector.toArray(new int[0][0]);
+}
+
+
+void testl2(){
+	List<int> m_vector = new List<int>();
+    for (int i =0; i < 100; i ++){
+		m_vector.add(i);
+    }
+    int [] ai = m_vector.toArray(new int[0]);
+}
+
+
+void testl3(){
+	List<String> m_vector = new List<String>();
+    for (int i =0; i < 100; i ++){
+		m_vector.add("" + i);
+    }
+    String[] ai = m_vector.toArray(new String[0]);
+}
+
+int main(String [] args){
+	new Console();
+	test1();
+    test2();
+    test3();
+    testl1();
+    testl2();
+    testl3();
+	System.out.println("hello world");
+	return 0;
+}

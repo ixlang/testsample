@@ -1,0 +1,79 @@
+class pg{
+    int _pv = 1;
+    pg(int p){
+        this._pv = p;
+    }
+    pg(){
+    }
+    int addpv(int v){
+        return _pv + v;
+    }
+    
+    class glob{
+        int _pv = 2;
+        glob(int p){
+            this._pv = p;
+        }
+        glob(){
+        }
+        int addpv(int v){
+            return pg.this.addpv(this._pv + v);
+        }
+        class tclass{
+            int h;
+            int get(){
+                return h;
+            }
+        };
+
+
+
+        class eclass : tclass{
+            int _pv = 3;
+            
+            int addpv(int v){
+                return glob.this.addpv(this._pv + v);
+            }
+            eclass(){
+            }
+            eclass(int p){
+                this._pv = p;
+            }
+            int getp(){
+                eclass b = new eclass(1);
+                b.h = 90;
+                return b.get();
+            }
+            int get(){
+                return super.get();
+            }
+            
+            int pv(){
+                return this._pv + glob.this._pv + pg.this._pv;
+            }
+            
+            int alladd(int v){
+                return pg.this.addpv(glob.this.addpv(this.addpv(v)));
+            }
+        };
+    };
+};
+
+int main(String [] args){
+
+	_system_.createConsole();
+    pg _pg = new pg();
+    pg.glob g = new _pg.glob();
+    pg.glob.eclass s = new g.eclass();
+    s.h = 89;
+    _system_.consoleWrite("pv() = " + s.pv() + ", getp() = " + s.getp() + ", alladd(5) = " + s.alladd(5) + "\n");
+    
+    _pg = new pg(2);
+    g = new _pg.glob(3);
+    s = new g.eclass(4);
+    s.h = 89;
+    _system_.consoleWrite("pv() = " + s.pv() + ", getp() = " + s.getp() + ", alladd(5) = " + s.alladd(5) + "\n");
+   
+	Thread.sleep(-1);
+    return 0;
+}

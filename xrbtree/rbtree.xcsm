@@ -1,0 +1,902 @@
+//xlang Source, Name:rbtree.xcsm 
+//Date: Thu Sep 21:28:18 2018 
+
+/*##########################################################################
+by cadaqs ,2013
+cadaqs standard template library
+module rbtree
+
+You can use the following form to contact me
+
+Contact:
+
+·E_mail:cadaqs@vsylab.com
+　　　 　3.vc@163.com
+	 　　　 　3.vb@163.com
+		  　　　 　3.asm@163.com
+
+			   ·ICQ:217085955
+
+			   ·MSN:dxmier@hotmail.com
+			   ##########################################################################*/
+
+
+
+
+	class carbtree <_Type, _KeyType>{
+
+		static const int  RB_PROPERTY_RED = 0;
+		static const int RB_PROPERTY_BLACK = 1;
+
+		class _Node <_NodeType>{
+
+			_Node(){
+
+			}
+
+			_Node(_NodeType _obj, int _color){
+				_nColor = _color;
+				_Var = _obj;
+
+				
+			}
+
+			void _destroyall(carbtree<_Type, _KeyType> _pTree) {
+				if (_pRight != nilptr) {
+					_pRight._destroyall(_pTree);
+					_pTree.dellocNodeRecursion(_pRight);
+					_pRight = nilptr;
+				}
+				if (_pLeft != nilptr) {
+					_pLeft._destroyall(_pTree);
+					_pTree.dellocNodeRecursion(_pLeft);
+					_pLeft = nilptr;
+				}
+			}
+			int depth() {
+				int  iRightDepth = (_pRight != nilptr) ? _pRight.depth() : 0;
+				int  iLeftDepth = (_pLeft != nilptr) ? _pLeft.depth() : 0;
+				return((iRightDepth > iLeftDepth) ? (iRightDepth + 1) : (iLeftDepth + 1));
+			}
+			_Node<_NodeType>  minimum() {
+				_Node<_NodeType> _pMin = this;
+				while (nilptr != _pMin._pLeft) {
+					_pMin = _pMin._pLeft;
+				}
+				return _pMin;
+			}
+			_Node<_NodeType>  maximum() {
+				_Node<_NodeType> _pMax = this;
+				while (nilptr != _pMax._pRight) {
+					_pMax = _pMax._pRight;
+				}
+				return _pMax;
+			}
+			void replace(_NodeType _Var) {
+				this._Var = _Var;
+			}
+			_Node<_NodeType> rbnode_successor(_Node<_NodeType> _pNode) {
+				_Node<_NodeType> _Succ = nilptr;
+				if (_pRight != nilptr) {
+					_Succ = _pRight;
+					while (_Succ._pLeft != nilptr) {
+						_Succ = _Succ._pLeft;
+					}
+				}
+				else {
+					_Node<_NodeType>  _Prev = this;
+					_Succ = _pParent;
+					while (_Succ != nilptr && _Prev == _Succ._pRight) {
+						_Prev = _Succ;
+						_Succ = _Succ._pParent;
+					}
+				}
+				return(_Succ);
+			}
+
+			_Node<_NodeType>  rbnode_predecessor() {
+				_Node<_NodeType>  _Pred;
+				if (_pLeft != nilptr) {
+					_Pred = _pLeft;
+					while (_Pred._pRight != nilptr) {
+						_Pred = _Pred._pRight;
+					}
+				}
+				else {
+					_Node<_NodeType>  _Prev = this;
+					_Pred = _pParent;
+					while (_Pred != nilptr && _Prev == _Pred._pLeft) {
+						_Prev = _Pred;
+						_Pred = _Pred._pParent;
+					}
+				}
+				return(_Pred);
+			}
+			/*void _traverse(Op  op) {
+				_pLeft._traverse(op);
+				op(_Var);
+				_pRight._traverse(op);
+			}*/
+
+			void copyNodeTree(carbtree<_Type, _KeyType>  pTree, _Node<_NodeType> _node) {
+				_Var = _node._Var;
+				_nColor = _node._nColor;
+				if (_node._pRight != nilptr) {
+					_pRight = pTree.AllocNode(new _NodeType(), 0);
+					_pRight._pParent = this;
+					_pRight.copyNodeTree(pTree, _node._pRight);
+				}
+				if (_node._pLeft != nilptr) {
+					_pLeft = pTree.AllocNode(new _NodeType(), 0);
+					_pLeft._pParent = this;
+					_pLeft.copyNodeTree(pTree, _node._pLeft);
+				}
+			}
+			bool compareNodeTree(_Node<_NodeType> _node) {
+				//bool  bcompared = false;
+				if (_Var != _node._Var) {
+					return false;
+				}
+
+				if (_nColor != _node._nColor) {
+					return false;
+				}
+				if (_node._pRight  != nilptr && _pRight != nilptr) {
+					if (_pRight.compareNodeTree(_node._pRight) == false) {
+						return false;
+					}
+				}
+				else
+				if (!(nilptr == _node._pRight && nilptr == _pRight)) {
+					return false;
+				}
+
+				if (_node._pLeft  != nilptr&& _pLeft != nilptr) {
+					if (_pLeft.compareNodeTree(_node._pLeft) == false) {
+						return false;
+					}
+				}
+				else
+				if (!(nilptr == _node._pLeft && nilptr == _pLeft)) {
+					return false;
+				}
+				return true;
+			}
+
+			int _nColor;
+			_Node<_NodeType>        _pParent;
+			_Node<_NodeType>        _pLeft;
+			_Node<_NodeType>       _pRight;
+			_NodeType            _Var;
+		};
+
+
+		int		_treesize;
+		_Node<_Type>  _treeroot;
+
+
+		carbtree() {
+		}
+
+		carbtree(carbtree<_Type, _KeyType> _Copy) {
+			copyFrom(_Copy);
+		}
+
+		/*void swap(carbtree _Contain){
+			castl::caswap(_treeroot, _Contain._treeroot);
+			castl::caswap(_treesize, _Contain._treesize);
+		}*/
+		void copyFrom(carbtree<_Type, _KeyType> _Copy) {
+			clear();
+			if (_Copy.size() != 0){
+				_treeroot = AllocNode(new _Type(), 0);
+				_treeroot.copyNodeTree(this, _Copy._treeroot);
+				_treesize = _Copy._treesize;
+			}
+		}
+		 bool compareTree(carbtree<_Type, _KeyType> _Copy) {
+			if (_treesize != _Copy._treesize) {
+				return false;
+			}
+			if (_treeroot  != nilptr && _Copy._treeroot != nilptr) {
+				return _treeroot.compareNodeTree(_Copy._treeroot);
+			}
+			else
+			if (!(nilptr == _treeroot && nilptr == _Copy._treeroot)) {
+				return false;
+			}
+			return true;
+		}
+	
+		_Node<_Type> AllocNode(_Type _Var, int _nColor) {
+			
+			return new _Node<_Type>(_Var, _nColor);
+		}
+		void dellocNode(_Node<_Type>  _pNode) {
+		}
+		 void dellocNodeRecursion(_Node<_Type>  _pNode) {
+			_pNode._destroyall(this);
+			dellocNode(_pNode);
+		}
+
+		_Node<_Type>  duplicatenode(_Node<_Type> _pNode) {
+			_Node<_Type> _NewNode = AllocNode(_pNode._Var, _pNode._nColor);
+			if (nilptr == _NewNode) {
+				return nilptr;
+			}
+
+			if (_pNode._pRight != nilptr) {
+				_NewNode._pRight = duplicatenode(_pNode._pRight);
+				_NewNode._pRight._pParent = _NewNode;
+			}
+			else {
+				_NewNode._pRight = nilptr;
+			}
+
+			if (_pNode._pLeft != nilptr) {
+				_NewNode._pLeft = duplicatenode(_pNode._pLeft);
+				_NewNode._pLeft._pParent = _NewNode;
+			}
+			else {
+				_NewNode._pLeft = nilptr;
+			}
+
+			return _NewNode;
+		}
+
+		_Node<_Type> insert_successor_at(_Node<_Type> _Where, _Type _Var) {
+			_Node<_Type> _pParent , _NewNode ;
+			if (_treeroot == nilptr) {
+				_NewNode = AllocNode(_Var, RB_PROPERTY_BLACK);
+				if (_NewNode == nilptr) {
+					return nilptr;
+				}
+				_treeroot = _NewNode;
+				_treesize = 1;
+				return _NewNode;
+			}
+			_NewNode = AllocNode(_Var, RB_PROPERTY_RED);
+			if (_NewNode == nilptr) {
+				return nilptr;
+			}
+			if (_Where == nilptr) {
+				_pParent = _treeroot.minimum();
+				_pParent._pLeft = _NewNode;
+			}
+			else {
+				if (_Where._pRight == nilptr) {
+					_pParent = _Where;
+					_pParent._pRight = _NewNode;
+				}
+				else {
+					_pParent = _Where._pRight.minimum();
+					_pParent._pLeft = _NewNode;
+				}
+			}
+			_NewNode._pParent = _pParent;
+			_treesize++;
+			insert_fixup(_NewNode);
+			return _NewNode;
+		}
+
+		_Node<_Type> insert_predecessor_at(_Node<_Type> _Where, _Type _Var) {
+			_Node<_Type> _pParent,_NewNode;
+
+			if (nilptr == _treeroot) {
+				_NewNode = AllocNode(_Var, RB_PROPERTY_BLACK);
+				if (nilptr == _NewNode) {
+					return nilptr;
+				}
+				_treeroot = _NewNode;
+				_treesize = 1;
+				return _NewNode;
+			}
+
+			_NewNode = AllocNode(_Var, RB_PROPERTY_RED);
+
+			if (nilptr == _NewNode){
+				return nilptr;
+			}
+			if (nilptr == _Where) {
+				_pParent = _treeroot.maximum();
+				_pParent._pRight = _NewNode;
+			}
+			else {
+				if (nilptr == (_Where._pLeft)) {
+					_pParent = _Where;
+					_pParent._pLeft = _NewNode;
+				}
+				else {
+					_pParent = _Where._pLeft.maximum();
+					_pParent._pRight = _NewNode;
+				}
+			}
+
+			_NewNode._pParent = _pParent;
+			_treesize++;
+			insert_fixup(_NewNode);
+			return _NewNode;
+		}
+
+		void remove_at(_Node<_Type> _Where) {
+			_Node<_Type> child = nilptr;
+			if (_treesize == 1) {
+				dellocNodeRecursion(_treeroot);
+				_treeroot = nilptr;
+				_treesize = 0;
+				return;
+			}
+			if (_Where._pLeft != nilptr && _Where._pRight != nilptr) {
+				_Node<_Type> _Succ = _Where._pRight.minimum();
+				bool immediate_succ = (_Where._pRight == _Succ);
+				_Node<_Type> _SucParent = _Succ._pParent;
+				_Node<_Type> _SucLeft = _Succ._pLeft;
+				_Node<_Type> _SucRight = _Succ._pRight;
+				int succ_color = _Succ._nColor;
+				_Succ._pParent = _Where._pParent;
+				_Succ._pLeft = _Where._pLeft;
+				_Succ._pRight = immediate_succ ? _Where : _Where._pRight;
+				_Succ._nColor = _Where._nColor;
+				_Where._pParent = immediate_succ ? _Succ : _SucParent;
+				_Where._pLeft = _SucLeft;
+				_Where._pRight = _SucRight;
+				_Where._nColor = succ_color;
+				if (!immediate_succ) {
+					if (_Succ == _Where._pParent._pLeft)
+						_Where._pParent._pLeft = _Where;
+					else
+						_Where._pParent._pRight = _Where;
+				}
+				if (_Where._pLeft != nilptr)
+					_Where._pLeft._pParent = _Where;
+				if (_Where._pRight!= nilptr)
+					_Where._pRight._pParent = _Where;
+				if (_Succ._pParent!= nilptr) {
+					if (_Where == _Succ._pParent._pLeft)
+						_Succ._pParent._pLeft = _Succ;
+					else
+						_Succ._pParent._pRight = _Succ;
+				}
+				else {
+					_treeroot = _Succ;
+				}
+				if (_Succ._pLeft!= nilptr)
+					_Succ._pLeft._pParent = _Succ;
+				if (_Succ._pRight!= nilptr)
+					_Succ._pRight._pParent = _Succ;
+			}
+			child = (_Where._pLeft!= nilptr) ? _Where._pLeft : _Where._pRight;
+			if (child != nilptr)
+				child._pParent = _Where._pParent;
+
+			if (nilptr == (_Where._pParent)) {
+				_treeroot = child;
+			}
+			else {
+				if (_Where == _Where._pParent._pLeft) {
+					_Where._pParent._pLeft = child;
+				}
+				else {
+					_Where._pParent._pRight = child;
+				}
+			}
+			if (_Where._nColor == RB_PROPERTY_BLACK && child!= nilptr)
+				remove_fixup(child);
+			_Where._pLeft = nilptr;
+			_Where._pRight = nilptr;
+			dellocNode(_Where);
+			_treesize--;
+		}
+
+		void _rotateleft(_Node<_Type> _pNodeX) {
+			_Node<_Type> _pNodeY = _pNodeX._pRight;
+			_pNodeX._pRight = _pNodeY._pLeft;
+			if (_pNodeY._pLeft != nilptr)
+				_pNodeY._pLeft._pParent = _pNodeX;
+
+			_pNodeY._pParent = _pNodeX._pParent;
+			if (nilptr == (_pNodeX._pParent)) {
+				_treeroot = _pNodeY;
+			}
+			else {
+				if (_pNodeX == _pNodeX._pParent._pLeft) {
+					_pNodeX._pParent._pLeft = _pNodeY;
+				}
+				else {
+					_pNodeX._pParent._pRight = _pNodeY;
+				}
+			}
+			_pNodeY._pLeft = _pNodeX;
+			_pNodeX._pParent = _pNodeY;
+		}
+
+		void _rotateright(_Node<_Type> _pNodeY) {
+			_Node<_Type> _pNodeX = _pNodeY._pLeft;
+			_pNodeY._pLeft = _pNodeX._pRight;
+			if (_pNodeX._pRight != nilptr)
+				_pNodeX._pRight._pParent = _pNodeY;
+
+			_pNodeX._pParent = _pNodeY._pParent;
+			if (nilptr == (_pNodeY._pParent)) {
+				_treeroot = _pNodeX;
+			}
+			else {
+				if (_pNodeY == _pNodeY._pParent._pLeft) {
+					_pNodeY._pParent._pLeft = _pNodeX;
+				}
+				else {
+					_pNodeY._pParent._pRight = _pNodeX;
+				}
+			}
+			_pNodeX._pRight = _pNodeY;
+			_pNodeY._pParent = _pNodeX;
+		}
+
+		void insert_fixup(_Node<_Type> _pNode) {
+			_Node<_Type> _CurNode = _pNode,grandparent = nilptr;
+			_Node<_Type> _UncNode = nilptr;
+
+			while ((_CurNode != _treeroot) && (_CurNode._pParent._nColor == RB_PROPERTY_RED)) {
+				grandparent = _CurNode._pParent._pParent;
+
+				if (_CurNode._pParent == grandparent._pLeft) {
+					_UncNode = grandparent._pRight;
+					if (_UncNode != nilptr && _UncNode._nColor == RB_PROPERTY_RED) {
+						_CurNode._pParent._nColor = RB_PROPERTY_BLACK;
+						_UncNode._nColor = RB_PROPERTY_BLACK;
+						grandparent._nColor = RB_PROPERTY_RED;
+						_CurNode = grandparent;
+					}
+					else {
+						if (_CurNode == _CurNode._pParent._pRight) {
+							_CurNode = _CurNode._pParent;
+							_rotateleft(_CurNode);
+						}
+						_CurNode._pParent._nColor = RB_PROPERTY_BLACK;
+						grandparent._nColor = RB_PROPERTY_RED;
+						_rotateright(grandparent);
+					}
+				}
+				else {
+					_UncNode = grandparent._pLeft;
+					if (_UncNode!= nilptr && _UncNode._nColor == RB_PROPERTY_RED) {
+						_CurNode._pParent._nColor = RB_PROPERTY_BLACK;
+						_UncNode._nColor = RB_PROPERTY_BLACK;
+						grandparent._nColor = RB_PROPERTY_RED;
+
+						_CurNode = grandparent;
+					}
+					else {
+						if (_CurNode == _CurNode._pParent._pLeft) {
+							_CurNode = _CurNode._pParent;
+							_rotateright(_CurNode);
+						}
+						_CurNode._pParent._nColor = RB_PROPERTY_BLACK;
+						grandparent._nColor = RB_PROPERTY_RED;
+						_rotateleft(grandparent);
+					}
+				}
+			}
+			_treeroot._nColor = RB_PROPERTY_BLACK;
+		}
+
+		void remove_fixup(_Node<_Type> _pNode) {
+			_Node<_Type> _CurNode = _pNode;
+			_Node<_Type> _SibNode;
+			while (_CurNode != _treeroot && _CurNode._nColor == RB_PROPERTY_BLACK) {
+				if (_CurNode == _CurNode._pParent._pLeft) {
+					_SibNode = _CurNode._pParent._pRight;
+					if (_SibNode!= nilptr && _SibNode._nColor == RB_PROPERTY_RED) {
+						_SibNode._nColor = RB_PROPERTY_BLACK;
+						_CurNode._pParent._nColor = RB_PROPERTY_RED;
+						_rotateleft(_CurNode._pParent);
+						_SibNode = _CurNode._pParent._pRight;
+					}
+
+					if (_SibNode!= nilptr &&
+						(nilptr == (_SibNode._pLeft) || _SibNode._pLeft._nColor == RB_PROPERTY_BLACK) &&
+						(nilptr == (_SibNode._pRight) || _SibNode._pRight._nColor == RB_PROPERTY_BLACK)) {
+						_SibNode._nColor = RB_PROPERTY_RED;
+						if (_CurNode._pParent._nColor == RB_PROPERTY_RED) {
+							_CurNode._pParent._nColor = RB_PROPERTY_BLACK;
+							_CurNode = _treeroot;
+						}
+						else {
+							_CurNode = _CurNode._pParent;
+						}
+					}
+					else {
+						if (nilptr == _SibNode) {
+
+							if (_CurNode._pParent._nColor == RB_PROPERTY_RED) {
+								_CurNode._pParent._nColor = RB_PROPERTY_BLACK;
+								_CurNode = _treeroot;
+							}
+							else {
+								_CurNode = _CurNode._pParent;
+							}
+						}
+						else {
+							if (nilptr != _SibNode._pRight && _SibNode._pRight._nColor == RB_PROPERTY_RED) {
+
+
+								_SibNode._pRight._nColor = RB_PROPERTY_BLACK;
+								_rotateleft(_CurNode._pParent);
+							}
+							else {
+								_rotateright(_SibNode);
+								_SibNode = _CurNode._pParent._pRight;
+								_rotateleft(_SibNode);
+							}
+							if (nilptr != _CurNode._pParent._pParent)
+								_CurNode._pParent._pParent._nColor = _CurNode._pParent._nColor;
+							_CurNode._pParent._nColor = RB_PROPERTY_BLACK;
+							_CurNode = _treeroot;
+						}
+					}
+				}
+				else {
+					_SibNode = _CurNode._pParent._pLeft;
+					if (_SibNode != nilptr && _SibNode._nColor == RB_PROPERTY_RED) {
+						_SibNode._nColor = RB_PROPERTY_BLACK;
+						_CurNode._pParent._nColor = RB_PROPERTY_RED;
+						_rotateright(_CurNode._pParent);
+						_SibNode = _CurNode._pParent._pLeft;
+					}
+					if (_SibNode != nilptr &&
+						(nilptr ==(_SibNode._pLeft) || _SibNode._pLeft._nColor == RB_PROPERTY_BLACK) &&
+						(nilptr ==(_SibNode._pRight) || _SibNode._pRight._nColor == RB_PROPERTY_BLACK)) {
+						_SibNode._nColor = RB_PROPERTY_RED;
+						if (_CurNode._pParent._nColor == RB_PROPERTY_RED) {
+							_CurNode._pParent._nColor = RB_PROPERTY_BLACK;
+							_CurNode = _treeroot;
+						}
+						else {
+							_CurNode = _CurNode._pParent;
+						}
+					}
+					else {
+						if (nilptr ==_SibNode) {
+							if (_CurNode._pParent._nColor == RB_PROPERTY_RED) {
+								_CurNode._pParent._nColor = RB_PROPERTY_BLACK;
+								_CurNode = _treeroot;
+							}
+							else {
+								_CurNode = _CurNode._pParent;
+							}
+						}
+						else {
+							if (nilptr !=_SibNode._pLeft && _SibNode._pLeft._nColor == RB_PROPERTY_RED) {
+								_SibNode._pLeft._nColor = RB_PROPERTY_BLACK;
+								_rotateright(_CurNode._pParent);
+							}
+							else {
+
+								_rotateleft(_SibNode);
+								_SibNode = _CurNode._pParent._pLeft;
+								_rotateright(_SibNode);
+							}
+							if (nilptr !=_CurNode._pParent._pParent)
+								_CurNode._pParent._pParent._nColor = _CurNode._pParent._nColor;
+							_CurNode._pParent._nColor = RB_PROPERTY_BLACK;
+							_CurNode = _treeroot;
+						}
+					}
+				}
+			}
+			_CurNode._nColor = RB_PROPERTY_BLACK;
+		}
+
+		/*void _traverse(typename _Node<_Type>::Op op) {
+			_treeroot._traverse(op);
+		}*/
+
+		_Node<_Type> minimum() {
+			if (nilptr ==_treeroot){
+				return nilptr;
+			}
+			return _treeroot.minimum();
+		}
+
+		_Node<_Type> maximum() {
+			if (nilptr ==_treeroot){
+				return nilptr;
+			}
+			return _treeroot.maximum();
+		}
+
+		_Node<_Type> remove(_Type _Var) {
+			_Node<_Type> _pNode = find(_Var);
+			if (nilptr !=_pNode) {
+				remove_at(_pNode);
+			}
+			return _pNode;
+		}
+
+		/*_Node<_Type>  remove(_KeyType _Key) {
+			_Node<_Type> _pNode = find<_KeyType>(_Key);
+			if (_pNode) {
+				remove_at(_pNode);
+			}
+			return _pNode;
+		}*/
+		void remove(_Node<_Type> _Where) {
+			remove_at(_Where);
+		}
+		void clear() {
+			if (nilptr !=_treeroot) {
+				dellocNodeRecursion(_treeroot);
+				_treeroot = nilptr;
+			}
+			_treeroot = nilptr;
+			_treesize = 0;
+		}
+
+		int size() {
+			return _treesize;
+		}
+
+		int depth() {
+			if (nilptr ==_treeroot) {
+				return 0;
+			}
+			return _treeroot.depth();
+		}
+
+		bool contains(_KeyType _Key) {
+			return(find(_Key) != nilptr);
+		}
+		_Node<_Type> put(_Type _Var) {
+			return set(_Var, true);
+		}
+		_Node<_Type> set(_Type _Var, bool bPut) {
+			_Node<_Type> _CurNode,_NewNode;
+			if (nilptr ==_treeroot) {
+				_NewNode = AllocNode(_Var, RB_PROPERTY_BLACK);
+				if (nilptr ==_NewNode){
+					return nilptr;
+				}
+				_treeroot = _NewNode;
+				_treesize = 1;
+				return _NewNode;
+			}
+
+			_CurNode = _treeroot;
+
+			while (_CurNode != nilptr) {
+				if (_Var == _CurNode._Var){
+					if (bPut){
+						_CurNode._Var = _Var;
+					}
+					return _CurNode;
+				}
+				else
+				if (_Var < _CurNode._Var) {
+					if (nilptr ==(_CurNode._pLeft)) {
+						_NewNode = AllocNode(_Var, RB_PROPERTY_RED);
+						if (_NewNode == nilptr){
+							return nilptr;
+						}
+						_CurNode._pLeft = _NewNode;
+						_NewNode._pParent = _CurNode;
+						if (bPut){
+							_NewNode._Var = _Var;
+						}
+						break;
+					}
+					else {
+						_CurNode = _CurNode._pLeft;
+					}
+				}
+				else
+				{
+					if (nilptr ==(_CurNode._pRight)) {
+						_NewNode = AllocNode(_Var, RB_PROPERTY_RED);
+						if (_NewNode == nilptr){
+							return nilptr;
+						}
+
+						_CurNode._pRight = _NewNode;
+						_NewNode._pParent = _CurNode;
+						if (bPut){
+							_NewNode._Var = _Var;
+						}
+						break;
+					}
+					else {
+						_CurNode = _CurNode._pRight;
+					}
+				}
+			}
+			_treesize++;
+			insert_fixup(_NewNode);
+			return _NewNode;
+		}
+
+		_Node<_Type> set(_KeyType _Key) {
+			_Node<_Type> _CurNode,_NewNode;
+			if (nilptr ==_treeroot) {
+				_NewNode = AllocNode(new _Type(), RB_PROPERTY_BLACK);
+				if (_NewNode == nilptr){
+					return nilptr;
+				}
+				_treeroot = _NewNode;
+				_treesize = 1;
+				return _NewNode;
+			}
+
+			_CurNode = _treeroot;
+
+			while (nilptr !=_CurNode) {
+				if (_CurNode._Var == _Key){
+					return _CurNode;
+				} else
+				if (_CurNode._Var > _Key) {
+					if (nilptr ==(_CurNode._pLeft)) {
+						_NewNode = AllocNode(new _Type(), RB_PROPERTY_RED);
+						if (nilptr ==_NewNode){
+							return nilptr;
+						}
+						_CurNode._pLeft = _NewNode;
+						_NewNode._pParent = _CurNode;
+						break;
+					} else {
+						_CurNode = _CurNode._pLeft;
+					}
+				} else
+				{
+					if (nilptr ==(_CurNode._pRight)) {
+						_NewNode = AllocNode(new _Type(), RB_PROPERTY_RED);
+						if (nilptr ==_NewNode){
+							return nilptr;
+						}
+						_CurNode._pRight = _NewNode;
+						_NewNode._pParent = _CurNode;
+						break;
+					} else {
+						_CurNode = _CurNode._pRight;
+					}
+				}
+			}
+			_treesize++;
+			insert_fixup(_NewNode);
+			return _NewNode;
+		}
+
+		_Node<_Type> find(_KeyType _Key) {
+			
+			_Node<_Type> _CurNode = _treeroot;
+			while (nilptr !=_CurNode) {
+				if (_CurNode._Var == _Key){
+					return _CurNode;
+				} else{
+					_CurNode = (_CurNode._Var > _Key) ? _CurNode._pLeft : _CurNode._pRight;
+				}
+			}
+			return nilptr;
+		}
+
+		_Node<_Type> find(_Type _Key) {
+			_Node<_Type> _CurNode = _treeroot;
+			while (nilptr !=_CurNode) {
+				if (_CurNode._Var == _Key){
+					return _CurNode;
+				} else{
+					_CurNode = (_CurNode._Var > _Key) ? _CurNode._pLeft : _CurNode._pRight;
+				}
+			}
+			return nilptr;
+		}
+
+
+		_Node<_Type> findnear(_KeyType _Key, bool bLess, bool bForceNear){
+			_Node<_Type> _CurNode = _treeroot;
+			_Node<_Type> lessNode,moreNode;
+
+			while (nilptr !=_CurNode) {
+				if (_CurNode._Var == _Key){
+					if (bForceNear == false){
+						return _CurNode;
+					}
+					else{
+						//comp_result = bLess ? -1:1;
+						_CurNode = (bLess) ? _CurNode._pLeft : _CurNode._pRight;
+					}
+				}
+				else
+				if (_CurNode._Var > _Key){
+					if (nilptr !=moreNode){
+						if (moreNode._Var > _CurNode._Var){
+							moreNode = _CurNode;
+						}
+					}
+					else{
+						moreNode = _CurNode;
+					}
+					_CurNode = _CurNode._pLeft;
+				}
+				else
+				{
+					if (nilptr !=lessNode){
+						if (lessNode._Var < _CurNode._Var){
+							lessNode = _CurNode;
+						}
+					}
+					else{
+						lessNode = _CurNode;
+					}
+					_CurNode = _CurNode._pRight;
+				}
+				// _CurNode = (comp_result > 0) ? _CurNode._pLeft : _CurNode._pRight;
+			}
+			if (bLess){
+				return lessNode;
+			}
+			return moreNode;
+		}
+
+		_Node<_Type> findifless(_KeyType _Key, bool bForceNear){
+			_Node<_Type> _CurNode = _treeroot;
+			_Node<_Type> lessNode = nilptr;
+
+			//	int comp_result = 0;
+			while (_CurNode != nilptr) {
+				if (_CurNode._Var == _Key){
+					if (bForceNear == false){
+						return _CurNode;
+					}
+					else{
+						//comp_result = -1;
+						_CurNode = _CurNode._pLeft;
+					}
+				}
+				else
+				if (_CurNode._Var < _Key){
+					if (lessNode != nilptr){
+						if (lessNode._Var < _CurNode._Var){
+							lessNode = _CurNode;
+						}
+					}
+					else{
+						lessNode = _CurNode;
+					}
+					_CurNode = _CurNode._pRight;
+				}
+				else{
+					_CurNode = _CurNode._pLeft;
+				}
+			}
+			return lessNode;
+		}
+
+		_Node<_Type> findifmore(_KeyType _Key, bool bForceNear){
+			_Node<_Type> _CurNode = _treeroot;
+			_Node<_Type> moreNode = nilptr;
+			while (_CurNode != nilptr) {
+				if (_CurNode._Var == _Key){
+					if (bForceNear == false){
+						return _CurNode;
+					}
+					else{
+						_CurNode = _CurNode._pRight;
+					}
+				}
+				else
+				if (_CurNode._Var > _Key){
+					if (moreNode != nilptr){
+						if (moreNode._Var > _CurNode._Var){
+							moreNode = _CurNode;
+						}
+					}
+					else{
+						moreNode = _CurNode;
+					}
+					_CurNode = _CurNode._pLeft;
+				}
+				else{
+					_CurNode = _CurNode._pRight;
+				}
+			}
+			return moreNode;
+		}
+	};

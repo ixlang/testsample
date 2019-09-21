@@ -1,0 +1,58 @@
+
+
+class Client: 
+	AsyncInput
+{
+	void notify(AsyncOutput own, int type, long bind, bool bsucceed, long context,int length)override{
+
+	}
+
+	bool newInstance(AsyncOutput own, int type, long bind, long context)override{
+
+		_system_.consoleWrite("new connect " + "\n");
+        byte []data = "hello".getBytes();
+		own.dataDeparture( this, context, 0, data, 0, data.length);
+		return true;
+	}
+
+	bool dataArrives(AsyncOutput own, long context, byte[] data,int offset, int length)override{
+		own.dataDeparture( this, context, 0, data, offset, length);
+		return true;
+	}
+
+	bool deleteInstance(AsyncOutput own, long context)override{
+		_system_.consoleWrite("disconnected\n");
+		return true;
+	}
+
+	bool inactiveTimeoutVerify(AsyncOutput own, long context)override{
+		return true;
+	}
+};
+
+int main(String [] args){
+    _system_.createConsole();
+
+	Client client = new Client();
+    
+	Unsi unsi = new Unsi();
+    //创建TCP服务器  监听700端口  超时90000毫秒
+	if (unsi.create(client, 1, 7000, 90000) == false){
+        _system_.consoleWrite("创建服务器失败\n");
+    }
+    
+    //设置线程数量2 底层缓冲区大小为1024 超时90000毫秒
+    unsi.config(1, 1024, 90000);
+    //开启服务器
+	if (unsi.start() == false){
+       _system_.consoleWrite("开启服务器失败\n");
+    }else{
+        _system_.consoleWrite("server already start! 127.0.0.1:7000\n");
+        while (true){ 
+            Thread.sleep(1000);
+            /*** 每隔一秒 打印当前连接数 */
+            _system_.consoleWrite("current connection number : " + unsi.getConnectionNumber() + "\n");  
+        }
+    }
+	return 0;
+}

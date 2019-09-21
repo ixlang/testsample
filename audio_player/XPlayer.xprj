@@ -1,0 +1,31 @@
+{
+	"XPlayer":	{
+		"version":	"1.2",
+		"language":	"xlang",
+		"sources":	["XPlayer.xcs", "src/AudioOutput.xcsm", "src/codec.xcsm", "src/EfficDrawer.xcsm", ".\\src\\native.xcsm", "src/playThread.xcsm", "src/WaveDrawer.xcsm", "src/WaveLineDrawer.xcsm"],
+		"configures":	{
+			"debug":	{
+				"path":	{
+					"incpath":	[],
+					"libpath":	[]
+				},
+				"options":	"-nd",
+				"libs":	[],
+				"cmd":	"$(Output)",
+				"args":	"",
+				"workdir":	"$(ProjectDir)",
+				"wtype":	"-arch:x86",
+				"outname":	"$(ProjectName)$(Ext)",
+				"outpath":	"$(ProjectDir)/$(Arch)/$(Configure)",
+				"command":	"-ce",
+				"uaclevel":	"默认",
+				"ignorewarning":	"",
+				"debugable":	"-dbg",
+				"debugdatabase":	""
+			}
+		},
+		"comment":	"\r此项目仅支持windows系统.",
+		"icofile":	"icon.ico",
+		"versioninc":	"0"
+	}
+}

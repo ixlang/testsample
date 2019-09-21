@@ -1,0 +1,46 @@
+//xlang 
+
+package System{
+	class out{
+		static int println(String text){
+			return _system_.consoleWrite(text + "\n");
+		}
+		static int print(String text){
+			return _system_.consoleWrite(text);
+		}
+	};
+	
+	class Console{
+		Console(){
+			_system_.createConsole();
+		}
+	};
+};
+
+
+using { System; };
+
+
+class MyMap<_Key, _Value> 
+	: Map<_Key, _Value>{
+	
+};
+
+int main(String [] args){
+
+	new Console();
+
+	MyMap<int, String> mp = new MyMap<int, String>();
+    
+    MyMap<int, MyMap<int, String>> mmp = new MyMap<int, MyMap<int, String>>();
+    
+    for (int i = 0; i < 100; i++){
+		mp.put(0, " fuck me ");
+    }
+    
+	System.out.println("hello world");
+
+	Thread.sleep(3000);
+
+	return 0;
+}

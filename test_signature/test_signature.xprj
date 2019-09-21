@@ -1,0 +1,26 @@
+{
+
+		"test_signature":{
+			"version":"1.2",
+			"language":"xlang",
+			"sources":["test_signature.xcs"],
+			"configures":{
+				"debug":{
+					"path":{
+						"incpath":[],
+						"libpath":[]
+					},
+					"libs":[],
+					"options":"",
+					"command":"-ce",
+					"debugable":"-dbg",
+					"outpath":"$(ProjectDir)/$(Configure)",
+					"outname":"$(ProjectName).exe",
+					"cmd":"$(Output)",
+					"args":"",
+					"workdir":"$(ProjectDir)"
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,57 @@
+//xlang Source, Name:PageDns.xcsm 
+//Date: Fri Nov 03:56:38 2018 
+
+class PageDns{
+	QXWidget page;
+    QXSci sci;
+    QXPushButton btndns = nilptr;
+    bool isBusy = false;
+	PageDns(QXWidget _page){
+		page = _page;
+    }
+    
+    bool create(){
+		 sci = new QXSci();
+         sci.create(page);
+         sci.move(10, 10);
+         sci.resize(760, 330);
+         sci.show();
+		 sci.sendEditor(QXSci.SCI_SETCODEPAGE, QXSci.SC_CP_UTF8);
+        
+         btndns = (QXPushButton)page.attachByName(new QXPushButton(), "btndns");
+         
+         btndns.setOnClickListener(new QXWidget.onClickListener(){
+				void onClick(QXObject obj, bool checked)override{
+                btndns.setEnabled(false);
+                new Thread(){
+					void run(){
+						isBusy = true;
+						String []_args = {"tracert", "www.baidu.com"};
+						Process p = new Process("C:\\Windows\\System32\\tracert.exe", _args);
+						p.create(false, true, false, true);
+						
+						try{
+							byte [] data = new byte[1024];
+							int len = 0;
+							while ((len = p.read(data, 0, 1024)) > 0)
+								sci.appendText(new String(data, 0, len, "CP936"));
+							
+						}catch(Exception e){
+						}
+                        
+                        page.runOnUi(new Runnable(){
+                        
+							void run(){
+								btndns.setEnabled(true);
+                                isBusy = false;
+                            }
+                        });
+                        
+                    }
+                }.start();
+
+				}
+			});
+         return true;
+    }
+};

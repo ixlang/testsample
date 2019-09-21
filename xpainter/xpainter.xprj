@@ -1,0 +1,53 @@
+{
+	"xpainter":	{
+		"version":	"1.2",
+		"language":	"xlang",
+		"sources":	["xpainter.xcs", "ui/dialog.ui", ".\\Canvas.xcsm", ".\\Pen.xcsm", ".\\LinePen.xcsm", ".\\PolygonPen.xcsm"],
+		"configures":	{
+			"debug":	{
+				"path":	{
+					"incpath":	[],
+					"libpath":	["libs"]
+				},
+				"options":	"",
+				"cmd":	"$(Output)",
+				"args":	"$(Output)",
+				"workdir":	"$(ProjectDir)",
+				"prebuild":	"",
+				"preclean":	"",
+				"makebuild":	"",
+				"makeclean":	"",
+				"afterbuild":	"",
+				"afterclean":	"",
+				"wtype":	"",
+				"ostype":	"",
+				"outname":	"$(ProjectName)$(Ext)",
+				"outpath":	"$(ProjectDir)/$(Arch)/$(Configure)",
+				"command":	"-ce",
+				"uaclevel":	"默认",
+				"ignorewarning":	"-w",
+				"debugable":	"-dbg",
+				"debugdatabase":	"",
+				"libs":	["Qt5.9.1_5.9.1.8.lix"]
+			},
+			"release":	{
+				"path":	{
+					"incpath":	[],
+					"libpath":	["libs"]
+				},
+				"libs":	["QXLibrary.lix"],
+				"options":	"-nd",
+				"command":	"-ce",
+				"debugable":	"",
+				"outpath":	"$(ProjectDir)/$(Arch)/$(Configure)",
+				"outname":	"$(ProjectName)$(Ext)",
+				"cmd":	"$(Output)",
+				"args":	"$(Output)",
+				"workdir":	"$(ProjectDir)"
+			}
+		},
+		"comment":	"注意:打开项目后先引入包Qt才能编译。\r点菜单[工具]->[包管理]，选择Qtx.x.x，\r点击[添加到当前项目]按钮即可",
+		"icofile":	"",
+		"versioninc":	"0"
+	}
+}

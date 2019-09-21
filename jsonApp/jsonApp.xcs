@@ -1,0 +1,121 @@
+//xlang 
+package System{
+	class out{
+		static int println(String text){
+			return _system_.consoleWrite(text + "\n");
+		}
+		static int print(String text){
+			return _system_.consoleWrite(text);
+		}
+	};
+	
+	class Console{
+		Console(){
+			_system_.createConsole();
+		}
+	};
+};
+
+
+using { System; };
+
+
+
+/***
+*	创建Json
+*/
+String createJson(){
+
+	//创建json 对象
+    JsonObject json = new JsonObject();
+    json.put("age", 18);
+    json.put("name", "x");
+    json.put("weight", 65.31);
+    
+    //创建json数组arr
+    JsonArray arr = new JsonArray();
+
+    arr.put("x1");
+    arr.put("x2");
+    arr.put("x3");
+    arr.put(6);
+    
+    //创建json数组arr_cld
+    JsonArray arr_cld = new JsonArray();
+    
+    try{
+        arr_cld.put(true);
+        arr_cld.put(33.333333);
+        arr_cld.put("xx1");
+        arr_cld.put("xx2");
+        arr_cld.put("xx3");
+        arr_cld.put(6);
+        
+        // 将arr_cld 添加到 arr 中
+        arr.put(arr_cld);
+        
+        //测试循环引用
+        //arr_cld.put(arr);
+    }catch(Exception e){
+		// Json 循环引用异常
+        _system_.consoleWrite("#[CircularReference error]#\n");
+    }finally{
+    
+		// 添加到json 中
+        json.put("chd", arr);
+    }
+    
+    return json.toString(true);
+}
+
+
+/***
+*	解析 Json
+*/
+bool parseJson(String s){
+	JsonObject root = new JsonObject(s);
+    
+    // 打印 name 
+    System.out.println("name:" + root.getString("name"));
+    
+    // 打印 age
+    System.out.println("age:" + root.getInt("age"));
+    
+    // 取出array 
+    JsonArray arr = root.getArray("chd");
+    
+    // 打印array长度
+    System.out.println("" + arr.length() + "\n");
+    
+    // 遍历array 
+    for (int i = 0, c = arr.length(); i < c; i++ ){
+		JsonNode jn = arr.get(i);
+        if (jn.isArray()){
+			System.out.println("" + ((JsonArray)jn).toString(true) + "\n");
+        }else{
+			System.out.println("" + ((JsonObject)jn).toString(true) + "\n");
+        }
+    }
+    
+    return true;
+}
+
+int main(String [] args){
+
+	new Console();
+    
+    System.out.println("creating jsonObject...");
+    //创建json 
+    String json = createJson();
+    
+    // 打印创建的json内容
+	System.out.println(json);
+
+	// 解析json
+    System.out.println("parsing jsonObject...");
+	parseJson(json);
+    
+	Thread.sleep(3000);
+
+	return 0;
+}

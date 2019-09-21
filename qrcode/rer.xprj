@@ -1,0 +1,67 @@
+{
+	"rer":	{
+		"version":	"1.2",
+		"language":	"xlang",
+		"sources":	["rer.xcs"],
+		"configures":	{
+			"debug":	{
+				"path":	{
+					"incpath":	[],
+					"libpath":	["libs"]
+				},
+				"libs":	["QXLibrary.lix", "XPlatform_1.0.0.2.lix", "xfftw_1.0.0.0.lix", "FileStream_1.0.0.4.lix", "FileSystem_1.0.0.3.lix", "Logcat_1.0.0.0.lix", "Runtime_1.0.0.3.lix", "ZXing_1.0.0.0.lix", "XCImg_1.0.0.2.lix", "Sql_1.0.0.2.lix"],
+				"options":	"",
+				"command":	"-ce",
+				"debugable":	"-dbg",
+				"outpath":	"$(ProjectDir)/$(Arch)/$(Configure)",
+				"outname":	"$(ProjectName)$(Ext)",
+				"cmd":	"$(Output)",
+				"args":	"$(Output)",
+				"workdir":	"$(ProjectDir)",
+				"depends":	[{
+						"name":	"XPlatform",
+						"version":	"1.0.0.2"
+					}, {
+						"name":	"xfftw",
+						"version":	"1.0.0.0"
+					}, {
+						"name":	"FileStream",
+						"version":	"1.0.0.4"
+					}, {
+						"name":	"FileSystem",
+						"version":	"1.0.0.3"
+					}, {
+						"name":	"Logcat",
+						"version":	"1.0.0.0"
+					}, {
+						"name":	"Runtime",
+						"version":	"1.0.0.3"
+					}, {
+						"name":	"ZXing",
+						"version":	"1.0.0.0"
+					}, {
+						"name":	"XCImg",
+						"version":	"1.0.0.2"
+					}, {
+						"name":	"Sql",
+						"version":	"1.0.0.2"
+					}]
+			},
+			"release":	{
+				"path":	{
+					"incpath":	[],
+					"libpath":	["libs"]
+				},
+				"libs":	["QXLibrary.lix"],
+				"options":	"-nd",
+				"command":	"-ce",
+				"debugable":	"",
+				"outpath":	"$(ProjectDir)/$(Arch)/$(Configure)",
+				"outname":	"$(ProjectName)$(Ext)",
+				"cmd":	"$(Output)",
+				"args":	"$(Output)",
+				"workdir":	"$(ProjectDir)"
+			}
+		}
+	}
+}

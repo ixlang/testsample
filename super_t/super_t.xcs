@@ -1,0 +1,32 @@
+
+class a{
+    int v;
+    a(int v){
+    
+    }
+    a(){
+    }
+    
+    void fuck(){
+    
+    }
+};
+
+class b : a{
+    class c : a{
+        c(int v){
+            //super(v);
+            fuck();
+        }
+    };
+    
+    static class e : a{
+    
+    
+    };
+};
+
+int main(String [] args){
+    Map<String, b.e> s = new Map<String, b.e>();
+    return 0;
+}

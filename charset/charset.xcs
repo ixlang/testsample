@@ -1,0 +1,60 @@
+//xlang 
+package System{
+	class out{
+		static int println(String text){
+			return _system_.consoleWrite(text + "\n");
+		}
+		static int print(String text){
+			return _system_.consoleWrite(text);
+		}
+	};
+	
+	class Console{
+		Console(){
+			_system_.createConsole();
+		}
+	};
+};
+
+
+using { System; };
+
+
+int main(String [] args){
+
+	new Console();
+
+    String str = "源文件不是UTF8";
+    
+    String gbstr = new String(str.getBytes("GB18030"));
+    System.out.print(gbstr + "\n");
+    byte [] data = str.getBytes("GB18030");
+    
+    for (int i =0; i < data.length; i++){
+        System.out.print("[" + data[i] + "]");
+    }
+    System.out.print("\n");
+    data = str.getBytes("UTF-16LE");
+    
+    for (int i =0; i < data.length; i++){
+        System.out.print("[" + data[i] + "]");
+    }
+    System.out.print("\n");
+    data = str.getBytes("UCS-4LE");
+    
+    for (int i =0; i < data.length; i++){
+        System.out.print("[" + data[i] + "]");
+    }
+    System.out.print("\n");
+    
+    char [] _data = str.toCharArray(true);
+    
+    for (int i =0; i < _data.length; i++){
+        System.out.print("[" + String.format("%04X", (int)_data[i]) + "]");
+    }
+    System.out.print(str + "\n");
+
+	Thread.sleep(-1);
+
+	return 0;
+}

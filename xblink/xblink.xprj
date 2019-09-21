@@ -1,0 +1,41 @@
+{
+	"xblink":	{
+		"version":	"1.2",
+		"language":	"xlang",
+		"sources":	["xblink.xcs"],
+		"configures":	{
+			"debug":	{
+				"path":	{
+					"incpath":	[],
+					"libpath":	[]
+				},
+				"libs":	[],
+				"options":	"",
+				"debugable":	"-dbg",
+				"cmd":	"$(Output)",
+				"args":	"$(Output)",
+				"workdir":	"$(ProjectDir)",
+				"wtype":	"-arch:x86",
+				"outname":	"$(ProjectName).exe",
+				"outpath":	"E:\\Developments\\Cadaqs\\caNamespace\\castudio\\xcross\\thirds\\xblink\\Debug",
+				"command":	"-ce"
+			},
+			"release":	{
+				"path":	{
+					"incpath":	[],
+					"libpath":	[]
+				},
+				"libs":	[],
+				"options":	"-nd",
+				"command":	"-ce",
+				"debugable":	"",
+				"outpath":	"$(ProjectDir)/$(Arch)/$(Configure)",
+				"outname":	"$(ProjectName).exe",
+				"cmd":	"$(Output)",
+				"args":	"$(Output)",
+				"workdir":	"$(ProjectDir)"
+			}
+		},
+		"icofile":	""
+	}
+}

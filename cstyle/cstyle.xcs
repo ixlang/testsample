@@ -1,0 +1,43 @@
+//xlang  
+
+include ("stdlib")
+
+
+class Runnable{
+	void run();
+};
+
+class XThread : Thread {
+
+	Runnable _run;
+    
+    XThread(Runnable r){
+		_run = r;
+    }
+    
+	void run()override{
+		if (_run != nilptr){
+			_run.run();
+        }
+    }
+};
+
+
+void go(Runnable r){
+	new XThread(r).start();
+}
+
+int main(String [] args){
+
+	AllocConsole();
+        
+    go(new Runnable(){
+		void run(){
+        	_system_.consoleWrite("thread: " + Thread.getId() + "\n");
+        }
+    });
+
+	sleep(-1);
+    
+	return 0; 
+}

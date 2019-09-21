@@ -1,0 +1,15 @@
+//xlang Source, Name:System.xcsm 
+//Date: Wed Sep 20:01:49 2018 
+
+package System{
+	class out{
+		static int println(String text){
+			return _system_.consoleWrite(text + "\n");
+        }
+        static void createConsole(){
+			_system_.createConsole();
+		}
+    };
+    
+
+};

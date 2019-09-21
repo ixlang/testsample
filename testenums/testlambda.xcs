@@ -1,0 +1,35 @@
+//xlang 
+package System{
+	class out{
+		static int println(String text){
+			return _system_.consoleWrite(text + "\n");
+		}
+		static int print(String text){
+			return _system_.consoleWrite(text);
+		}
+	};
+	
+	class Console{
+		Console(){
+			_system_.createConsole();
+		}
+	};
+};
+
+using { System; };
+
+enum Language{
+	java,
+	cpp,
+	rust
+};
+
+int main(String[] args) {
+
+	new Console();
+    
+    System.out.print(Language.java.name() + " = " + Language.java.value());
+    
+    Thread.sleep(-1);
+	return 0;
+}

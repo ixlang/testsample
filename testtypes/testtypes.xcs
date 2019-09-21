@@ -1,0 +1,21 @@
+//xlang 
+package Test{
+
+};
+
+void fuck(Test ){
+    
+}
+
+class mt<_Type>{
+        _Type _t;
+};
+
+int main(String [] args){
+    Test[] a;
+    Object s = new Test[10];
+	mt<Test> f;
+    Object sf = new mt<Test>();
+
+	return 0;
+}
