@@ -1,41 +1,43 @@
 {
-
-		"multidim_array":{
-			"version":"1.2",
-			"language":"xlang",
-			"sources":["multidim_array.xcs"],
-			"configures":{
-				"debug":{
-					"path":{
-						"incpath":[],
-						"libpath":[]
-					},
-					"libs":[],
-					"options":"",
-					"command":"-ce",
-					"debugable":"-dbg",
-					"outpath":"$(ProjectDir)/$(Arch)/$(Configure)",
-					"outname":"$(ProjectName).exe",
-					"cmd":"$(Output)",
-					"args":"$(Output)",
-					"workdir":"$(ProjectDir)"
+	"multidim_array":	{
+		"version":	"1.2",
+		"language":	"xlang",
+		"sources":	["multidim_array.xcs"],
+		"configures":	{
+			"debug":	{
+				"path":	{
+					"incpath":	[],
+					"libpath":	[]
 				},
-				"release":{
-					"path":{
-						"incpath":[],
-						"libpath":[]
-					},
-					"libs":[],
-					"options":"-nd",
-					"command":"-ce",
-					"debugable":"",
-					"outpath":"$(ProjectDir)/$(Arch)/$(Configure)",
-					"outname":"$(ProjectName).exe",
-					"cmd":"$(Output)",
-					"args":"$(Output)",
-					"workdir":"$(ProjectDir)"
-				}
+				"libs":	[],
+				"options":	"",
+				"debugable":	"-dbg",
+				"cmd":	"$(Output)",
+				"args":	"$(Output)",
+				"workdir":	"$(ProjectDir)",
+				"wtype":	"",
+				"ostype":	"",
+				"outname":	"$(ProjectName).exe",
+				"outpath":	"$(ProjectDir)/$(Arch)/$(Configure)",
+				"command":	"-ce",
+				"uaclevel":	"默认"
+			},
+			"release":	{
+				"path":	{
+					"incpath":	[],
+					"libpath":	[]
+				},
+				"libs":	[],
+				"options":	"-nd",
+				"command":	"-ce",
+				"debugable":	"",
+				"outpath":	"$(ProjectDir)/$(Arch)/$(Configure)",
+				"outname":	"$(ProjectName).exe",
+				"cmd":	"$(Output)",
+				"args":	"$(Output)",
+				"workdir":	"$(ProjectDir)"
 			}
-		}
+		},
+		"icofile":	""
 	}
 }

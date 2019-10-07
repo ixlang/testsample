@@ -155,7 +155,7 @@ int main(String [] args){
 	
 	byte [] buffer = new byte[4096];
     while(true){
-		System.out.println("type expression:");
+		System.out.println("type expression(e.g:1+2*3):");
 		int readed = _system_.consoleRead(buffer,0,4096);
 		String express = new String(buffer, 0, readed);
 		if (express.equals("quit")){

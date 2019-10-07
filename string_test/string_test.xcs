@@ -8,7 +8,6 @@ int main(String [] args)
     for (int r = 0; r < 1000; r++) {
         String s = "test for String";
 
-
         _system_.consoleWrite("" + s.length() + "\n");
 
         _system_.consoleWrite("" + s.find("for") + "\n");

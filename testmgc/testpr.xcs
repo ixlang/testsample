@@ -62,7 +62,7 @@ class XList<_Type>{
 
 void ptest(){
 	XList<XObject> lint = new XList<XObject>();
-	for (int i = 0; i < 100000; i ++){		lint.push(new XObject(i));    }
+	for (int i = 0; i < 1000000; i ++){		lint.push(new XObject(i));    }
 }
 
 int main(String [] args){
@@ -72,7 +72,8 @@ int main(String [] args){
 		ptest();
         long begin = _system_.currentTimeMillis();
         _system_.gc();
-        System.out.println("" + (_system_.currentTimeMillis() - begin) + "ms\n");
+        begin = (_system_.currentTimeMillis() - begin);
+        System.out.println("" + begin + "ms\n");
     }
     
 	Thread.sleep(-1);

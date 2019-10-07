@@ -17,6 +17,8 @@ int main(String [] args){
     }
     try{
         int h = 0;
+        String kl ;
+//        kl.length();
         call(1, 3 / h);
     }catch(DivByZeroException e){
         _system_.consoleWrite("error");

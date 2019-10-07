@@ -73,7 +73,7 @@ void testUNCycle(){
 
 class MyThread : Thread{
 	void run()override{
-		testUNCycle();
+		testCycle();
     }
 };
 

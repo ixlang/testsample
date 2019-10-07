@@ -1,12 +1,11 @@
 include ("common/FileInputStream.xcs", 
-        "common/caLexSyntax.xcs", 
         "../../common/system.xcs")
 /*
 词法分析自举
 */
 class listener : caLexSyntax.OnParseListener{
 	Object OnReduction(caLexSyntax.TOKEN[] tokens, int pos, int len, int grammar) {
-		System.out.print(String.format("\nreduction %d [%d] => %d", pos, len, grammar));
+		_system_.output(String.format("reduction %d [%d] => %d", pos, len, grammar));
 		return nilptr;
 	}
 
@@ -25,6 +24,8 @@ class listener : caLexSyntax.OnParseListener{
 
 	
 	void OnParseError(caLexSyntax.CCSource source) {
+        String str = new String(source.source, source.sourcepos, source.source.length - source.sourcepos);
+		_system_.output(String.format("OnParseError %d = %s[%d]", source.sourcepos, str, str.length()));
 	}
 
 	

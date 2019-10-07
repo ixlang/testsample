@@ -28,27 +28,39 @@ String getStr(){
 class Integer{
 
 	int ok;
-	Integer(){
-		ok = 0;
-	}
-	Integer(int i){
-		ok = i;
-	}
-	Integer  operator +( Integer  o){
+
+    
+	Integer  operator + ( Integer  o){
 		_system_.consoleWrite(String.format("%d + %d\n", ok, o.ok));
 		return new Integer(ok + o.ok);
 	}
+    
 	Integer  operator -( Integer  o){
 		_system_.consoleWrite(String.format("%d - %d\n", ok, o.ok));
 		return new Integer(ok - o.ok);
+	}
+    Integer operator -(){
+		_system_.consoleWrite(String.format("- %d\n", ok));
+		return new Integer(-ok);
 	}
 	Integer  operator *( Integer  o){
 		_system_.consoleWrite(String.format("%d * %d\n", ok, o.ok));
 		return new Integer(ok * o.ok);
 	}
+    
 	Integer  operator /( Integer  o){
 		_system_.consoleWrite(String.format("%d / %d\n", ok, o.ok));
 		return new Integer(ok / o.ok);
+	}
+    
+    bool operator != (int n){
+        return ok != n;
+    }
+    Integer(){
+		ok = 0;
+	}
+	Integer(int i){
+		ok = i;
 	}
 };
 
@@ -83,7 +95,9 @@ int main(String [] args){
     if (r.ok != -7){
 		throw new IllegalArgumentException("四则运算不正确");
     }
-
+    if (-r != 7){
+		throw new IllegalArgumentException("负数不正确");
+    }
 	String [] strs = new String[10];
     Object [] objs = strs;
 

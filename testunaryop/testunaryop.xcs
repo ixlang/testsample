@@ -1,0 +1,39 @@
+//xlang 
+package System{
+	class out{
+		static int println(String text){
+			return _system_.consoleWrite(text + "\n");
+		}
+		static int print(String text){
+			return _system_.consoleWrite(text);
+		}
+	};
+	
+	class Console{
+		Console(){
+			_system_.createConsole();
+		}
+	};
+};
+
+
+using { System; };
+
+class Myclass{
+        int k = 6;
+        int operator -(){
+            return -k;
+        }
+};
+
+int main(String [] args){
+
+	new Console();
+
+    Myclass km = new Myclass();
+	System.out.println("" + -km);
+
+	Thread.sleep(3000);
+
+	return 0;
+}

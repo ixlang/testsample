@@ -23,12 +23,15 @@ using { System; };
 
 void client(){
     DgramSocket socket = new DgramSocket();
+    
     if (socket.connect("127.0.0.1", 7000)){
         socket.write("111111".getBytes(), 0, 6);
         while (0 <= socket.available(true)){
             byte []data = new byte[1024];
             int rd = socket.read(data, 0, 1024);
-            _system_.consoleWrite(new String(data, 0, rd));
+            if (rd > 0){
+                _system_.consoleWrite(new String(data, 0, rd));
+            }
         }
     }
 }
@@ -61,8 +64,8 @@ int main(String [] args){
 
 	new Console();
 
-	server();
-
+	//server();
+    client();
 	Thread.sleep(3000);
 
 	return 0;

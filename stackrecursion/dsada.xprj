@@ -23,7 +23,7 @@
 				"makeclean":	"",
 				"afterbuild":	"",
 				"afterclean":	"",
-				"wtype":	"-arch:x86",
+				"wtype":	"-arch:x86_64",
 				"ostype":	"",
 				"outname":	"$(ProjectName)$(Ext)",
 				"outpath":	"$(ProjectDir)/$(Arch)/$(Configure)",

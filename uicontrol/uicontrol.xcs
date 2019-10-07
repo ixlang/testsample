@@ -18,7 +18,7 @@ class MainDialog : QXDialog{
 				}
 			});
             createControls();
-            
+            show();
             return true;
 		}
         return false;
@@ -28,7 +28,7 @@ class MainDialog : QXDialog{
     bool createControls(){
 		ProgressView pv = ProgressView.showWait(-1);
         pv.centerScreen();
-        pv.show();
+        
         
         {
 			QXLabel l = new QXLabel();
@@ -149,6 +149,8 @@ class MainDialog : QXDialog{
 					pv.setTitleText(e.getText());
                 }
             });
+            
+            pv.show();
         }
         return true;
     }
@@ -163,7 +165,6 @@ class XMyApp : QXApplication {
         if (super.createQXApplication()){
             dialog = new MainDialog();
             if (dialog.create()){
-				dialog.show();
                 return true;
             }
         }

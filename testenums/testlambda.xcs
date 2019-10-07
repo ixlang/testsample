@@ -28,6 +28,11 @@ int main(String[] args) {
 
 	new Console();
     
+    Vector<int>[] va = new Vector<int>[3];
+    va[0] = new Vector<int>();
+    va[0].add(3);
+    va[0][0] = va[0][0]  + 4;
+    System.out.print("va[0][0] = " + va[0][0] + "\n");
     System.out.print(Language.java.name() + " = " + Language.java.value());
     
     Thread.sleep(-1);

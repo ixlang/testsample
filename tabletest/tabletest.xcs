@@ -5,7 +5,7 @@ class MainDialog : QXDialog
 
     QXPushButton btnOk;
     QXTableWidget tableWidget;
-
+    QXPushButton combtn;
     bool create()override
     {
         QXBuffer qb = new QXBuffer();
@@ -36,6 +36,9 @@ class MainDialog : QXDialog
                     } else {
                         if (a == 7) {
                             QXPushButton comb = new QXPushButton();
+                            if (combtn == nilptr){
+                                combtn = comb;
+                            }
                             comb.create();
                             comb.setText("click");
                             tableWidget.setCellWidget(i,a,comb);
@@ -69,7 +72,9 @@ class MainDialog : QXDialog
 
             btnOk.setOnClickListener(new onClickListener() {
                 void onClick(QXObject obj, bool checked)override {
+                    tableWidget.clear();
                     QXMessageBox.Information("info", " Hello world!", QXMessageBox.Ok, QXMessageBox.Ok);
+                    combtn.setText("sad");
                 }
             });
 

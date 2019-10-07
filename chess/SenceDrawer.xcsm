@@ -26,7 +26,7 @@ class SenceDrawer{
     }
     
 	void update(QXPainter p, QXRect rect){
-		p.fillRect(rect, 0xff282822, QXPainter.BrushStyle.SolidPattern);
+		p.fillRect(rect, 0xff282822, QXBrush.Style.SolidPattern);
 		p.drawImage(back, 0, 0);
         drawChess(p);
     }
