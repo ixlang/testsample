@@ -70,10 +70,10 @@ int main(String [] args){
 
 	while (true){
 		ptest();
-        long begin = _system_.currentTimeMillis();
-        _system_.gc();
+        //long begin = _system_.currentTimeMillis();
+        /*_system_.gc();
         begin = (_system_.currentTimeMillis() - begin);
-        System.out.println("" + begin + "ms\n");
+        System.out.println("" + begin + "ms\n");*/
     }
     
 	Thread.sleep(-1);

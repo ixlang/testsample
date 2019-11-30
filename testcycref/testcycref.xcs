@@ -79,6 +79,7 @@ class MyThread : Thread{
 
 int main(String [] args){
 	_system_.createConsole();
+    //_system_.setMinorGCThreshold(100.5);
 	new MyThread().start();
 	return 0;
 }

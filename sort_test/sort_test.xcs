@@ -47,23 +47,24 @@ int getSortIndex(int[] a, int left, int right){
     
 int main(String [] args){
     _system_.createConsole();
-    _system_.consoleWrite("1000次冒泡/快速排序\n");
+    _system_.consoleWrite(new String("10000次冒泡/快速排序\n".getBytes("GB18030")));
     
-    int [] t = {5,2,5,4,-100,25,76,-10,-100,46,5,2,5,4,-100,25,76,-10,-100,46,5,2,5,4,-100,25,76,-10,-100,46,5,2,5,4,-100,25,76,-10,-100,46,5,2,5,4,-100,25,76,-10,-100,46,5,2,5,4,-100,25,76,-10,-100,46,5,2,5,4,-100,25,76,-10,-100,46,5,2,5,4,-100,25,76,-10,-100,46};
+    
     
     long start = _system_.currentTimeMillis();
     
-    for (int i =0; i < 10000; i++){
+    for (int i = 0; i < 10000; i++){
+        int [] t = {5,2,5,4,-100,25,76,-10,-100,46,5,2,5,4,-100,25,76,-10,-100,46,5,2,5,4,-100,25,76,-10,-100,46,5,2,5,4,-100,25,76,-10,-100,46,5,2,5,4,-100,25,76,-10,-100,46,5,2,5,4,-100,25,76,-10,-100,46,5,2,5,4,-100,25,76,-10,-100,46,5,2,5,4,-100,25,76,-10,-100,46};
         bubbleSort(t);
         //quickSort(t);
     }
     long end = _system_.currentTimeMillis();
     
-    for (int i =0; i < t.length; i++){
-        _system_.consoleWrite("" + t[i] + "\n");
-    }
+    /*for (int i =0; i < t.length; i++){
+        //_system_.consoleWrite("" + t[i] + "\n");
+    }*/
     
-    _system_.consoleWrite("array length:" + t.length + " use time" +(end - start) + "\n");
+    _system_.consoleWrite("length:" + 80 + "time:" +(end - start) + "\n");
     
     Thread.sleep(1000);
     

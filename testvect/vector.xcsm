@@ -1,0 +1,154 @@
+//xlang Source, Name:vector.xcsm 
+//Date: Thu Nov 18:50:36 2019 
+class cavector<_Type> {
+    static const int CAVECTOR_STEP = 2;
+    static const int CONTENT_ATTACHED = -1;
+
+    _Type  [] head;
+    int length;
+    int maxLength;
+    
+    cavector(){}
+    cavector(cavector<_Type>  _Copy){
+        if (maxLength > 0){
+            head = new _Type[maxLength];
+            push_back(_Copy.head, 0, maxLength);
+        }
+        maxLength = _Copy.size();
+    }
+    
+    cavector(_Type [] _Copy, int start, int len) {
+        maxLength = len;
+        if (maxLength > 0){
+            head = new _Type[len];
+            if (head != nilptr){push_back(_Copy, start, len);}
+            else{maxLength = 0;}
+        }
+    }
+    
+    bool push_back(_Type  _Val) {
+        if ((length + 1) > maxLength) {
+            int new_size = ((length * CAVECTOR_STEP) + 1);
+            _Type [] newArray = new _Type[new_size];
+            maxLength = new_size;
+            _system_.arrayCopy(head,0,newArray,0,length);
+            head = newArray;
+        }
+
+        head[length] = _Val;
+        length++;
+        return true;
+    }
+
+    bool enlarge(int len){
+        int new_size = maxLength + len;
+        _Type [] newArray = nilptr;
+        if (new_size != 0){
+            newArray = new _Type[new_size];
+        }
+        maxLength = new_size;
+        _system_.arrayCopy(head,0,newArray,0,length);
+        head = newArray;
+        return true;
+    }
+
+    int getEnlargeSize(){
+        return ((length * CAVECTOR_STEP) + 1);
+    }
+    
+    bool enlarge(){
+        int new_size = ((length * CAVECTOR_STEP) + 1);
+        _Type [] newArray = new _Type[new_size];
+        maxLength = new_size;
+        _system_.arrayCopy(head,0,newArray,0,length);
+        head = newArray;
+        return true;
+    }
+    
+    bool push_back(_Type [] _Val,int offset,  int len) {
+        if((length + len) > maxLength) {
+            int new_size = ((length * CAVECTOR_STEP) + len);
+            _Type [] newArray = new _Type[new_size];
+            maxLength = new_size;
+            _system_.arrayCopy(head,0,newArray,0,length);
+            _system_.arrayCopy(_Val,offset,newArray,length,len);
+            head = newArray;
+        } else {
+            _system_.arrayCopy(_Val,offset,head,length,len);
+        }
+        length += len;
+        return true;
+    }
+
+    bool insert(int index, _Type  _Val) {
+        _Type [] _v = {_Val};
+        return insert(index,_v, 0, 1);
+    }
+
+    bool insert(int index, _Type [] _Val,int offset,  int len) {
+        if((length + len) > maxLength) {
+            int new_size = ((length * CAVECTOR_STEP) + len);
+            _Type [] newArray = new _Type[new_size];
+            maxLength = new_size;
+            _system_.arrayCopy(head,0,newArray,0,index);
+            _system_.arrayCopy(head,index,newArray,index + len,length - index);
+            _system_.arrayCopy(_Val,offset,newArray,index,len);
+            head = newArray;
+            length += len;
+        } else
+        if (len > 0){
+            _system_.arrayCopy(head,index , head,index + len , length - index);
+            _system_.arrayCopy(_Val,offset,head,index,len);
+            length += len;
+        }
+        return true;
+    }
+
+    int maxlength() {
+        return maxLength;
+    }
+
+    void erase(int index) {
+        erase(index, 1);
+    }
+
+    void erase(int index, int len) {
+        _system_.arrayCopy(head,index + len, head, index,length - (index + len));
+        length -= len;
+    }
+
+    void pop_back() {
+        length--;
+    }
+    
+    bool operator == (cavector<_Type> _dest){
+        if (size() != _dest.size()){
+            return false;
+        }
+        for (int i = 0; i < size(); i++){
+            if (operator[](i) != _dest[i]){
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    cavector<_Type> operator = (cavector<_Type> _Copy) {
+        maxLength = _Copy.size();
+        if (maxLength > 0){
+            head = new _Type[ _Copy.size()];
+            if (head != nilptr){ push_back(_Copy.head, 0, maxLength); } 
+            else{ maxLength = 0; }
+        }
+        return this;
+    }
+    
+    cavector<_Type> operator +=(cavector<_Type> _Copy) { insert(size(), _Copy.head, 0, _Copy.size()); return this; }
+    
+    _Type operator [](int index) {  return head[index]; }
+
+    _Type operator [](int index, _Type _v) { return head[index] = _v; }
+    
+    int size() { return length; }
+
+};

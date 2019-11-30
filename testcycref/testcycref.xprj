@@ -17,21 +17,21 @@
 				"afterbuild":	"",
 				"afterclean":	"",
 				"libs":	[],
-				"wtype":	"",
-				"ostype":	"",
-				"outname":	"$(ProjectName)",
-				"outpath":	"$(ProjectDir)/$(Configure)",
-				"command":	"-ce",
-				"uaclevel":	"默认",
 				"cmd":	"$(Output)",
 				"args":	"",
 				"workdir":	"$(ProjectDir)",
 				"ignorewarning":	"",
 				"debugable":	"-dbg",
-				"debugdatabase":	""
+				"debugdatabase":	"",
+				"wtype":	"-arch:x86_64",
+				"ostype":	"",
+				"outname":	"$(ProjectName)",
+				"outpath":	"$(ProjectDir)/$(Configure)",
+				"command":	"-ce",
+				"uaclevel":	"默认"
 			}
 		},
-		"icofile":	"",
-		"versioninc":	"0"
+		"versioninc":	"0",
+		"icofile":	""
 	}
 }

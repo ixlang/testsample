@@ -1,0 +1,12 @@
+//xlang 
+
+
+int main(String [] args){
+
+
+    if (.5f != 5.f / 10.f){
+        throw new IllegalArgumentException();
+    }
+
+	return 0;
+}

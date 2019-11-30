@@ -1,0 +1,42 @@
+//xlang 
+package System{
+	class out{
+		static int println(String text){
+			return _system_.consoleWrite(text + "\n");
+		}
+		static int print(String text){
+			return _system_.consoleWrite(text);
+		}
+	};
+	
+	class Console{
+		Console(){
+			_system_.createConsole();
+		}
+	};
+};
+
+
+using { System; };
+
+class kmk{
+    int k = 0;
+};
+
+kmk fuck(){
+    return new kmk();
+}
+
+int main(String [] args){
+
+	new Console();
+
+	int [] ar = new int[10];
+    
+    int x = 9;
+    fuck().k = x + x -2;
+    ar[x]++;
+	Thread.sleep(3000);
+
+	return 0;
+}

@@ -15,7 +15,7 @@
 				"cmd":	"$(Output)",
 				"args":	"$(Output)",
 				"workdir":	"$(ProjectDir)",
-				"wtype":	"",
+				"wtype":	"-arch:x86_64",
 				"ostype":	"",
 				"outname":	"$(ProjectName).exe",
 				"outpath":	"$(ProjectDir)/$(Arch)/$(Configure)",

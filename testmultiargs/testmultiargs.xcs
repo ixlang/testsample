@@ -1,0 +1,41 @@
+//xlang 
+package System{
+	class out{
+		static int println(String text){
+			return _system_.consoleWrite(text + "\n");
+		}
+		static int print(String text){
+			return _system_.consoleWrite(text);
+		}
+	};
+	
+	class Console{
+		Console(){
+			_system_.createConsole();
+		}
+	};
+};
+
+
+using { System; };
+
+
+void func(Object [] args){
+    args[0];
+}
+
+double gg(){
+    return 6.f;
+}
+int main(String [] args){
+
+	new Console();
+    int [] s = {3.f, 6, 3l, gg()};
+    func(0, 1l, 3.f, "hgfhgf", new Console());
+    
+	System.out.println("hello world" + s[0] + " - " + s[3]);
+
+	Thread.sleep(3000);
+
+	return 0;
+}

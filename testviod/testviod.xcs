@@ -1,0 +1,27 @@
+//xlang 
+
+
+void llll(){
+    return;
+}
+
+void func(Object c){
+    
+}
+
+void func1(Object [] c){
+    
+}
+
+int main(String [] args){
+
+
+    
+    Object s = llll();
+    
+    func1(llll());
+    
+    func(llll());
+
+	return 0;
+}

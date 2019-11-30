@@ -10,11 +10,6 @@
 					"libpath":	["libs"]
 				},
 				"options":	"",
-				"ignorewarning":	"-w",
-				"debugable":	"-dbg",
-				"debugdatabase":	"",
-				"libs":	["Qt5.9.1_5.9.1.7.lix"],
-				"links":	[],
 				"cmd":	"$(Output)",
 				"args":	"$(Output)",
 				"workdir":	"$(ProjectDir)",
@@ -29,7 +24,18 @@
 				"outname":	"$(ProjectName).exe",
 				"outpath":	"$(ProjectDir)/$(Arch)/$(Configure)",
 				"command":	"-ce",
-				"uaclevel":	"默认"
+				"uaclevel":	"默认",
+				"ignorewarning":	"-w",
+				"compdest":	"",
+				"ignorewl":	"",
+				"debugable":	"-dbg",
+				"debugdatabase":	"",
+				"libs":	["Qt5.9.1_5.9.1.13.lix"],
+				"links":	[],
+				"depends":	[{
+						"name":	"Qt5.9.1",
+						"version":	"5.9.1.13"
+					}]
 			},
 			"release":	{
 				"path":	{
@@ -47,8 +53,8 @@
 				"workdir":	"$(ProjectDir)"
 			}
 		},
-		"versioninc":	"0",
 		"comment":	"注意:打开项目后先引入包Qt才能编译。\r点菜单[工具]->[包管理]，选择Qtx.x.x，\r点击[添加到当前项目]按钮即可",
-		"icofile":	"1.ico"
+		"icofile":	"1.ico",
+		"versioninc":	"0"
 	}
 }
