@@ -1,20 +1,20 @@
 //xlang 
 package System{
-	class out{
-		static int println(String text){
+	public class out{
+		public static int println(String text){
 			return _system_.consoleWrite(text + "\n");
 		}
-		static int print(String text){
+		public static int print(String text){
 			return _system_.consoleWrite(text);
 		}
 
 	};
 	
-	class Console{
-		Console(){
+	public class Console{
+		public Console(){
 			_system_.createConsole();
 		}
-        static void pause(){
+        public static void pause(){
 			out.println("press ENTRY continue...");
 			byte[ ] buf = new byte[3];
 			_system_.consoleRead(buf,0,2);
@@ -68,10 +68,10 @@ class Service {
 		String apppath = _system_.getAppPath();
 		String []_args = {apppath};
 		Process p = new Process(apppath, _args);
-		return p.create(true,false,false,false);  
+		return p.create(Process.StdOut);  
     }
     
-    static bool processArgs(String [] args){
+    public static bool processArgs(String [] args){
 		if (args.length == 2){
 			String cmdand = args[1];
 			//安装服务
@@ -104,11 +104,11 @@ class Service {
         return false;
     }
     
-    static void run(){
+    public static void run(){
 		/** 开启一个web服务**/
 		HttpServer server = new HttpServer();
 		Website wb = new Website();
-		wb.registryServlet(new HttpServlet(false, "/"){
+		wb.registryServlet(new HttpServlet(0, "/"){
 
 
 			void doPost(HttpServletRequest request,HttpServletResponse response)override{

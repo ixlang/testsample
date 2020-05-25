@@ -1,6 +1,6 @@
 // xlang
 
-using{ FileSystem; FileStream;};
+using{FileStream;};
 
 class MainDialog : QXDialog{
 
@@ -31,7 +31,7 @@ class MainDialog : QXDialog{
     //####################################################################
     
     
-	bool create()override{
+	public bool create()override{
     
 		_system_.registryCrashHandler(new CrashReport());
 		QXBuffer qb = new QXBuffer();
@@ -40,6 +40,7 @@ class MainDialog : QXDialog{
         
 		if (load(qb)){
 			//setStyleSheet("res/qss/black.qss");
+            //showFullScreen();
             setWindowIcon("res/folder.png");
 			btnDir = (QXPushButton)attachByName(new QXPushButton(), "btnDir");
             btnComp = (QXPushButton)attachByName(new QXPushButton(), "btnComp");
@@ -69,7 +70,6 @@ class MainDialog : QXDialog{
                     
                     if (dir.length() > 0 && destzip != nilptr && destzip.length() > 0){
 						thread_Compress(dir, destzip);
-                        
                     }
 				}
 			});
@@ -142,20 +142,19 @@ class MainDialog : QXDialog{
     /** 统计文件个数 压缩前调用一次 用于显示进度*/
     void countTotal(String rootDir){
 		int cnt = 0;
- 		File fp = new File(rootDir);
-        List<File> flist = fp.listFiles();
-        
-        List.Iterator<File> iter = flist.iterator();
-        
-        while (iter.hasNext()){
-			File sf = iter.next();
+ 		FSObject fp = new FSObject(rootDir);
+        long hfind = fp.openDir();
+        if (hfind != 0){
+            FSObject sf = new FSObject();
+            while (fp.findObject(hfind,sf)){
 
-            String name = sf.path.findFilenameAndExtension();
-            compress_total++;
-            updateProgress("正在扫描,已发现 " + compress_total + "个文件" );
-            if (!name.isDot()){
-                if (sf.isDir()){
-                    countTotal(sf.path);
+                String name = sf.getPath().findFilenameAndExtension();
+                compress_total++;
+                updateProgress("正在扫描,已发现 " + compress_total + "个文件" );
+                if (!name.isDot()){
+                    if (sf.isDir()){
+                        countTotal(sf.getPath());
+                    }
                 }
             }
         }
@@ -182,31 +181,32 @@ class MainDialog : QXDialog{
 		遍历文件夹 压缩文件
     */
     void compressDir(ZipArchive za, String rootDir, String file){
-		File fp = new File(file);
-        List<File> flist = fp.listFiles();
+		FSObject fp = new FSObject(file);
         
-        List.Iterator<File> iter = flist.iterator();
         
-        while (iter.hasNext()){
-			File sf = iter.next();
-
-			String path = String.formatPath(sf.getPath(), false);
-            String name = path;
+        long hfind = fp.openDir();
+        if (hfind != 0){
+            FSObject sf = new FSObject();
             
-            compress_prog++;
+            while (fp.findObject(hfind, sf)){
+                String path = String.formatPath(sf.getPath(), false);
+                String name = path;
+                
+                compress_prog++;
 
-            updateProgress(path);
-            
-            if (!name.isDot()){
-				String entry = path.toRelativePath(rootDir,true);
-                if (entry.startWith("./") || entry.startWith(".\\") ){
-					entry = entry.substring(2, entry.length());
-                }
-                if (sf.isDir()){
-					za.createEntry(new ZipFile(entry, nilptr, true, _system_.currentTimeMillis()));
-                    compressDir(za, rootDir, path);
-                }else{
-					za.createEntry(new ZipFile(entry, new FileInputStream(path), false, _system_.currentTimeMillis()));
+                updateProgress(path);
+                
+                if (!name.isDot()){
+                    String entry = path.toRelativePath(rootDir,true, true);
+                    if (entry.startWith("./") || entry.startWith(".\\") ){
+                        entry = entry.substring(2, entry.length());
+                    }
+                    if (sf.isDir()){
+                        za.createEntry(new ZipFile(entry, nilptr, true, _system_.currentTimeMillis()));
+                        compressDir(za, rootDir, path);
+                    }else{
+                        za.createEntry(new ZipFile(entry, new FileInputStream(path), false, _system_.currentTimeMillis()));
+                    }
                 }
             }
         }
@@ -358,7 +358,7 @@ class MainDialog : QXDialog{
 
 class XMyApp : QXApplication {
 	MainDialog dialog;
-    bool create(){
+    public bool create(){
         if (super.createQXApplication()){
             dialog = new MainDialog();
             if (dialog.create()){

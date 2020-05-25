@@ -9,7 +9,6 @@
 					"incpath":	[],
 					"libpath":	["libs"]
 				},
-				"libs":	["FileSystem_1.0.0.3.lix", "FileStream_1.0.0.3.lix", "XPlatform_1.0.0.2.lix", "Runtime_1.0.0.3.lix"],
 				"options":	"",
 				"prebuild":	"",
 				"preclean":	"",
@@ -17,19 +16,24 @@
 				"makeclean":	"",
 				"afterbuild":	"",
 				"afterclean":	"",
-				"cmd":	"$(Output)",
-				"args":	"$(Output)",
-				"workdir":	"$(ProjectDir)",
-				"ignorewarning":	"",
-				"compdest":	"",
-				"debugable":	"-dbg",
-				"debugdatabase":	"",
+				"libs":	[],
+				"links":	[],
+				"depends":	[],
 				"wtype":	"",
 				"ostype":	"",
+				"sstype":	"",
 				"outname":	"$(ProjectName)$(Ext)",
 				"outpath":	"$(ProjectDir)/$(Arch)/$(Configure)",
 				"command":	"-ce",
-				"uaclevel":	"管理员(-uac-admin)"
+				"uaclevel":	"管理员(-uac-admin)",
+				"ignorewarning":	"",
+				"compdest":	"",
+				"ignorewl":	"",
+				"debugable":	"-dbg",
+				"debugdatabase":	"",
+				"cmd":	"$(Output)",
+				"args":	"$(Output)",
+				"workdir":	"$(ProjectDir)"
 			},
 			"release":	{
 				"path":	{
@@ -50,7 +54,7 @@
 				"uaclevel":	"管理员(-uac-admin)"
 			}
 		},
-		"versioninc":	"0",
-		"icofile":	""
+		"icofile":	"",
+		"versioninc":	"0"
 	}
 }

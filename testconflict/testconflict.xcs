@@ -1,7 +1,7 @@
 //xlang 
 
 class ksks{
-	static Object t = new Object();
+	public static Object t = new Object();
 };
 int main(String [] args){
 	_system_.createConsole();

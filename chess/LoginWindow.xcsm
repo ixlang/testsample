@@ -28,7 +28,7 @@ class LoginWindow : QXDialog{
         CREATEROOM_FAILED = 4,
         UPDATE_USER = 5;
         
-    LoginWindow(){
+    public LoginWindow(){
 		super();
     }
     
@@ -138,11 +138,17 @@ class LoginWindow : QXDialog{
         }
     };
     
-	bool create()override{
-		if (load("ui/login.ui")){
+	public bool create()override{
+        QXBuffer buf = new QXBuffer();
+        byte [] data = __xPackageResource( "ui/login.ui");
+        buf.setBuffer(data, 0, data.length);
+		if (load(buf)){
 			client.setClient(_client);
-            
-			setFixedSize(width(), height());
+            //setFixedSize(width(), height());
+            if (_system_.getPlatformId() == _system_.PLATFORM_ANDROID){
+                showFullScreen();
+            }
+			
             edtName = (QXLineEdit)attachByName(new QXLineEdit(), "edtName");
             edtMsg = (QXLineEdit)attachByName(new QXLineEdit(), "edtMsg");
 			roomlist = (QXTreeView)attachByName(new QXTreeView(), "roomlist");

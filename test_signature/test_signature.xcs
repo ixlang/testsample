@@ -32,7 +32,7 @@ class Server : IServer{
         }
     };
     
-    void create(){
+    public void create(){
 		rcs.create(unsi.getAsyncDirectOutput(), rcph, this, true);
 		unsi.create(rcs.getAsyncDirectInput(), 1, 13567, 0);
         unsi.start();
@@ -60,9 +60,9 @@ class Client : IClient{
 	RemoteCallPipe<IClient, IServer> rcs = new RemoteCallPipe<IClient, IServer>();	
     
     class XAsyncOutput : AsyncOutput{
-		StreamSocket _socket = new StreamSocket();
+		public StreamSocket _socket = new StreamSocket();
         
-		bool create(){
+		public bool create(){
 			return _socket.connect("127.0.0.1", 13567);
         }
         
@@ -109,14 +109,14 @@ class Client : IClient{
         }
     };
     
-    void create(){
+    public void create(){
 		ao.create();
         loop();
 		rcs.create(ao, rcph, this, false);
         rcs.startForClient(0, 5000);
     }
     
-    void run(){
+    public void run(){
 		test();
     }
     void add(long context, int a, int b)override{

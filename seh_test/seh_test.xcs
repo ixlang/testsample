@@ -1,7 +1,7 @@
 
 
 class MyException : Exception{
-    MyException(){
+    public MyException(){
         super("this is an exception");
     }
 

@@ -1,16 +1,16 @@
 //xlang 
 package System{
-	class out{
-		static int println(String text){
+	public class out{
+		public static int println(String text){
 			return _system_.consoleWrite(text + "\n");
 		}
-		static int print(String text){
+		public static int print(String text){
 			return _system_.consoleWrite(text);
 		}
 	};
 	
-	class Console{
-		Console(){
+	public class Console{
+		public Console(){
 			_system_.createConsole();
 		}
 	};
@@ -22,40 +22,40 @@ using { System; };
 
 static class caRegMixMath {
 
-	static class Express{
+	public static class Express{
 		byte [] p;
 		int start;
 		int length;
 		
-		Express(String exp){
+		public Express(String exp){
 			p = exp.getBytes();
 			start = 0;
 			length = exp.length();
 		}
 		
-		Express(byte [] _p,int _s,int _l){
+		public Express(byte [] _p,int _s,int _l){
 			p = _p;
 			start = _s;
 			length = _l;
 		}
 		
-		Express(Express p2) {
+		public Express(Express p2) {
 			p = p2.p;
 			start = p2.start;
 			length = p2.length;	
 		}
 
-		char getChar(){
+		public char getChar(){
 			return p[start];
 		}
-		bool next(){
+		public bool next(){
 			if (start < length - 1){
 				start++;
 				return true;
 			}
 			return false;
 		}
-		long atoi(){
+		public long atoi(){
 			int n = start;
 			bool bhex = false;
 			if (length > 1 && p[n] == '0' && p[n + 1] == 'x'){
@@ -77,7 +77,7 @@ static class caRegMixMath {
 			return 0;
 		}
 
-		bool complete() {
+		public bool complete() {
 			return (length -1) == start;
 		}
 	};
@@ -86,7 +86,7 @@ static class caRegMixMath {
 		return mixcalc(new Express(text), true, false);
 	}
 	
-	static long mixcalc(Express p,bool bmain, bool b) {
+	public static long mixcalc(Express p,bool bmain, bool b) {
 		long result = 1;
 
 		while ( p.getChar() != '(' && false == (p.getChar() >= '0' && p.getChar() <= '9') && false == (p.getChar() >= 'a' && p.getChar() <= 'z')) { result *= (p.getChar() == '-' ? -1 : 1); p.next(); }

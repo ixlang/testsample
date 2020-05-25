@@ -2,12 +2,12 @@
 
 
 class youclass: Myclass{
-	void fuck(C c){
+	public void fuck(C c){
     }
 };
 
 class Myclass{
-	void fuck(C c);
+	public void fuck(C c);
 };
 
 class C : D{

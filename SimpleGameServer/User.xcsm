@@ -3,15 +3,15 @@
 
 class User{
 
-	User(int i,String n){
+	public User(int i,String n){
 		id = i;
         nick = n;
     }
     
 	int id;
-    String nick;
+    public String nick;
     
-    int getId(){
+    public int getId(){
 		return id;
     }
     
@@ -22,60 +22,60 @@ class User{
     
     IClient client;
     
-    long context;
+    public long context;
     
-    void setContext(long c){
+    public void setContext(long c){
 		context = c;
     }
     
-    void ready(){
+    public void ready(){
 		readyToStart = true;
     }
     
-    void cancel(){
+    public void cancel(){
 		readyToStart = false;
     }
     
-    bool isReady(){
+    public bool isReady(){
 		return readyToStart;
     }
-    Room getRoom(){
+    public Room getRoom(){
 		return room;
 	}
     
-    void setRoom(Room r){
+    public void setRoom(Room r){
 		room = r;
     }
     
-    bool leaveRoom(){
+    public bool leaveRoom(){
 		if (room != nilptr){
 			return room.leave(this);
         }
         return false;
     }
     
-    bool joinGame(){
+    public bool joinGame(){
     	if (room != nilptr){
 			return room.joinGame(this);
         }
         return false;
     }
         
-    bool leaveGame(){
+    public bool leaveGame(){
     	if (room != nilptr){
 			return room.leaveGame(this);
         }
         return false;
     }
     
-    bool setChess(RCPServer rcp ,int index){
+    public bool setChess(RCPServer rcp ,int index){
     	if (room != nilptr){
 			return room.setChess(rcp, this, index);
         }
         return false;
     }
     
-    bool startGame(RCPServer rcp, bool ready){
+    public bool startGame(RCPServer rcp, bool ready){
 		if (room != nilptr){
 			if (ready){
 				return room.ready(rcp, this);
@@ -86,7 +86,7 @@ class User{
         return false;
     }
     
-    bool sendRoomMessage(RCPServer rcp , String msg){
+    public bool sendRoomMessage(RCPServer rcp , String msg){
 		if (room != nilptr){
 			room.sendRoomMessage(this, rcp, msg);
             return true;
@@ -94,11 +94,11 @@ class User{
         return false;
     }
     
-    void sendMessage(RCPServer rcp , User sender, String msg){
+    public void sendMessage(RCPServer rcp , User sender, String msg){
 		rcp.rcs.onUserMessage(context, sender.getId(),  msg);
     }
     
-    void onUserEnter(RCPServer rcp, int uid, String _nick){
+    public void onUserEnter(RCPServer rcp, int uid, String _nick){
 		rcp.rcs.onUserEnter(context, uid,  _nick);
     }
 };

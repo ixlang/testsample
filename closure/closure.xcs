@@ -5,17 +5,17 @@ include ("../../std/Map.xcs",
 "../../std/System.xcs")
 
 package System{
-	class out{
-		static int println(String text){
+	public class out{
+		public static int println(String text){
 			return _system_.consoleWrite(text + "\n");
 		}
-		static int print(String text){
+		public static int print(String text){
 			return _system_.consoleWrite(text);
 		}
 	};
 	
-	class Console{
-		Console(){
+	public class Console{
+		public Console(){
 			_system_.createConsole();
 		}
 	};
@@ -31,10 +31,10 @@ package System{
 
 static class tester{
     int j = 0;
-    tester(int p){
+    public tester(int p){
         j = p;
     }
-    int fuck(){
+     public int fuck(){
         return j;
     }
 };
@@ -58,7 +58,7 @@ int main(String [] args){
         int fuck(){
             int r = 0;
             return kl += add(new tester(4){
-                int fuck(){
+                public int fuck(){
                     return r + kl + 1; // 
                 }
             });

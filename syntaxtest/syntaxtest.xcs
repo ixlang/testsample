@@ -1,18 +1,18 @@
 //xlang
 package System{
-    class out{
-        static int println(String text)
+    public class out{
+        public static int println(String text)
         {
             return _system_.consoleWrite(text + "\n");
         }
-        static int print(String text)
+        public static int print(String text)
         {
             return _system_.consoleWrite(text);
         }
     };
 
-    class Console{
-        Console()
+    public class Console{
+        public Console()
         {
             _system_.createConsole();
         }
@@ -21,22 +21,22 @@ package System{
 
 
 class Ic{
-    static class OC<_T>{
+    public static class OC<_T>{
         _T t;
-        OC(_T y){
+        public OC(_T y){
             t = y;
         }
-        _T fg(){
+        public _T fg(){
             return t;
         }
-        OC<_T> f(){
+        public OC<_T> f(){
             return this;
         }
-        static OC<_T> c(_T s){
+        public static OC<_T> c(_T s){
             return new Ic.OC<_T>(s);
         }
     };
-    Ic fo(){
+    public Ic fo(){
         return this;
     }
 };
@@ -45,10 +45,10 @@ using { System; };
 
 class KL{
   Ic[]   s = new Ic[2];
-  KL(){
+  public KL(){
       s[0] = new Ic();
   }
-  Ic[] g(){
+  public Ic[] g(){
       return s;
   }
 };

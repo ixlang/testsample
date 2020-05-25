@@ -12,27 +12,27 @@ class SenceDrawer{
     int [] data = new int [441];
     int over_x, over_y;
     
-    void setServer(IServer server, int mid){
+    public void setServer(IServer server, int mid){
 		_server = server;
         myid = mid;
     }
     
-    bool create(){
-		back = new QXImage("back.png", nilptr);
-        blue = new QXImage("blue.png", nilptr);
-        red = new QXImage("red.png", nilptr);
-        over = new QXImage("over.png", nilptr);
+    public bool create(){
+		back = new QXImage(__xPackageResource( "back.png"), "png");
+        blue = new QXImage(__xPackageResource( "blue.png"), "png");
+        red = new QXImage(__xPackageResource( "red.png"), "png");
+        over = new QXImage(__xPackageResource( "over.png"), "png");
         return true;
     }
     
-	void update(QXPainter p, QXRect rect){
+	public void update(QXPainter p, QXRect rect){
 		p.fillRect(rect, 0xff282822, QXBrush.Style.SolidPattern);
 		p.drawImage(back, 0, 0);
         drawChess(p);
     }
     
     
-    void drawChess(QXPainter p){
+    public void drawChess(QXPainter p){
     
 		p.drawImage(over, 20 - 15 + over_x * 30, 108 - 15 + over_y * 30);
 		
@@ -42,7 +42,7 @@ class SenceDrawer{
         
     }
     
-    void drawRow(QXPainter p, int l, int []line, int offset){
+    public void drawRow(QXPainter p, int l, int []line, int offset){
 		for (int i = 0; i < 21; i ++){
 			if (line[offset + i] != 0){
 				if (line[offset + i] == myid){
@@ -54,12 +54,12 @@ class SenceDrawer{
         }
     }
     
-    int fixPoint(int x,int y){
+    public int fixPoint(int x,int y){
 		return ((y - (105 - 15)) / 30) * 21 +
 		(x - (20 - 15)) / 30;
     }
     
-    bool setChess(int _row, int _line, int id){
+    public bool setChess(int _row, int _line, int id){
         if (_line >=0 && _line < 21 && _row >=0 && _row < 21){
 			data[_line * 21 + _row] = id;
             return true;
@@ -67,7 +67,7 @@ class SenceDrawer{
         return false;
     }
     
-    bool updateOver(int x,int y){
+    public bool updateOver(int x,int y){
 		int _line = ((y - (105 - 15)) / 30);
 		int _row = (x - (20 - 15)) / 30;
         if (_line >=0 && _line < 21 && _row >=0 && _row < 21){

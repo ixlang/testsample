@@ -21,25 +21,25 @@ int fuck4(){
 class Integer{
 
 	int ok;
-	Integer(){
+	public Integer(){
 		ok = 0;
 	}
-	Integer(int i){
+	public Integer(int i){
 		ok = i;
 	}
-	Integer  operator +( Integer  o){
+	public Integer  operator +( Integer  o){
 		_system_.consoleWrite(String.format("%d + %d\n", ok, o.ok));
 		return new Integer(ok + o.ok);
 	}
-	Integer  operator -( Integer  o){
+	public Integer  operator -( Integer  o){
 		_system_.consoleWrite(String.format("%d - %d\n", ok, o.ok));
 		return new Integer(ok - o.ok);
 	}
-	Integer  operator *( Integer  o){
+	public Integer  operator *( Integer  o){
 		_system_.consoleWrite(String.format("%d * %d\n", ok, o.ok));
 		return new Integer(ok * o.ok);
 	}
-	Integer  operator /( Integer  o){
+	public Integer  operator /( Integer  o){
 		_system_.consoleWrite(String.format("%d / %d\n", ok, o.ok));
 		return new Integer(ok / o.ok);
 	}

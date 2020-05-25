@@ -1,16 +1,16 @@
 //xlang 
 package System{
-	class out{
-		static int println(String text){
+	public class out{
+		public static int println(String text){
 			return _system_.consoleWrite(text + "\n");
 		}
-		static int print(String text){
+		public static int print(String text){
 			return _system_.consoleWrite(text);
 		}
 	};
 	
-	class Console{
-		Console(){
+	public class Console{
+		public Console(){
 			_system_.createConsole();
 		}
 	};
@@ -22,18 +22,18 @@ using { System; };
 
 
 class base{
-    void print(){
+    public void print(){
         _system_.consoleWrite(" this is base\n");
     }
     
-    void print_sub(){
+    public void print_sub(){
         _system_.consoleWrite(" this is sub base\n");
     }
 };
 
 
 class extend : base{
-    void print(){
+    public void print(){
         _system_.consoleWrite(" this is extend\n");
         print_sub();
     }

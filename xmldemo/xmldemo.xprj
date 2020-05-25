@@ -1,42 +1,46 @@
 {
-
-		"xmldemo":{
-			"version":"1.2",
-			"language":"xlang",
-			"icofile":"",
-			"sources":["xmldemo.xcs"],
-			"configures":{
-				"debug":{
-					"path":{
-						"incpath":[],
-						"libpath":[]
-					},
-					"libs":[],
-					"options":"",
-					"command":"-ce",
-					"debugable":"-dbg",
-					"outpath":"$(ProjectDir)/$(Arch)/$(Configure)",
-					"outname":"$(ProjectName)$(Ext)",
-					"cmd":"$(Output)",
-					"args":"$(Output)",
-					"workdir":"$(ProjectDir)"
+	"xmldemo":	{
+		"version":	"1.2",
+		"language":	"xlang",
+		"sources":	["xmldemo.xcs"],
+		"configures":	{
+			"debug":	{
+				"path":	{
+					"incpath":	[],
+					"libpath":	["libs"]
 				},
-				"release":{
-					"path":{
-						"incpath":[],
-						"libpath":[]
-					},
-					"libs":[],
-					"options":"-nd",
-					"command":"-ce",
-					"debugable":"",
-					"outpath":"$(ProjectDir)/$(Arch)/$(Configure)",
-					"outname":"$(ProjectName)$(Ext)",
-					"cmd":"$(Output)",
-					"args":"$(Output)",
-					"workdir":"$(ProjectDir)"
-				}
+				"options":	"",
+				"debugable":	"-dbg",
+				"cmd":	"$(Output)",
+				"args":	"$(Output)",
+				"workdir":	"$(ProjectDir)",
+				"wtype":	"",
+				"ostype":	"",
+				"sstype":	"",
+				"outname":	"$(ProjectName)$(Ext)",
+				"outpath":	"$(ProjectDir)/$(Arch)/$(Configure)",
+				"command":	"-ce",
+				"uaclevel":	"默认",
+				"libs":	["XPlatform_1.0.0.2.lix", "FileStream_1.0.0.4.lix"],
+				"links":	[],
+				"depends":	[]
+			},
+			"release":	{
+				"path":	{
+					"incpath":	[],
+					"libpath":	[]
+				},
+				"libs":	[],
+				"options":	"-nd",
+				"command":	"-ce",
+				"debugable":	"",
+				"outpath":	"$(ProjectDir)/$(Arch)/$(Configure)",
+				"outname":	"$(ProjectName)$(Ext)",
+				"cmd":	"$(Output)",
+				"args":	"$(Output)",
+				"workdir":	"$(ProjectDir)"
 			}
-		}
+		},
+		"icofile":	""
 	}
 }

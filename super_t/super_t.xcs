@@ -20,7 +20,7 @@ class b : a{
         }
     };
     
-    static class e : a{
+    public static class e : a{
     
     
     };

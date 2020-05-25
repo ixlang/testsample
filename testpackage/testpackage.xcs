@@ -1,13 +1,13 @@
 //xlang 
 
 package System{
-    package OS{ 
-        package IO{ 
-            class out{
-                static int println(String text){
+    public package OS{ 
+        public package IO{ 
+            public class out{
+                public static int println(String text){
                     return out.print(text + "\n");
                 }
-                static int print(String text){
+                public static int print(String text){
                     return _system_.consoleWrite(text);
                 }
             };
@@ -16,9 +16,9 @@ package System{
 };
 
 package System{
-    package OS{ 
-        class Console{
-            Console(){
+    public package OS{ 
+        public class Console{
+            public Console(){
                 _system_.createConsole();
             }
         };
@@ -45,11 +45,11 @@ int fuuu = 10;
 class Myfosk{
     static int fuuu = 9;
     
-    int fuuu(int fuuu){
+    public int fuuu(int fuuu){
         return this.fuuu;
     }
     
-    int fucks(int fuuu){
+    public int fucks(int fuuu){
         return fuuu;
     }
 };

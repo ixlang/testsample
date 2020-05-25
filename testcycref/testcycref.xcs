@@ -2,7 +2,7 @@
 
 
 class XObject{
-	XObject a;
+	public XObject a;
 };
 
 
@@ -79,7 +79,7 @@ class MyThread : Thread{
 
 int main(String [] args){
 	_system_.createConsole();
-    //_system_.setMinorGCThreshold(100.5);
+    _system_.setMinorGCThreshold(1000000.5);
 	new MyThread().start();
 	return 0;
 }

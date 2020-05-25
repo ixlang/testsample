@@ -19,20 +19,20 @@ by cadaqs
 		static const int  RB_PROPERTY_RED = 0;
 		static const int RB_PROPERTY_BLACK = 1;
 
-		class _Node <_NodeType>{
+		public class _Node <_NodeType>{
 
-			_Node(){
+			public _Node(){
 
 			}
 
-			_Node(_NodeType _obj, int _color){
+			public _Node(_NodeType _obj, int _color){
 				_nColor = _color;
 				_Var = _obj;
 
 				
 			}
 
-			void _destroyall(carbtree<_Type, _KeyType> _pTree) {
+			public void _destroyall(carbtree<_Type, _KeyType> _pTree) {
 				if (_pRight != nilptr) {
 					_pRight._destroyall(_pTree);
 					_pTree.dellocNodeRecursion(_pRight);
@@ -44,19 +44,19 @@ by cadaqs
 					_pLeft = nilptr;
 				}
 			}
-			int depth() {
+			public int depth() {
 				int  iRightDepth = (_pRight != nilptr) ? _pRight.depth() : 0;
 				int  iLeftDepth = (_pLeft != nilptr) ? _pLeft.depth() : 0;
 				return((iRightDepth > iLeftDepth) ? (iRightDepth + 1) : (iLeftDepth + 1));
 			}
-			_Node<_NodeType>  minimum() {
+			public _Node<_NodeType>  minimum() {
 				_Node<_NodeType> _pMin = this;
 				while (nilptr != _pMin._pLeft) {
 					_pMin = _pMin._pLeft;
 				}
 				return _pMin;
 			}
-			_Node<_NodeType>  maximum() {
+			public _Node<_NodeType>  maximum() {
 				_Node<_NodeType> _pMax = this;
 				while (nilptr != _pMax._pRight) {
 					_pMax = _pMax._pRight;
@@ -109,7 +109,7 @@ by cadaqs
 				_pRight._traverse(op);
 			}*/
 
-			void copyNodeTree(carbtree<_Type, _KeyType>  pTree, _Node<_NodeType> _node) {
+			public void copyNodeTree(carbtree<_Type, _KeyType>  pTree, _Node<_NodeType> _node) {
 				_Var = _node._Var;
 				_nColor = _node._nColor;
 				if (_node._pRight != nilptr) {
@@ -123,7 +123,7 @@ by cadaqs
 					_pLeft.copyNodeTree(pTree, _node._pLeft);
 				}
 			}
-			bool compareNodeTree(_Node<_NodeType> _node) {
+			public bool compareNodeTree(_Node<_NodeType> _node) {
 				//bool  bcompared = false;
 				if (_Var != _node._Var) {
 					return false;
@@ -154,11 +154,11 @@ by cadaqs
 				return true;
 			}
 
-			int _nColor;
-			_Node<_NodeType>        _pParent;
-			_Node<_NodeType>        _pLeft;
-			_Node<_NodeType>       _pRight;
-			_NodeType            _Var;
+			public int _nColor;
+			public _Node<_NodeType>        _pParent;
+			public _Node<_NodeType>        _pLeft;
+			public _Node<_NodeType>       _pRight;
+			public _NodeType            _Var;
 		};
 
 
@@ -166,10 +166,10 @@ by cadaqs
 		_Node<_Type>  _treeroot;
 
 
-		carbtree() {
+		public carbtree() {
 		}
 
-		carbtree(carbtree<_Type, _KeyType> _Copy) {
+		public carbtree(carbtree<_Type, _KeyType> _Copy) {
 			copyFrom(_Copy);
 		}
 
@@ -626,7 +626,7 @@ by cadaqs
 			_treesize = 0;
 		}
 
-		int size() {
+		public int size() {
 			return _treesize;
 		}
 
@@ -640,7 +640,7 @@ by cadaqs
 		bool contains(_KeyType _Key) {
 			return(find(_Key) != nilptr);
 		}
-		_Node<_Type> put(_Type _Var) {
+		public _Node<_Type> put(_Type _Var) {
 			return set(_Var, true);
 		}
 		_Node<_Type> set(_Type _Var, bool bPut) {
@@ -757,7 +757,7 @@ by cadaqs
 			return _NewNode;
 		}
 
-		_Node<_Type> find(_KeyType _Key) {
+		public _Node<_Type> find(_KeyType _Key) {
 			
 			_Node<_Type> _CurNode = _treeroot;
 			while (nilptr !=_CurNode) {
@@ -770,7 +770,7 @@ by cadaqs
 			return nilptr;
 		}
 
-		_Node<_Type> find(_Type _Key) {
+		public _Node<_Type> find(_Type _Key) {
 			_Node<_Type> _CurNode = _treeroot;
 			while (nilptr !=_CurNode) {
 				if (_CurNode._Var == _Key){
@@ -783,7 +783,7 @@ by cadaqs
 		}
 
 
-		_Node<_Type> findnear(_KeyType _Key, bool bLess, bool bForceNear){
+		public _Node<_Type> findnear(_KeyType _Key, bool bLess, bool bForceNear){
 			_Node<_Type> _CurNode = _treeroot;
 			_Node<_Type> lessNode,moreNode;
 

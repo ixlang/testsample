@@ -1,0 +1,476 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.vsylab.interphone"
+    android:versionCode="235"
+    android:versionName="2.035" >
+
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:resizeable="true"
+        android:smallScreens="true" />
+
+
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
+	<uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
+	<uses-permission android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.DEVICE_POWER" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.BAIDU_LOCATION_SERVICE" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.READ_OWNER_DATA" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.DUMP" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-feature
+        android:name="android.hardware.location"
+        android:required="true" />
+    <uses-feature
+        android:name="android.hardware.location.gps"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.front"
+        android:required="false" />
+    <!-- TODO replace above two with next line after Android 4.2 -->
+    <!-- <uses-feature android:name="android.hardware.camera.any"/> -->
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.flash"
+        android:required="false" />
+    <uses-feature android:name="android.hardware.screen.portrait" />
+    <uses-feature
+        android:name="android.hardware.wifi"
+        android:required="false" />
+    <!-- This excludes Google TV, which is unfortunately included by virtue of not requiring a camera -->
+    <uses-feature android:name="android.hardware.touchscreen" />
+    <!-- TODO make this not required again after android.hardware.camera.any is available -->
+
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:smallScreens="true"
+        android:xlargeScreens="true" />
+
+    <application
+        android:name="com.vsylab.application.InterphoneApplication"
+        android:allowBackup="true"
+        android:debuggable="true"
+        android:hardwareAccelerated="false"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:persistent="true"
+        android:theme="@style/interphoneStyle" >
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="false"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.vsylab.poppage.LoginActivity"
+            android:exported="false"
+            android:label="@string/title_activity_login"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateVisible" >
+        </activity>
+        <activity
+            android:name="com.vsylab.poppage.RegistryActivity"
+            android:exported="false"
+            android:label="@string/title_activity_registry"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.google.zxing.client.android.CaptureActivity"
+            android:clearTaskOnLaunch="true"
+            android:configChanges="orientation|keyboardHidden"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:stateNotNeeded="true"
+            android:windowSoftInputMode="stateAlwaysHidden" >
+        </activity>
+        <activity
+            android:name="com.vsylab.activity.discover.NearUserActivity"
+            android:exported="false"
+            android:label="@string/title_activity_near_user"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.vsylab.activity.setting.HelpActivity"
+            android:exported="false"
+            android:label="@string/title_activity_help"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.vsylab.activity.setting.ReportActivity"
+            android:exported="false"
+            android:label="@string/title_activity_report"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.vsylab.activity.setting.AboutActivity"
+            android:exported="false"
+            android:label="@string/title_activity_about"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.vsylab.activity.interphone.InterphoneActivity"
+            android:exported="false"
+            android:hardwareAccelerated="false"
+            android:label="@string/title_activity_interphone"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.vsylab.activity.interphone.SelectChannelActivity"
+            android:exported="false"
+            android:label="@string/title_activity_select_channel"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        <activity
+            android:name="com.vsylab.activity.common.CommonInputActivity"
+            android:exported="false"
+            android:label="@string/title_activity_common_input"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible|adjustResize" >
+        </activity>
+        <activity
+            android:name="com.vsylab.telephone.activity.TelephoneCallingActivity"
+            android:exported="false"
+            android:label="@string/title_activity_telephone_incoming"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.vsylab.telephone.activity.DialpaneActivity"
+            android:exported="true"
+            android:label="@string/title_activity_dialpane"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.vsylab.activity.ui.UserInfoActivity"
+            android:exported="false"
+            android:label="@string/title_activity_user_info"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.vsylab.activity.discover.NearChannelActivity"
+            android:exported="false"
+            android:label="@string/title_activity_near_channel"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.vsylab.activity.setting.EditAccountActivity"
+            android:exported="false"
+            android:label="@string/title_activity_edit_account"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.vsylab.activity.interphone.MemberlistActivity"
+            android:exported="false"
+            android:label="@string/title_activity_edit_account"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.vsylab.activity.setting.StatisticsActivity"
+            android:exported="false"
+            android:label="@string/title_activity_statistics"
+            android:screenOrientation="portrait" >
+        </activity>
+
+        <receiver android:name="com.vsylab.hardware.MultiMediaHWReceiver" >
+            <intent-filter android:priority="2000" >
+                <action android:name="android.intent.action.MEDIA_BUTTON" />
+                <action android:name="android.media.VOLUME_CHANGED_ACTION" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.vsylab.receiver.NetworkChangeReceiver" >
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.vsylab.service.StartBroadcastReceiver"
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETED" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.vsylab.pushsrv.VsyPushBootLoader"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETED" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.vsylab.pushsrv.VsyPushSrvHelper"
+            android:enabled="true"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="com.vsylab.pushsrv.VsyPushSrvHelper.PUSHSRV_ALARM" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.vsylab.pushsrv.VsyPushNetworkSync"
+            android:enabled="true"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="com.vsylab.service.PushService"
+            android:enabled="true"
+            android:exported="false"
+            android:icon="@drawable/ic_launcher"
+            android:label="推送服务" >
+        </service>
+
+        <meta-data
+            android:name="Vsylab_pushsrv_srvclsname"
+            android:value="com.vsylab.service.PushService" />
+
+        <service
+            android:name="com.vsylab.session.CommuniSession"
+            android:enabled="true"
+            android:exported="false"
+            android:icon="@drawable/ic_launcher"
+            android:label="通讯服务" >
+        </service>
+        <!--
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote" >
+        </service>
+        <meta-data
+            android:name="Vsylab_msnsrv_accessKey"
+            android:value="5719A33F54EC2422457C0A0749A98824" />
+        <meta-data
+            android:name="Vsylab_pushsrv_accessKey"
+            android:value="89D8E25A5CE6BE2B56F4DE0384E60233" />
+        <meta-data
+            android:name="Vsylab_lbssrv_accessKey"
+            android:value="7110833FCA94EB2D36635205DEDEE916" />
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="VWTaGjtXybLy854eWfeOMxG7" />
+
+
+        -->
+
+        <meta-data
+            android:name="Vsylab_msnsrv_accessKey"
+            android:value="E8AC45386CD10F0DD8D8D30255B4092E" />
+        <meta-data
+            android:name="Vsylab_pushsrv_accessKey"
+            android:value="ABD9E6424C9D8C113D46F1039D824B35" />
+        <meta-data
+            android:name="Vsylab_lbssrv_accessKey"
+            android:value="8C01394D7CCAB72E09E600011A1D821F" />
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="q0vLAQlx02DCCkHWosa3VH2h" />
+
+        <activity
+            android:name="com.vsylab.activity.setting.ChangepwdActivity"
+            android:exported="false"
+            android:label="@string/title_activity_changepwd"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.vsylab.activity.setting.SecuritiesActivity"
+            android:exported="false"
+            android:label="@string/title_activity_securities"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.vsylab.activity.ui.CallDetailActivity"
+            android:exported="false"
+            android:label="@string/title_activity_call_detail"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.vsylab.activity.ui.ChannelInfoActivity"
+            android:exported="false"
+            android:label="@string/title_activity_channel_info"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.vsylab.activity.common.ImageEditorActivity"
+            android:exported="false"
+            android:label="@string/title_activity_image_editor"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.vsylab.activity.discover.ProductListActivity"
+            android:exported="false"
+            android:label="@string/title_activity_product_list"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.vsylab.activity.discover.ProductDetailActivity"
+            android:exported="false"
+            android:label="@string/title_activity_product_detail"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.vsylab.activity.discover.OrdersListActivity"
+            android:exported="false"
+            android:label="@string/title_activity_orders_list"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.vsylab.activity.discover.OrderDetailActivity"
+            android:exported="false"
+            android:label="@string/title_activity_order_detail"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.vsylab.poppage.FindPasswordActivity"
+            android:exported="false"
+            android:label="@string/title_activity_find_password"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.vsylab.activity.discover.AssetsListActivity"
+            android:exported="false"
+            android:label="@string/title_activity_assets_list"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.vsylab.poppage.SearchActivity"
+            android:exported="false"
+            android:label="@string/title_activity_search"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.vsylab.activity.setting.SystemMessageActivity"
+            android:exported="false"
+            android:label="@string/title_activity_system_message"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".SplashActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/ContentOverlay" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.vsylab.activity.discover.FriendDistributeActivity"
+            android:exported="false"
+            android:label="@string/title_activity_friend_distribute"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.vsylab.activity.discover.HotChannelActivity"
+            android:exported="false"
+            android:label="@string/title_activity_hot_channel"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.vsylab.activity.discover.PublicChannelActivity"
+            android:exported="false"
+            android:label="@string/title_activity_public_channel"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.vsylab.activity.discover.RechargeActivity"
+            android:exported="false"
+            android:label="@string/title_activity_recharge"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.vsylab.poppage.MapViewActivity"
+            android:exported="false"
+            android:label="@string/title_activity_show_at_map"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.vsylab.activity.setting.HeadSetHWActivity"
+            android:exported="false"
+            android:label="@string/title_activity_head_set_hw"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.vsylab.activity.setting.SecurityEMailActivity"
+            android:exported="false"
+            android:label="@string/title_activity_security_email"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.vsylab.activity.discover.ActivitiesActivity"
+            android:exported="false"
+            android:label="@string/title_activity_activities"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.vsylab.activity.setting.EulaActivity"
+            android:exported="false"
+            android:label="@string/title_activity_eula"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.vsylab.activity.interphone.ShareExplorerActivity"
+            android:exported="false"
+            android:label="@string/title_activity_share_explorer" 
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.vsylab.activity.interphone.WizardActivity"
+            android:exported="false"
+            android:label="@string/title_activity_wizard" 
+            android:screenOrientation="portrait" >
+        </activity>
+    </application>
+
+</manifest>

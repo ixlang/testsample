@@ -4,224 +4,224 @@
 
 class caLexSyntax{ 
 
-	static const int ID_CC_K_SPACE = 14;
-	static const int ID_CC_K_IMPORT = 15;
-	static const int ID_CC_K_CDECL = 16;
-	static const int ID_CC_K_STDCALL = 17;
-	static const int ID_CC_K_FASTCALL = 18;
-	static const int ID_CC_K_PASCAL = 19;
-	static const int ID_CC_K_OPERATOR = 20;
-	static const int ID_CC_K_FOR = 21;
-	static const int ID_CC_K_WHILE = 22;
-	static const int ID_CC_K_DO = 23;
-	static const int ID_CC_K_TRY = 24;
-	static const int ID_CC_K_CATCH = 25;
-	static const int ID_CC_K_IF = 26;
-	static const int ID_CC_K_BREAK = 27;
-	static const int ID_CC_K_CONTINUE = 28;
-	static const int ID_CC_K_DEFAULT = 29;
-	static const int ID_CC_K_INTERFACE = 30;
-	static const int ID_CC_K_CLASS = 31;
-	static const int ID_CC_K_ENUM = 32;
-	static const int ID_CC_K_PACKAGE = 33;
-	static const int ID_CC_K_STATIC = 34;
-	static const int ID_CC_K_CONST = 35;
-	static const int ID_CC_K_THROW = 36;
-	static const int ID_CC_K_SWITCH = 37;
-	static const int ID_CC_K_CASE = 38;
-	static const int ID_CC_K_ELSE = 39;
-	static const int ID_CC_K_RETURN = 40;
-	static const int ID_CC_K_NEW = 41;
-	static const int ID_CC_K_INCLUDE = 42;
-	static const int ID_CC_K_USING = 43;
-	static const int ID_CC_K_REQUIRE = 44;
-	static const int ID_CC_K_FINALLY = 45;
-	static const int ID_CC_K_FINAL = 46;
-	static const int ID_CC_K_SYNCHRONIZED_READ = 47;
-	static const int ID_CC_K_SYNCHRONIZED_WRITE = 48;
-	static const int ID_CC_K_SYNCHRONIZED = 49;
-	static const int ID_CC_K_DECLARE = 50;
-	static const int ID_CC_K_OVERRIDE = 51;
-	static const int ID_CC_HEX = 52;
-	static const int ID_CC_EXTFLOAT = 53;
-	static const int ID_CC_FLOAT = 54;
-	static const int ID_CC_LONGNUM = 55;
-	static const int ID_CC_INTNUM = 56;
-	static const int ID_CC_WORD = 57;
-	static const int ID_CC_COLON = 58;
-	static const int ID_CC_QM = 59;
-	static const int ID_CC_COMMENT = 60;
-	static const int ID_CC_COMPSET_OPS = 61;
-	static const int ID_CC_LOGICOR_OPS = 62;
-	static const int ID_CC_LOGICAND_OPS = 63;
-	static const int ID_CC_BITOR_OPS = 64;
-	static const int ID_CC_BITXOR_OPS = 65;
-	static const int ID_CC_BITAND_OPS = 66;
-	static const int ID_CC_EQUALS_OPS = 67;
-	static const int ID_CC_BITMOV_OPS = 68;
-	static const int ID_CC_MEQ = 69;
-	static const int ID_CC_LEQ = 70;
-	static const int ID_CC_LC = 71;
-	static const int ID_CC_RC = 72;
-	static const int ID_CC_SELF_OPS = 73;
-	static const int ID_CC_UNARY_OPS = 74;
-	static const int ID_CC_ADDSUB_OPS = 75;
-	static const int ID_CC_MULDIVMOD_OPS = 76;
-	static const int ID_CC_MOV = 77;
-	static const int ID_CC_DOT = 78;
-	static const int ID_CC_LB = 79;
-	static const int ID_CC_RB = 80;
-	static const int ID_CC_LL = 81;
-	static const int ID_CC_LR = 82;
-	static const int ID_CC_LS = 83;
-	static const int ID_CC_RS = 84;
-	static const int ID_CC_LE = 85;
-	static const int ID_CC_COMMA = 86;
-	static const int ID_CC_STRING = 87;
-	static const int ID_CC_CHARS = 88;
-	static const int ID_SYNTAX_BEGIN = 89;
-	static const int ID_CC_COMPSET_SYMBOL = 89;
-	static const int ID_CC_COMPSET_OPERATION = 90;
-	static const int ID_CC_BINARY_EXPRESSION = 91;
-	static const int ID_CC_LOGICOR_SYMBOL = 92;
-	static const int ID_CC_LOGICOR_OPERATOR = 93;
-	static const int ID_CC_LOGICOR_OPERATION = 94;
-	static const int ID_CC_LOGICAND_SYMBOL = 95;
-	static const int ID_CC_LOGICAND_OPERATOR = 96;
-	static const int ID_CC_LOGICAND_OPERATION = 97;
-	static const int ID_CC_BITOR_SYMBOL = 98;
-	static const int ID_CC_BITOR_OPERATOR = 99;
-	static const int ID_CC_BITOR_OPERATION = 100;
-	static const int ID_CC_BITXOR_SYMBOL = 101;
-	static const int ID_CC_BITXOR_OPERATOR = 102;
-	static const int ID_CC_BITXOR_OPERATION = 103;
-	static const int ID_CC_BITAND_SYMBOL = 104;
-	static const int ID_CC_BITAND_OPERATOR = 105;
-	static const int ID_CC_BITAND_OPERATION = 106;
-	static const int ID_CC_EQUALS_SYMBOL = 107;
-	static const int ID_CC_EQUALS_OPERATOR = 108;
-	static const int ID_CC_EQUALS_OPERATION = 109;
-	static const int ID_CC_COMPARE_SYMBOL = 110;
-	static const int ID_CC_COMPARE_OPERATOR = 111;
-	static const int ID_CC_COMPARE_OPERATION = 112;
-	static const int ID_CC_BITMOV_SYMBOL = 113;
-	static const int ID_CC_BITMOV_OPERATOR = 114;
-	static const int ID_CC_BITMOV_OPERATION = 115;
-	static const int ID_CC_ADDSUB_SYMBOL = 116;
-	static const int ID_CC_ADDSUB_OPERATOR = 117;
-	static const int ID_CC_ADDSUB_OPERATION = 118;
-	static const int ID_CC_MULDIVMOD_SYMBOL = 119;
-	static const int ID_CC_MULDIVMOD_OPERATOR = 120;
-	static const int ID_CC_MULDIVMOD_OPERATION = 121;
-	static const int ID_CC_UNARY_SYMBOL = 122;
-	static const int ID_CC_UNARY_OPERATOR = 123;
-	static const int ID_CC_UNARY_OPERATION = 124;
-	static const int ID_CC_CONST_OBJECT = 125;
-	static const int ID_CC_WORD_EXP = 126;
-	static const int ID_CC_META_OBJECT = 127;
-	static const int ID_CC_STATIC_OWNNER = 128;
-	static const int ID_CC_STATIC_ELEMENT = 129;
-	static const int ID_CC_TEMPLATE_OBJECT = 130;
-	static const int ID_CC_NEW_EXPRESSION = 131;
-	static const int ID_CC_ARRAY_TYPE = 132;
-	static const int ID_CC_NEW_ARRAY = 133;
-	static const int ID_CC_NEWARRAY_EXPRESSION = 134;
-	static const int ID_CC_DYNAMIC_OWNNER = 135;
-	static const int ID_CC_DYNAMIC_ELEMENT = 136;
-	static const int ID_CC_CALL_EXPRESSION = 137;
-	static const int ID_CC_STATIC_TYPE = 138;
-	static const int ID_CC_OBJECT_BLOCK = 139;
-	static const int ID_CC_CAST_OBJECT = 140;
-	static const int ID_CC_RETURN_EXPRESSION = 141;
-	static const int ID_CC_THROW_EXPRESSION = 142;
-	static const int ID_CC_NORMAL_EXPRESSION = 143;
-	static const int ID_CC_NORMAL_OBJECT = 144;
-	static const int ID_CC_MATH_OBJECT = 145;
-	static const int ID_CC_OBJECT = 146;
-	static const int ID_CC_TEMPORARY_CLASS = 147;
-	static const int ID_CC_ARRAY = 148;
-	static const int ID_CC_TEMPLATE_PARAMS = 149;
-	static const int ID_CC_INIT_LIST = 150;
-	static const int ID_CC_SYNCHRONIZED_EXPRESSION = 151;
-	static const int ID_CC_IF_EXPRESSION = 152;
-	static const int ID_CC_FOR_FIRST_EXPRESSION = 153;
-	static const int ID_CC_FOR_LAST_EXPRESSION = 154;
-	static const int ID_CC_FOR_IN_EXPRESSION = 155;
-	static const int ID_CC_FOR_EXPRESSION = 156;
-	static const int ID_CC_WHILE_EXPRESSION = 157;
-	static const int ID_CC_DOWHILE_EXPRESSION = 158;
-	static const int ID_CC_CASE_EXPRESSION = 159;
-	static const int ID_CC_SWITCH_EXPRESSION = 160;
-	static const int ID_CC_CATCH_BODY = 161;
-	static const int ID_CC_EXCEPTION_EXPRESSION = 162;
-	static const int ID_CC_STATEMENT = 163;
-	static const int ID_CC_STATEMENTS = 164;
-	static const int ID_CC_VARIABLE_INIT = 165;
-	static const int ID_CC_ENUM_LIST = 166;
-	static const int ID_CC_VARIABLE_DEF = 167;
-	static const int ID_CC_DEF_VARIABLE_STATE = 168;
-	static const int ID_CC_PARAMS_DEF = 169;
-	static const int ID_CC_NATIVEPARAMS_DEF = 170;
-	static const int ID_CC_FILEARRAY = 171;
-	static const int ID_CC_REQUIRE = 172;
-	static const int ID_CC_INCLUDE = 173;
-	static const int ID_CC_PACKAGE_NAME = 174;
-	static const int ID_CC_PACKAGE_ARRAY = 175;
-	static const int ID_CC_USING = 176;
-	static const int ID_CC_FUNCTION = 177;
-	static const int ID_CC_FUNCTION_CTOR = 178;
-	static const int ID_CC_FUNCTION_CTOR_DECLARE = 179;
-	static const int ID_CC_OPERATOR = 180;
-	static const int ID_CC_DISPATCH = 181;
-	static const int ID_CC_BASECLASS = 182;
-	static const int ID_CC_BASEENUM = 183;
-	static const int ID_CC_NATIVEFUNCTION_DEF = 184;
-	static const int ID_CC_NATIVE_IMPORT_BODY = 185;
-	static const int ID_CC_NATIVE_IMPORT = 186;
-	static const int ID_CC_CLASS_BODY = 187;
-	static const int ID_CC_CLASS = 188;
-	static const int ID_CC_ENUM = 189;
-	static const int ID_CC_BASEINTERFACE = 190;
-	static const int ID_CC_FUNCTION_DECLARE = 191;
-	static const int ID_CC_OPERATOR_DECLARE = 192;
-	static const int ID_CC_INTERFACE_DISPATCH = 193;
-	static const int ID_CC_INTERFACE_BODY = 194;
-	static const int ID_CC_INTERFACE = 195;
-	static const int ID_CC_PACKAGE_BODY = 196;
-	static const int ID_CC_PACKAGE = 197;
-	static const int ID_CC_DECLARE = 198;
-	static const int ID_CC_GLOBAL = 199;
-	static const int ID_CC_SCAN = 200;
+	public static const int ID_CC_K_SPACE = 14;
+	public static const int ID_CC_K_IMPORT = 15;
+	public static const int ID_CC_K_CDECL = 16;
+	public static const int ID_CC_K_STDCALL = 17;
+	public static const int ID_CC_K_FASTCALL = 18;
+	public static const int ID_CC_K_PASCAL = 19;
+	public static const int ID_CC_K_OPERATOR = 20;
+	public static const int ID_CC_K_FOR = 21;
+	public static const int ID_CC_K_WHILE = 22;
+	public static const int ID_CC_K_DO = 23;
+	public static const int ID_CC_K_TRY = 24;
+	public static const int ID_CC_K_CATCH = 25;
+	public static const int ID_CC_K_IF = 26;
+	public static const int ID_CC_K_BREAK = 27;
+	public static const int ID_CC_K_CONTINUE = 28;
+	public static const int ID_CC_K_DEFAULT = 29;
+	public static const int ID_CC_K_INTERFACE = 30;
+	public static const int ID_CC_K_CLASS = 31;
+	public static const int ID_CC_K_ENUM = 32;
+	public static const int ID_CC_K_PACKAGE = 33;
+	public static const int ID_CC_K_STATIC = 34;
+	public static const int ID_CC_K_CONST = 35;
+	public static const int ID_CC_K_THROW = 36;
+	public static const int ID_CC_K_SWITCH = 37;
+	public static const int ID_CC_K_CASE = 38;
+	public static const int ID_CC_K_ELSE = 39;
+	public static const int ID_CC_K_RETURN = 40;
+	public static const int ID_CC_K_NEW = 41;
+	public static const int ID_CC_K_INCLUDE = 42;
+	public static const int ID_CC_K_USING = 43;
+	public static const int ID_CC_K_REQUIRE = 44;
+	public static const int ID_CC_K_FINALLY = 45;
+	public static const int ID_CC_K_FINAL = 46;
+	public static const int ID_CC_K_SYNCHRONIZED_READ = 47;
+	public static const int ID_CC_K_SYNCHRONIZED_WRITE = 48;
+	public static const int ID_CC_K_SYNCHRONIZED = 49;
+	public static const int ID_CC_K_DECLARE = 50;
+	public static const int ID_CC_K_OVERRIDE = 51;
+	public static const int ID_CC_HEX = 52;
+	public static const int ID_CC_EXTFLOAT = 53;
+	public static const int ID_CC_FLOAT = 54;
+	public static const int ID_CC_LONGNUM = 55;
+	public static const int ID_CC_INTNUM = 56;
+	public static const int ID_CC_WORD = 57;
+	public static const int ID_CC_COLON = 58;
+	public static const int ID_CC_QM = 59;
+	public static const int ID_CC_COMMENT = 60;
+	public static const int ID_CC_COMPSET_OPS = 61;
+	public static const int ID_CC_LOGICOR_OPS = 62;
+	public static const int ID_CC_LOGICAND_OPS = 63;
+	public static const int ID_CC_BITOR_OPS = 64;
+	public static const int ID_CC_BITXOR_OPS = 65;
+	public static const int ID_CC_BITAND_OPS = 66;
+	public static const int ID_CC_EQUALS_OPS = 67;
+	public static const int ID_CC_BITMOV_OPS = 68;
+	public static const int ID_CC_MEQ = 69;
+	public static const int ID_CC_LEQ = 70;
+	public static const int ID_CC_LC = 71;
+	public static const int ID_CC_RC = 72;
+	public static const int ID_CC_SELF_OPS = 73;
+	public static const int ID_CC_UNARY_OPS = 74;
+	public static const int ID_CC_ADDSUB_OPS = 75;
+	public static const int ID_CC_MULDIVMOD_OPS = 76;
+	public static const int ID_CC_MOV = 77;
+	public static const int ID_CC_DOT = 78;
+	public static const int ID_CC_LB = 79;
+	public static const int ID_CC_RB = 80;
+	public static const int ID_CC_LL = 81;
+	public static const int ID_CC_LR = 82;
+	public static const int ID_CC_LS = 83;
+	public static const int ID_CC_RS = 84;
+	public static const int ID_CC_LE = 85;
+	public static const int ID_CC_COMMA = 86;
+	public static const int ID_CC_STRING = 87;
+	public static const int ID_CC_CHARS = 88;
+	public static const int ID_SYNTAX_BEGIN = 89;
+	public static const int ID_CC_COMPSET_SYMBOL = 89;
+	public static const int ID_CC_COMPSET_OPERATION = 90;
+	public static const int ID_CC_BINARY_EXPRESSION = 91;
+	public static const int ID_CC_LOGICOR_SYMBOL = 92;
+	public static const int ID_CC_LOGICOR_OPERATOR = 93;
+	public static const int ID_CC_LOGICOR_OPERATION = 94;
+	public static const int ID_CC_LOGICAND_SYMBOL = 95;
+	public static const int ID_CC_LOGICAND_OPERATOR = 96;
+	public static const int ID_CC_LOGICAND_OPERATION = 97;
+	public static const int ID_CC_BITOR_SYMBOL = 98;
+	public static const int ID_CC_BITOR_OPERATOR = 99;
+	public static const int ID_CC_BITOR_OPERATION = 100;
+	public static const int ID_CC_BITXOR_SYMBOL = 101;
+	public static const int ID_CC_BITXOR_OPERATOR = 102;
+	public static const int ID_CC_BITXOR_OPERATION = 103;
+	public static const int ID_CC_BITAND_SYMBOL = 104;
+	public static const int ID_CC_BITAND_OPERATOR = 105;
+	public static const int ID_CC_BITAND_OPERATION = 106;
+	public static const int ID_CC_EQUALS_SYMBOL = 107;
+	public static const int ID_CC_EQUALS_OPERATOR = 108;
+	public static const int ID_CC_EQUALS_OPERATION = 109;
+	public static const int ID_CC_COMPARE_SYMBOL = 110;
+	public static const int ID_CC_COMPARE_OPERATOR = 111;
+	public static const int ID_CC_COMPARE_OPERATION = 112;
+	public static const int ID_CC_BITMOV_SYMBOL = 113;
+	public static const int ID_CC_BITMOV_OPERATOR = 114;
+	public static const int ID_CC_BITMOV_OPERATION = 115;
+	public static const int ID_CC_ADDSUB_SYMBOL = 116;
+	public static const int ID_CC_ADDSUB_OPERATOR = 117;
+	public static const int ID_CC_ADDSUB_OPERATION = 118;
+	public static const int ID_CC_MULDIVMOD_SYMBOL = 119;
+	public static const int ID_CC_MULDIVMOD_OPERATOR = 120;
+	public static const int ID_CC_MULDIVMOD_OPERATION = 121;
+	public static const int ID_CC_UNARY_SYMBOL = 122;
+	public static const int ID_CC_UNARY_OPERATOR = 123;
+	public static const int ID_CC_UNARY_OPERATION = 124;
+	public static const int ID_CC_CONST_OBJECT = 125;
+	public static const int ID_CC_WORD_EXP = 126;
+	public static const int ID_CC_META_OBJECT = 127;
+	public static const int ID_CC_STATIC_OWNNER = 128;
+	public static const int ID_CC_STATIC_ELEMENT = 129;
+	public static const int ID_CC_TEMPLATE_OBJECT = 130;
+	public static const int ID_CC_NEW_EXPRESSION = 131;
+	public static const int ID_CC_ARRAY_TYPE = 132;
+	public static const int ID_CC_NEW_ARRAY = 133;
+	public static const int ID_CC_NEWARRAY_EXPRESSION = 134;
+	public static const int ID_CC_DYNAMIC_OWNNER = 135;
+	public static const int ID_CC_DYNAMIC_ELEMENT = 136;
+	public static const int ID_CC_CALL_EXPRESSION = 137;
+	public static const int ID_CC_STATIC_TYPE = 138;
+	public static const int ID_CC_OBJECT_BLOCK = 139;
+	public static const int ID_CC_CAST_OBJECT = 140;
+	public static const int ID_CC_RETURN_EXPRESSION = 141;
+	public static const int ID_CC_THROW_EXPRESSION = 142;
+	public static const int ID_CC_NORMAL_EXPRESSION = 143;
+	public static const int ID_CC_NORMAL_OBJECT = 144;
+	public static const int ID_CC_MATH_OBJECT = 145;
+	public static const int ID_CC_OBJECT = 146;
+	public static const int ID_CC_TEMPORARY_CLASS = 147;
+	public static const int ID_CC_ARRAY = 148;
+	public static const int ID_CC_TEMPLATE_PARAMS = 149;
+	public static const int ID_CC_INIT_LIST = 150;
+	public static const int ID_CC_SYNCHRONIZED_EXPRESSION = 151;
+	public static const int ID_CC_IF_EXPRESSION = 152;
+	public static const int ID_CC_FOR_FIRST_EXPRESSION = 153;
+	public static const int ID_CC_FOR_LAST_EXPRESSION = 154;
+	public static const int ID_CC_FOR_IN_EXPRESSION = 155;
+	public static const int ID_CC_FOR_EXPRESSION = 156;
+	public static const int ID_CC_WHILE_EXPRESSION = 157;
+	public static const int ID_CC_DOWHILE_EXPRESSION = 158;
+	public static const int ID_CC_CASE_EXPRESSION = 159;
+	public static const int ID_CC_SWITCH_EXPRESSION = 160;
+	public static const int ID_CC_CATCH_BODY = 161;
+	public static const int ID_CC_EXCEPTION_EXPRESSION = 162;
+	public static const int ID_CC_STATEMENT = 163;
+	public static const int ID_CC_STATEMENTS = 164;
+	public static const int ID_CC_VARIABLE_INIT = 165;
+	public static const int ID_CC_ENUM_LIST = 166;
+	public static const int ID_CC_VARIABLE_DEF = 167;
+	public static const int ID_CC_DEF_VARIABLE_STATE = 168;
+	public static const int ID_CC_PARAMS_DEF = 169;
+	public static const int ID_CC_NATIVEPARAMS_DEF = 170;
+	public static const int ID_CC_FILEARRAY = 171;
+	public static const int ID_CC_REQUIRE = 172;
+	public static const int ID_CC_INCLUDE = 173;
+	public static const int ID_CC_PACKAGE_NAME = 174;
+	public static const int ID_CC_PACKAGE_ARRAY = 175;
+	public static const int ID_CC_USING = 176;
+	public static const int ID_CC_FUNCTION = 177;
+	public static const int ID_CC_FUNCTION_CTOR = 178;
+	public static const int ID_CC_FUNCTION_CTOR_DECLARE = 179;
+	public static const int ID_CC_OPERATOR = 180;
+	public static const int ID_CC_DISPATCH = 181;
+	public static const int ID_CC_BASECLASS = 182;
+	public static const int ID_CC_BASEENUM = 183;
+	public static const int ID_CC_NATIVEFUNCTION_DEF = 184;
+	public static const int ID_CC_NATIVE_IMPORT_BODY = 185;
+	public static const int ID_CC_NATIVE_IMPORT = 186;
+	public static const int ID_CC_CLASS_BODY = 187;
+	public static const int ID_CC_CLASS = 188;
+	public static const int ID_CC_ENUM = 189;
+	public static const int ID_CC_BASEINTERFACE = 190;
+	public static const int ID_CC_FUNCTION_DECLARE = 191;
+	public static const int ID_CC_OPERATOR_DECLARE = 192;
+	public static const int ID_CC_INTERFACE_DISPATCH = 193;
+	public static const int ID_CC_INTERFACE_BODY = 194;
+	public static const int ID_CC_INTERFACE = 195;
+	public static const int ID_CC_PACKAGE_BODY = 196;
+	public static const int ID_CC_PACKAGE = 197;
+	public static const int ID_CC_DECLARE = 198;
+	public static const int ID_CC_GLOBAL = 199;
+	public static const int ID_CC_SCAN = 200;
 
-	static const int PROPERTY_SIZE = 4;
-	static const int TOKEN_STACK_SIZE = 390;
-	caLexSyntax(){
+	public static const int PROPERTY_SIZE = 4;
+	public static const int TOKEN_STACK_SIZE = 390;
+	public caLexSyntax(){
 		errToken.setError(); 
 	}
-	static class CCContext{
-		int reduced = 0;
-			int pos;
+	public static class CCContext{
+		public int reduced = 0;
+			public int pos;
 		
-		CCContext(int p){
+		public CCContext(int p){
 			pos = p;
 		}
 	};
 
 
-	static class CCSource{
-		byte [] source;
-		int sourcepos;
-		int sourceline;
-		int sourcerow;
+	public static class CCSource{
+		public byte [] source;
+		public int sourcepos;
+		public int sourceline;
+		public int sourcerow;
 
-		int sourceid;
-		char get(int i){
+		public int sourceid;
+		public char get(int i){
 			if (i < source.length){
 				return source[i];
 			}
 			return 0;
 		}
-		void updatesource(int size){
+		public void updatesource(int size){
 			int destsize = sourcepos + size;
 			while (sourcepos < destsize){
 				if (source[sourcepos] == '\n'){
@@ -235,27 +235,27 @@ class caLexSyntax{
 		}
 	};
 
-	static class TOKEN{
-		byte [] text;
-		int pos;
-		int length;
-		int tokenlength;
-		int start_line;
-		int start_row;
-		int end_line;
-		int end_row;
-		int type;
-		long[] lock = new long[PROPERTY_SIZE];
-		long[] property = new long[PROPERTY_SIZE];
-		long[] route = new long[PROPERTY_SIZE];
-		Object astobj;
+	public static class TOKEN{
+		public byte [] text;
+		public int pos;
+		public int length;
+		public int tokenlength;
+		public int start_line;
+		public int start_row;
+		public int end_line;
+		public int end_row;
+		public int type;
+		public long[] lock = new long[PROPERTY_SIZE];
+		public long[] property = new long[PROPERTY_SIZE];
+		public long[] route = new long[PROPERTY_SIZE];
+		public Object astobj;
 
-		bool checkid(int st){
+		public bool checkid(int st){
 			int c = st >> 6;
 			return 0 != (property[c] & ((long)1 << (st & 0x3f)));
 		}
 
-		bool lockfunction(int st){
+		public bool lockfunction(int st){
 			int id = st >> 6;
 			if (((lock[id] & ((long)1 << (st & 0x3f))) != 0)){
 				return false;
@@ -268,20 +268,20 @@ class caLexSyntax{
 			return true;
 		}
 
-		void resetroute(){
+		public void resetroute(){
 			memset(route, 0);
 		}
 
-		void setError(){
+		public void setError(){
 			memset(route, 0xff);
 			memset(lock, 0xff);
 		}
-		void unlockfunction(int st){
+		public void unlockfunction(int st){
 			int id = st >> 6;
 			lock[id] &= ~((long)1 << (st & 0x3f));
 		}
 
-		void setProperty(int st){
+		public void setProperty(int st){
 			int c = st >> 6;
 			property[c] |= ((long)1 << (st & 0x3f));
 		}
@@ -290,7 +290,7 @@ class caLexSyntax{
 	TOKEN [] tokens = new TOKEN[TOKEN_STACK_SIZE];
 	CCSource currentsrc;
 	int errsrc = 0, weight = 0, errline = 0, errrow = 0, expectrammar = 0, errgrammar = 0, available = 0, success = 1;
-	interface OnParseListener{
+	public interface OnParseListener{
 		Object OnReduction(TOKEN[] tokens, int pos, int len, int grammar);
 		void OnLexError(CCSource source);
 		bool OnLex(CCSource source, int length, int grammar);
@@ -303,7 +303,7 @@ class caLexSyntax{
 	bool bStop = false;
 	TOKEN errToken = new TOKEN();
 	
-	void setOnParseListener(OnParseListener l){
+	public void setOnParseListener(OnParseListener l){
 		_listener = l;
 	}
 	TOKEN generateToken(){
@@ -382,7 +382,7 @@ class caLexSyntax{
 		currentsrc = nilptr;
 		_listener = nilptr;
 	}
-	void setCurrentSource(CCSource s){
+	public void setCurrentSource(CCSource s){
 		currentsrc = s;
 	}
 	int getProblemSourceId(){
@@ -14780,7 +14780,7 @@ class caLexSyntax{
 	}
 	
 	
-	bool parse(){
+	public bool parse(){
 		CCContext context = new CCContext(0);
 		int res = CC_SCAN(0, context);
 	

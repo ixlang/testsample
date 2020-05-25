@@ -9,14 +9,14 @@ using
 
 
 package IOControl{
-    interface Control{
-        void play();
+    public interface Control{
+         void play();
     };
 };
 
 
 package audio{
-	class AudioControl : Control{
+	public class AudioControl : Control{
 		void play(){
 			System.out.print("AudioControl play\n");
 		}
@@ -24,7 +24,7 @@ package audio{
 };
 
 package media{
-	class MediaControl : Control{
+	public class MediaControl : Control{
 		void play(){
 			System.out.print("MediaControl play\n");
 		}
@@ -33,7 +33,7 @@ package media{
 
 
 class SClass{
-	void play(){
+	public void play(){
 		System.out.print("fuck in\n");
 	}
 };

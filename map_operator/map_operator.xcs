@@ -4,22 +4,22 @@ require ("../../common/system.xcs")
 
 */
 class key{
-	int v;
+	public int v;
 
-	key(int _v){
+	public key(int _v){
 		v = _v;
 	}
 
-	bool operator >(key k){
+	public bool operator >(key k){
 		return v > k.v;
 	}
-	bool operator <(key k){
+	public bool operator <(key k){
 		return v < k.v;
 	}
-	bool operator ==(key k){
+	public bool operator ==(key k){
 		return v == k.v;
 	}
-	bool operator !=(key k){
+	public bool operator !=(key k){
 		return v != k.v;
 	}
 };

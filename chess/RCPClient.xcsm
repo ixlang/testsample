@@ -8,29 +8,29 @@ require(
 
 class RCPClient{
 
-	RemoteCallPipe<IClient, IServer> rcs = new RemoteCallPipe<IClient, IServer>();	
+	public RemoteCallPipe<IClient, IServer> rcs = new RemoteCallPipe<IClient, IServer>();	
     
-    class XAsyncOutput : AsyncOutput{
-		StreamSocket _socket = new StreamSocket();
+    public class XAsyncOutput : AsyncOutput{
+		public StreamSocket _socket = new StreamSocket();
         
-		bool create(){
+		public bool create(){
 			
-			return _socket.connect("127.0.0.1", 13567);
+			return _socket.connect("192.168.1.192", 13567);
         }
         
-        bool dataDeparture(AsyncInput input, long context, long bind, byte [] buffer ,int offset, int length){
+        public bool dataDeparture(AsyncInput input, long context, long bind, byte [] buffer ,int offset, int length){
 			return (length == _socket.write(buffer, offset, length));
         }
         
-        void deleteInstance(AsyncInput input, long context){}
+        public void deleteInstance(AsyncInput input, long context){}
         
-        long newInstance(AsyncInput input, String ip, int port, long bind){return 0;}
+        public long newInstance(AsyncInput input, String ip, int port, long bind){return 0;}
         
-        long getInstanceId(long context){return 0;}
+        public long getInstanceId(long context){return 0;}
         
-        long cloneContext(long context){return 0;}
+        public long cloneContext(long context){return 0;}
         
-        void releaseContext(long context){}
+        public void releaseContext(long context){}
     };
     
     XAsyncOutput ao = new XAsyncOutput();
@@ -51,7 +51,7 @@ class RCPClient{
         }
     };
     
-    bool create(IClient client){
+    public bool create(IClient client){
 		//异步输出接口
 		if (ao.create()){
 			
@@ -71,7 +71,7 @@ class RCPClient{
     }
     
 
-    void loop(){
+    public void loop(){
 		new Thread(){
 			void run()override{
 				byte [] buffer = new byte[1024];

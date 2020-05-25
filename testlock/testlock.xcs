@@ -6,7 +6,7 @@ enum BBB{
 class My{
 
 	Object lock = new Object();
-	void	fuck(){
+	public void	fuck(){
 		synchronized(lock){
 			lock.wait();
         }

@@ -1,7 +1,7 @@
 class MainClass{
 
     static class math{
-        int k = 90;
+        public int k = 90;
     };
     static int add(){
         return 9;

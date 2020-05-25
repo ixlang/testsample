@@ -4,9 +4,9 @@
 class RCPServer{
 	
     //远程调用通道
-	RemoteCallPipe<IServer, IClient> rcs = new RemoteCallPipe<IServer, IClient>();	
+	public RemoteCallPipe<IServer, IClient> rcs = new RemoteCallPipe<IServer, IClient>();	
         
-    bool create(IServer server, IRCPEventHandler rcph, Unsi unsi){
+    public bool create(IServer server, IRCPEventHandler rcph, Unsi unsi){
 		
         //创建远程调用通道
 		if (rcs.create(unsi.getAsyncDirectOutput(), rcph, server, true)){

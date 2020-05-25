@@ -13,7 +13,7 @@ class MainDialog : QXDialog{
     HttpPage httppage;
     PageDns ndspage ;
     PageNetstat netpage;
-	bool create()override{
+	public bool create()override{
 		QXBuffer qb = new QXBuffer();
         byte [] buffer = __xPackageResource("ui/dialog.ui");
         qb.setBuffer(buffer, 0, buffer.length);
@@ -104,7 +104,7 @@ class XMyApp : QXApplication {
 
 	MainDialog dialog;
 
-    bool create(){
+    public bool create(){
         if (super.createQXApplication()){
 			setStyleSheet("gray.qss");
             

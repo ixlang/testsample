@@ -7,12 +7,24 @@ class RegexPage{
     QXLineEdit edtReg = nilptr;
     QXPushButton btnreg = nilptr;
     
-	RegexPage(QXWidget _page){
+	public RegexPage(QXWidget _page){
 		page = _page;
         
     }
     
-    bool create(){
+    String printfResult(Pattern.Result rt, String txt){
+        int s = rt.start(), e = rt.end() ;
+        String text = "";
+        if (e > s){
+            text = "[" + txt.substring(s, e) + "] start:" + s + ",end:" + e + ",length:" + rt.length() + "\n";
+        }
+        for (int i = 0; i < rt.length(); i++){
+            text = text + " " + i + " = " + printfResult(rt.get(i), txt);
+        }
+        return text;
+    }
+    
+    public bool create(){
 		 sci = new QXSci();
          sci.create(page);
          sci.move(10, 70);
@@ -24,8 +36,14 @@ class RegexPage{
          
          btnreg.setOnClickListener(new QXWidget.onClickListener(){
 				void onClick(QXObject obj, bool checked)override{
-					String text = sci.getText();
+					String text = sci.getText(); 
 					String reg = edtReg.getText();      
+                    Pattern pattern = new Pattern(reg);
+                    Pattern.Result rt = pattern.match(text, Pattern.NOTEMPTY);
+                    if (rt.errorCode() > 0){
+                        String res = printfResult(rt, text);
+                        sci.appendText("\n" + res);
+                    }
 					QXMessageBox.Information("结果", "result = " + Pattern.test(text, reg, 0, true), QXMessageBox.Ok, QXMessageBox.Ok);
 				}
 			});

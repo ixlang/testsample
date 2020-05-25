@@ -19,12 +19,6 @@
 				"makeclean":	"",
 				"afterbuild":	"",
 				"afterclean":	"",
-				"wtype":	"-arch:x86_64",
-				"ostype":	"",
-				"outname":	"$(ProjectName).exe",
-				"outpath":	"$(ProjectDir)/$(Arch)/$(Configure)",
-				"command":	"-ce",
-				"uaclevel":	"默认",
 				"ignorewarning":	"-w",
 				"compdest":	"",
 				"ignorewl":	"",
@@ -35,7 +29,14 @@
 				"depends":	[{
 						"name":	"Qt5.9.1",
 						"version":	"5.9.1.13"
-					}]
+					}],
+				"wtype":	"-arch:x86_64",
+				"ostype":	"",
+				"sstype":	"",
+				"outname":	"$(ProjectName).exe",
+				"outpath":	"$(ProjectDir)/$(Arch)/$(Configure)",
+				"command":	"-ce",
+				"uaclevel":	"默认"
 			},
 			"release":	{
 				"path":	{
@@ -54,7 +55,7 @@
 			}
 		},
 		"comment":	"注意:打开项目后先引入包Qt才能编译。\r点菜单[工具]->[包管理]，选择Qtx.x.x，\r点击[添加到当前项目]按钮即可",
-		"icofile":	"1.ico",
-		"versioninc":	"0"
+		"versioninc":	"0",
+		"icofile":	"1.ico"
 	}
 }

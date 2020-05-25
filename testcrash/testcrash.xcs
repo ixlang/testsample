@@ -3,7 +3,7 @@
 String tester = "";
 
 class onClickListener{
-	void onclick(){
+	public void onclick(){
     
     }
 };
@@ -11,12 +11,12 @@ class onClickListener{
 class MultiEvent <T> : onClickListener{
 	List<T> list = new List<T>();
     
-    void operator += (T t){
+    public void operator += (T t){
 		list.add(t);
     }
     
 
-    void onclick(){
+    public void onclick(){
 		int h = list.size();
 		List.Iterator<T> iter = list.iterator();
         while (iter.hasNext()){
@@ -27,9 +27,9 @@ class MultiEvent <T> : onClickListener{
 };
 
 class Window{
-	MultiEvent<onClickListener> onClick = new MultiEvent<onClickListener>();
+	public MultiEvent<onClickListener> onClick = new MultiEvent<onClickListener>();
     
-	void onClickEvent(){
+	public void onClickEvent(){
 		onClick.onclick();
     }
 };
@@ -42,17 +42,17 @@ int main(String [] args){
 	Window w = new Window();
     
     w.onClick += (new onClickListener(){
-		void onclick(){
+		public void onclick(){
 			tester = tester + "click 1";
 		}
     });
     w.onClick += (new onClickListener(){
-		void onclick(){
+		public void onclick(){
 			tester = tester + "click 2";
 		}
     });
     w.onClick += (new onClickListener(){
-		void onclick(){
+		public void onclick(){
 			tester = tester + "click 3";
 		}
     });

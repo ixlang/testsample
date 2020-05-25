@@ -12,19 +12,21 @@
 				"options":	"",
 				"libs":	[],
 				"links":	[],
-				"cmd":	"$(Output)",
-				"args":	"$(Output)",
-				"workdir":	"$(ProjectDir)",
 				"wtype":	"",
 				"ostype":	"",
+				"sstype":	"",
 				"outname":	"$(ProjectName)$(Ext)",
 				"outpath":	"$(ProjectDir)/$(Arch)/$(Configure)",
 				"command":	"-ce",
 				"uaclevel":	"默认",
+				"cmd":	"$(Output)",
+				"args":	"$(Output)",
+				"workdir":	"$(ProjectDir)",
 				"ignorewarning":	"",
-				"compdest":	"",
-				"debugable":	"",
-				"debugdatabase":	"-nd"
+				"compdest":	"-z",
+				"ignorewl":	"",
+				"debugable":	"-dbg",
+				"debugdatabase":	""
 			},
 			"release":	{
 				"path":	{

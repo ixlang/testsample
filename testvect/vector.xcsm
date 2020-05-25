@@ -8,8 +8,8 @@ class cavector<_Type> {
     int length;
     int maxLength;
     
-    cavector(){}
-    cavector(cavector<_Type>  _Copy){
+    public cavector(){}
+    public cavector(cavector<_Type>  _Copy){
         if (maxLength > 0){
             head = new _Type[maxLength];
             push_back(_Copy.head, 0, maxLength);
@@ -17,7 +17,7 @@ class cavector<_Type> {
         maxLength = _Copy.size();
     }
     
-    cavector(_Type [] _Copy, int start, int len) {
+    public cavector(_Type [] _Copy, int start, int len) {
         maxLength = len;
         if (maxLength > 0){
             head = new _Type[len];
@@ -26,7 +26,7 @@ class cavector<_Type> {
         }
     }
     
-    bool push_back(_Type  _Val) {
+    public bool push_back(_Type  _Val) {
         if ((length + 1) > maxLength) {
             int new_size = ((length * CAVECTOR_STEP) + 1);
             _Type [] newArray = new _Type[new_size];
@@ -40,7 +40,7 @@ class cavector<_Type> {
         return true;
     }
 
-    bool enlarge(int len){
+    public bool enlarge(int len){
         int new_size = maxLength + len;
         _Type [] newArray = nilptr;
         if (new_size != 0){
@@ -52,11 +52,11 @@ class cavector<_Type> {
         return true;
     }
 
-    int getEnlargeSize(){
+    public int getEnlargeSize(){
         return ((length * CAVECTOR_STEP) + 1);
     }
     
-    bool enlarge(){
+    public bool enlarge(){
         int new_size = ((length * CAVECTOR_STEP) + 1);
         _Type [] newArray = new _Type[new_size];
         maxLength = new_size;
@@ -65,7 +65,7 @@ class cavector<_Type> {
         return true;
     }
     
-    bool push_back(_Type [] _Val,int offset,  int len) {
+    public bool push_back(_Type [] _Val,int offset,  int len) {
         if((length + len) > maxLength) {
             int new_size = ((length * CAVECTOR_STEP) + len);
             _Type [] newArray = new _Type[new_size];
@@ -80,12 +80,12 @@ class cavector<_Type> {
         return true;
     }
 
-    bool insert(int index, _Type  _Val) {
+    public bool insert(int index, _Type  _Val) {
         _Type [] _v = {_Val};
         return insert(index,_v, 0, 1);
     }
 
-    bool insert(int index, _Type [] _Val,int offset,  int len) {
+    public bool insert(int index, _Type [] _Val,int offset,  int len) {
         if((length + len) > maxLength) {
             int new_size = ((length * CAVECTOR_STEP) + len);
             _Type [] newArray = new _Type[new_size];
@@ -104,24 +104,24 @@ class cavector<_Type> {
         return true;
     }
 
-    int maxlength() {
+    public int maxlength() {
         return maxLength;
     }
 
-    void erase(int index) {
+    public void erase(int index) {
         erase(index, 1);
     }
 
-    void erase(int index, int len) {
+    public void erase(int index, int len) {
         _system_.arrayCopy(head,index + len, head, index,length - (index + len));
         length -= len;
     }
 
-    void pop_back() {
+    public void pop_back() {
         length--;
     }
     
-    bool operator == (cavector<_Type> _dest){
+    public bool operator == (cavector<_Type> _dest){
         if (size() != _dest.size()){
             return false;
         }
@@ -133,7 +133,7 @@ class cavector<_Type> {
         return true;
     }
     
-    cavector<_Type> operator = (cavector<_Type> _Copy) {
+    public cavector<_Type> operator = (cavector<_Type> _Copy) {
         maxLength = _Copy.size();
         if (maxLength > 0){
             head = new _Type[ _Copy.size()];
@@ -143,12 +143,12 @@ class cavector<_Type> {
         return this;
     }
     
-    cavector<_Type> operator +=(cavector<_Type> _Copy) { insert(size(), _Copy.head, 0, _Copy.size()); return this; }
+    public cavector<_Type> operator +=(cavector<_Type> _Copy) { insert(size(), _Copy.head, 0, _Copy.size()); return this; }
     
-    _Type operator [](int index) {  return head[index]; }
+    public _Type operator [](int index) {  return head[index]; }
 
-    _Type operator [](int index, _Type _v) { return head[index] = _v; }
+    public _Type operator [](int index, _Type _v) { return head[index] = _v; }
     
-    int size() { return length; }
+    public int size() { return length; }
 
 };

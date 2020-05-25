@@ -3,14 +3,14 @@
 
 
 class GameClient : IClient{
-	RCPClient rcp = new RCPClient();
+	public RCPClient rcp = new RCPClient();
     IClient _client;
     
-    void setClient(IClient c){
+    public void setClient(IClient c){
 		_client = c;
     }
     
-    bool login(){
+    public bool login(){
 		return rcp.create(this);
     }
 	//走子

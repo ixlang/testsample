@@ -10,7 +10,7 @@ void printBIN(String pre, byte [] pbmd5){
 
 int main(String [] args){
 	_system_.createConsole();
-	{
+	{// MD5
 		long hCrypto = Crypto.Md5Init();
 		byte [] data = "123456789".getBytes();
 		Crypto.Md5Update(hCrypto, data, 0, data.length);
@@ -19,7 +19,16 @@ int main(String [] args){
 		printBIN("hCrypto", pbmd5);
 		
 	}
-	{
+    {//国密SM3
+		long hCrypto = Crypto.SM3Init();
+		byte [] data = "123456789".getBytes();
+		Crypto.SM3Update(hCrypto, data, 0, data.length);
+		Crypto.SM3Final(hCrypto);
+		byte []pbmd5 = Crypto.SM3Get(hCrypto);
+		printBIN("hCrypto", pbmd5);
+		
+	}
+	{//SHA1
 		long hCrypto = Crypto.SHA1Init();
 		byte [] data = "123456789".getBytes();
 		Crypto.SHA1Update(hCrypto, data, 0, data.length);
@@ -29,10 +38,11 @@ int main(String [] args){
 		printBIN("sha1", pbmd5);
 	}
     
-	{
+	{//RSA
 		byte [] data = "123456789".getBytes();
 		long hCrypto = Crypto.RSAInit();
         Crypto.RSACreate(hCrypto, 1024);
+        
         byte[] pbkey = Crypto.RSAGetPublicKey(hCrypto);
         printBIN("public key" , pbkey);
         

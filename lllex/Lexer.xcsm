@@ -9,12 +9,12 @@ class Lexer{
     term=0-9
     */
     /*** 用于接收每一步的结果 */
-    static class Result{    
+    public static class Result{    
     
-        int value;
+        public int value;
         
         /*** 合并计算结果*/
-        void patch(Result ctx, char v){
+        public void patch(Result ctx, char v){
             String resstr = (String.format("%d %c %d",value, v, ctx.value));
             switch(v){
                 case '+':
@@ -119,7 +119,7 @@ class Lexer{
     }
     
     /** 做解析运算 **/
-    static bool parse(String text, Result ctx){
+    public static bool parse(String text, Result ctx){
         byte [] data = text.getBytes();
         return data.length == exp(data, 0, data.length, ctx);
     }

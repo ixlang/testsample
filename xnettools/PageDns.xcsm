@@ -5,12 +5,12 @@ class PageDns{
 	QXWidget page;
     QXSci sci;
     QXPushButton btndns = nilptr;
-    bool isBusy = false;
-	PageDns(QXWidget _page){
+    public bool isBusy = false;
+	public PageDns(QXWidget _page){
 		page = _page;
     }
     
-    bool create(){
+    public bool create(){
 		 sci = new QXSci();
          sci.create(page);
          sci.move(10, 10);
@@ -28,7 +28,7 @@ class PageDns{
 						isBusy = true;
 						String []_args = {"tracert", "www.baidu.com"};
 						Process p = new Process("C:\\Windows\\System32\\tracert.exe", _args);
-						p.create(false, true, false, true);
+						p.create(Process.StdOut | Process.RedirectStdErr);
 						
 						try{
 							byte [] data = new byte[1024];

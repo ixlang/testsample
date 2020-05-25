@@ -13,23 +13,26 @@
 				"cmd":	"$(Output)",
 				"args":	"",
 				"workdir":	"$(ProjectDir)",
+				"ignorewarning":	"",
+				"compdest":	"",
+				"ignorewl":	"",
+				"debugable":	"-dbg",
+				"debugdatabase":	"",
 				"wtype":	"-arch:x86_64",
 				"ostype":	"",
 				"outname":	"$(ProjectName).exe",
 				"outpath":	"$(ProjectDir)/$(Arch)/$(Configure)",
 				"command":	"-ce",
 				"uaclevel":	"默认",
-				"libs":	["Qt5.9.lix"],
+				"libs":	["Qt5.9.1_5.9.1.14.lix"],
 				"links":	[],
-				"depends":	[],
-				"ignorewarning":	"",
-				"compdest":	"",
-				"ignorewl":	"",
-				"debugable":	"-dbg",
-				"debugdatabase":	""
+				"depends":	[{
+						"name":	"Qt5.9.1",
+						"version":	"5.9.1.14"
+					}]
 			}
 		},
-		"icofile":	"",
-		"versioninc":	"0"
+		"versioninc":	"0",
+		"icofile":	""
 	}
 }

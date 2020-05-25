@@ -44,7 +44,7 @@ class GameServer : IServer{
         }
     }
     
-    bool create(){
+    public bool create(){
 		return rcp.create(this, rcph, unsi);
     }
     

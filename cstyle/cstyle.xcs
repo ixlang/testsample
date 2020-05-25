@@ -4,14 +4,14 @@ include ("stdlib")
 
 
 class Runnable{
-	void run();
+	public void run();
 };
 
 class XThread : Thread {
 
 	Runnable _run;
     
-    XThread(Runnable r){
+    public XThread(Runnable r){
 		_run = r;
     }
     

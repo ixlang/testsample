@@ -1,16 +1,16 @@
 //xlang 
 package System{
-	class out{
-		static int println(String text){
+	public class out{
+		public static int println(String text){
 			return _system_.consoleWrite(text + "\n");
 		}
-		static int print(String text){
+		public static int print(String text){
 			return _system_.consoleWrite(text);
 		}
 	};
 	
-	class Console{
-		Console(){
+	public class Console{
+		public Console(){
 			_system_.createConsole();
 		}
 	};
@@ -20,11 +20,11 @@ package System{
 using { System; };
 
 class base1{
-    int sh = 0;
+    public int sh = 0;
     base1(){
         sh = 1;
     }
-    base1(int n){
+    public base1(int n){
         sh = n;
     }
 };
@@ -33,7 +33,7 @@ class base : base1{
     int h = 0;
     /*base(){
     }*/
-    base(int n){
+    public base(int n){
         super(n);
         h = n;
     }
@@ -46,7 +46,7 @@ class extend : base{
         j = 10;
     }
     
-    extend(int n){
+    public extend(int n){
         super(n);
         int h = 0;
         //super(n);
@@ -55,7 +55,7 @@ class extend : base{
 };
 
 class XObject : Object{
-    int j = 10;
+    public int j = 10;
 
 };
 

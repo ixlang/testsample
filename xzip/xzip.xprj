@@ -24,14 +24,16 @@
 				"compdest":	"",
 				"debugable":	"-dbg",
 				"debugdatabase":	"",
-				"libs":	["XPlatform1.0.0.2.lix", "FileSystem1.0.0.2.lix", "FileStream1.0.0.2.lix"],
-				"links":	[],
-				"wtype":	"-arch:imx8",
-				"ostype":	"-xcross-embedded",
+				"wtype":	"",
+				"ostype":	"",
+				"sstype":	"",
 				"outname":	"$(ProjectName)$(Ext)",
 				"outpath":	"$(ProjectDir)/$(Arch)/$(Configure)",
 				"command":	"-ce",
-				"uaclevel":	"默认"
+				"uaclevel":	"默认",
+				"libs":	["XPlatform_1.0.0.2.lix", "FileStream_1.0.0.4.lix", "Qt5.9.1_5.9.1.14.lix"],
+				"links":	[],
+				"depends":	[]
 			},
 			"release":	{
 				"path":	{

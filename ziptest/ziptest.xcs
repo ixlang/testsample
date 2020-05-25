@@ -3,14 +3,14 @@
 class FileInputStream : Stream{
 	long filehandler;
 
-	FileInputStream(String path){
+	public FileInputStream(String path){
 		filehandler = _system_.openFile(path, "r");
         if (filehandler == 0){
             throw new IllegalArgumentException("file " + path + " can not open");
         }
 	}
 
-	bool attach(String path){
+	public bool attach(String path){
 		if (filehandler != 0){
 			_system_.closeFile(filehandler);
 			filehandler = 0;
@@ -18,53 +18,53 @@ class FileInputStream : Stream{
 		filehandler = _system_.openFile(path, "r");
         return filehandler != 0;
 	}
-    void checkValid(){
+    public void checkValid(){
         if (filehandler == 0){
             throw new IllegalArgumentException("The Stream is not ready");
         }
     }
-	long available(bool bwait){
+	public long available(bool bwait){
 		return length() - getPosition();
     }
-	long seek(int type, long pos){
+	public long seek(int type, long pos){
 		checkValid();
 		return _system_.seekFile(filehandler, type, pos);
     }
     
-    long getPosition(){
+    public long getPosition(){
 		checkValid();
 		return _system_.getFileSeek(filehandler);
     }
     
-	long length(){
+	public long length(){
 		checkValid();
 		return _system_.fileLength(filehandler);
 	}
 
-	byte[] read(){
+	public byte[] read(){
 		checkValid();
 		byte[] data = new byte[length()];
 		_system_.readFile(filehandler, data, 0, data.length);
 		return data;
 	}
 
-	int read(byte [] data , int position, int length)override{
+	public int read(byte [] data , int position, int length)override{
 		checkValid();
 		return _system_.readFile(filehandler, data, position, length);
 	}
 
-	int write(byte [] data , int position, int length)override{
+	public int write(byte [] data , int position, int length)override{
 		return 0;
     }
     
-    void close(){
+    public void close(){
 		if (filehandler != 0){
 			_system_.closeFile(filehandler);
 			filehandler = 0;
 		}
     }
     
-	void finalize(){
+	public void finalize(){
 		close();
 	}
 };
@@ -73,14 +73,14 @@ class FileInputStream : Stream{
 class FileOutputStream : Stream{
 	long filehandler;
 
-	FileOutputStream(String path){
+	public FileOutputStream(String path){
 		filehandler = _system_.openFile(path, "w");
         if (filehandler == 0){
             throw new IllegalArgumentException("file " + path + " can not open");
         }
 	}
 
-	bool attach(String path){
+	public bool attach(String path){
 		if (filehandler != 0){
 			_system_.closeFile(filehandler);
 			filehandler = 0;
@@ -88,52 +88,52 @@ class FileOutputStream : Stream{
 		filehandler = _system_.openFile(path, "w");
         return filehandler != 0;
 	}
-    void checkValid(){
+    public void checkValid(){
         if (filehandler == 0){
             throw new IllegalArgumentException("The Stream is not ready");
         }
     }
-	long available(bool bwait){
+	public long available(bool bwait){
 		return 1;
     }
-	long seek(int type, long pos){
+	public long seek(int type, long pos){
 		return 0;
     }
     
-    long getPosition(){
+    public long getPosition(){
 		return 0;
     }
     
-	long length(){
+	public long length(){
         checkValid();
 		return 0;
 	}
 
-	byte[] read(){
+	public byte[] read(){
 		return nilptr;
 	}
 
-	int read(byte [] data , int position, int length)override{
+	public int read(byte [] data , int position, int length)override{
 		return 0;
 	}
     
-	long write(byte [] data){
+	public long write(byte [] data){
         checkValid();
 		return _system_.writeFile(filehandler, data, 0, data.length);
 	}
     
-	int write(byte [] data , int position, int length)override{
+	public int write(byte [] data , int position, int length)override{
         checkValid();
 		return _system_.writeFile(filehandler, data, position, length);
     }
     
-    void close(){
+    public void close(){
 		if (filehandler != 0){
 			_system_.closeFile(filehandler);
 			filehandler = 0;
 		}
     }
-	void finalize(){
+	public void finalize(){
 		close();
 	}
 };

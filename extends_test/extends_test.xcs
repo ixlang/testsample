@@ -1,45 +1,45 @@
 class pg{
     int _pv = 1;
-    pg(int p){
+    public pg(int p){
         this._pv = p;
     }
-    pg(){
+    public pg(){
     }
     int addpv(int v){
         return _pv + v;
     }
     
-    class glob{
+    public class glob{
         int _pv = 2;
-        glob(int p){
+        public glob(int p){
             this._pv = p;
         }
-        glob(){
+        public glob(){
         }
         int addpv(int v){
             return pg.this.addpv(this._pv + v);
         }
-        class tclass{
-            int h;
-            int get(){
+        public class tclass{
+            public int h;
+            public int get(){
                 return h;
             }
         };
 
 
 
-        class eclass : tclass{
+        public class eclass : tclass{
             int _pv = 3;
             
             int addpv(int v){
                 return glob.this.addpv(this._pv + v);
             }
-            eclass(){
+            public eclass(){
             }
-            eclass(int p){
+            public eclass(int p){
                 this._pv = p;
             }
-            int getp(){
+            public int getp(){
                 eclass b = new eclass(1);
                 b.h = 90;
                 return b.get();
@@ -48,11 +48,11 @@ class pg{
                 return super.get();
             }
             
-            int pv(){
+            public int pv(){
                 return this._pv + glob.this._pv + pg.this._pv;
             }
             
-            int alladd(int v){
+            public int alladd(int v){
                 return pg.this.addpv(glob.this.addpv(this.addpv(v)));
             }
         };

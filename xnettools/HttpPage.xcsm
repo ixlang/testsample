@@ -7,12 +7,12 @@ class HttpPage{
     QXLineEdit edthttp = nilptr;
     QXPushButton btnhttp = nilptr;
     
-	HttpPage(QXWidget _page){
+	public HttpPage(QXWidget _page){
 		page = _page;
         
     }
     
-    bool create(){
+    public bool create(){
 		 sci = new QXSci();
          sci.create(page);
          sci.move(10, 70);

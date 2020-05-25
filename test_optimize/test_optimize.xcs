@@ -1,16 +1,16 @@
 //xlang 
 package System{
-	class out{
-		static int println(String text){
+	public class out{
+		public static int println(String text){
 			return _system_.consoleWrite(text + "\n");
 		}
-		static int print(String text){
+		public static int print(String text){
 			return _system_.consoleWrite(text);
 		}
 	};
 	
-	class Console{
-		Console(){
+	public class Console{
+		public Console(){
 			_system_.createConsole();
 		}
 	};
@@ -26,7 +26,7 @@ int main(String [] args){
 
     int x = 10, y = 20, z = 30, c = 40;
     int a = (byte) ((c >> 8) & 0xff);
-	System.out.println("hello world");
+	System.out.println("hello world" + a);
 
 	Thread.sleep(3000);
 

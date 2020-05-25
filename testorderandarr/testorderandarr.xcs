@@ -1,16 +1,16 @@
 //xlang 
 package System{
-	class out{
-		static int println(String text){
+	public class out{
+		public static int println(String text){
 			return _system_.consoleWrite(text + "\n");
 		}
-		static int print(String text){
+		public static int print(String text){
 			return _system_.consoleWrite(text);
 		}
 	};
 	
-	class Console{
-		Console(){
+	public class Console{
+		public Console(){
 			_system_.createConsole();
 		}
 	};
@@ -27,39 +27,39 @@ String getStr(){
 
 class Integer{
 
-	int ok;
+	public int ok;
 
     
-	Integer  operator + ( Integer  o){
+	public Integer  operator + ( Integer  o){
 		_system_.consoleWrite(String.format("%d + %d\n", ok, o.ok));
 		return new Integer(ok + o.ok);
 	}
     
-	Integer  operator -( Integer  o){
+	public Integer  operator -( Integer  o){
 		_system_.consoleWrite(String.format("%d - %d\n", ok, o.ok));
 		return new Integer(ok - o.ok);
 	}
-    Integer operator -(){
+    public Integer operator -(){
 		_system_.consoleWrite(String.format("- %d\n", ok));
 		return new Integer(-ok);
 	}
-	Integer  operator *( Integer  o){
+	public Integer  operator *( Integer  o){
 		_system_.consoleWrite(String.format("%d * %d\n", ok, o.ok));
 		return new Integer(ok * o.ok);
 	}
     
-	Integer  operator /( Integer  o){
+	public Integer  operator /( Integer  o){
 		_system_.consoleWrite(String.format("%d / %d\n", ok, o.ok));
 		return new Integer(ok / o.ok);
 	}
     
-    bool operator != (int n){
+    public bool operator != (int n){
         return ok != n;
     }
-    Integer(){
+    public Integer(){
 		ok = 0;
 	}
-	Integer(int i){
+	public Integer(int i){
 		ok = i;
 	}
 };

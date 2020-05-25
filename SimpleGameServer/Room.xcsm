@@ -10,15 +10,15 @@ class Room{
     
     bool gameStart;
     
-    void setId(int i){
+    public void setId(int i){
 		id = i;
     }
     
-    int getId(){
+    public int getId(){
 		return id;
     }
     
-    void take(User u){
+    public void take(User u){
 		synchronized(_user_list){
 			Map.Iterator<int, User> iter = _user_list.find(u.getId());
             if (iter != nilptr){
@@ -36,7 +36,7 @@ class Room{
         }
     }
     
-    bool enter(RCPServer rcp, User u){
+    public bool enter(RCPServer rcp, User u){
 		synchronized(_user_list){
 			//已在此房间 则返回失败
 			if (_user_list.containsKey(u.getId())){
@@ -57,7 +57,7 @@ class Room{
         return true;
     }
     
-    bool leave(User u){
+    public bool leave(User u){
 		synchronized(_user_list){
 			//本来就不在此房间
 			if (_user_list.containsKey(u.getId()) == false){
@@ -70,7 +70,7 @@ class Room{
         return true;
     }
     
-    bool joinGame(User u){
+    public bool joinGame(User u){
 		//游戏已经开始 则无法加入
         
 		if (gameStart){
@@ -94,7 +94,7 @@ class Room{
         return true;
     }
     
-    bool leaveGame(User u){
+    public bool leaveGame(User u){
 		//游戏已经开始 则无法退出
         
 		if (gameStart){
@@ -119,7 +119,7 @@ class Room{
     }
     
     //准备游戏
-    bool ready(RCPServer rcp, User u){
+    public bool ready(RCPServer rcp, User u){
 		//游戏已经开始 无法准备
 		if (gameStart){
 			return false;
@@ -171,7 +171,7 @@ class Room{
     }
     
     //取消准备
-    bool cancel(RCPServer rcp , User u){
+    public bool cancel(RCPServer rcp , User u){
 		//游戏已经开始 无法取消准备
     	if (gameStart){
 			return false;
@@ -201,7 +201,7 @@ class Room{
     }
     
     
-    void sendRoomMessage(User u, RCPServer rcp , String msg){
+    public void sendRoomMessage(User u, RCPServer rcp , String msg){
 		synchronized(_user_list){
 			Map.Iterator<int, User> iter = _user_list.iterator();
             while (iter.hasNext()){
@@ -211,7 +211,7 @@ class Room{
         }
     }
     
-    bool setChess(RCPServer rcp ,User u, int index){
+    public bool setChess(RCPServer rcp ,User u, int index){
 		if (gameStart){
 			if (_game.set_chess(index, u.getId())){
 				bool bWin = false;
@@ -236,7 +236,7 @@ class Room{
 		return true;
     }
     
-    String getRoomInfo(){
+    public String getRoomInfo(){
 		JsonObject root = new JsonObject();
 		JsonArray json = new JsonArray();
 		int []users ;

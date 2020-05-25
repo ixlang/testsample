@@ -3,7 +3,7 @@ int main(String [] args){
     
     String []_args = {"netstat", "-na"};
     Process p = new Process("C:\\Windows\\System32\\netstat.exe", _args);
-    p.create(false, true, false, true);
+    p.create(Process.StdOut);
     
     try{
         byte [] data = new byte[1024];

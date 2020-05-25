@@ -1,16 +1,16 @@
 //xlang 
 package System{
-	class out{
-		static int println(String text){
+	public class out{
+		public static int println(String text){
 			return _system_.consoleWrite(text + "\n");
 		}
-		static int print(String text){
+		public static int print(String text){
 			return _system_.consoleWrite(text);
 		}
 	};
 	
-	class Console{
-		Console(){
+	public class Console{
+		public Console(){
 			_system_.createConsole();
 		}
 	};
@@ -19,21 +19,21 @@ package System{
 
 using { System; };
 
-class XObject{ int v = 0;	XObject(int _v){v = _v;}};
+class XObject{ int v = 0;	public XObject(int _v){v = _v;}};
 
 class XList<_Type>{
 	static class XNode<_NodeType>{
-		XNode(){
+		public XNode(){
 		}
         
-		XNode(_NodeType m){
+		public XNode(_NodeType m){
 			_My = m;
 		}
         
 		_NodeType _My;
-        XNode<_NodeType> prev, next;
+        public XNode<_NodeType> prev, next;
         
-        void link(XNode<_NodeType> tm){
+        public void link(XNode<_NodeType> tm){
 			tm.next = next;
             next.prev = tm;
 			next = tm;
@@ -44,12 +44,12 @@ class XList<_Type>{
     XNode<_Type> head , end;
     int length;
     
-    XList(){ 
+    public XList(){ 
         head = end = new XNode<_Type> ();
 		end.prev = head;
      }
     
-    void push(_Type t){
+    public void push(_Type t){
 		XNode<_Type> curren = new XNode<_Type>(t);
         if (head == end){
 			head = curren;

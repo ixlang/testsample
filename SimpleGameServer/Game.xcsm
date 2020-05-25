@@ -20,12 +20,12 @@ class Game{
 		}
 	}
     
-    void setUser(int id, int uid){
+    public void setUser(int id, int uid){
 		_users[id] = uid;
         _n_request_user = _users[0];
     }
     
-    int getCurrentHand(){
+    public int getCurrentHand(){
 		return _n_request_user;
     }
     
@@ -33,7 +33,7 @@ class Game{
 		return _n_request_user == user_id && index < _array_chess.length;
 	}
 
-	bool set_chess(int index, int user_id){
+	public bool set_chess(int index, int user_id){
 
 		if (_n_request_user != user_id || index < 0 || index > 440){
 			return false;
@@ -45,7 +45,7 @@ class Game{
 		return true;
 	}
 
-    bool check_win(int useridx){
+    public bool check_win(int useridx){
 
 		for (int x = 0; x < _array_chess.length; x++){
 
@@ -151,7 +151,7 @@ class Game{
 		return rt;
 	}
     
-    void reset(){
+    public void reset(){
 		_users[0] = 0;
         _users[1] = 0;
         for (int i =0; i < _array_chess.length; i++){

@@ -1,6 +1,6 @@
 
 class objects{
-        import "Win32Project1.dll"{
+        public import "Win32Project1.dll"{
             Pointer stdcall getobj(int a, int b);
             int stdcall addobj(Pointer s);
         };

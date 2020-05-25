@@ -7,7 +7,7 @@ class ChessApp : QXApplication {
 	static ChessWindow window = nilptr;
     static LoginWindow wndLogin = nilptr;
     
-	static ChessWindow showGameWindow(IServer server, int mid){
+	public static ChessWindow showGameWindow(IServer server, int mid){
 		window = new ChessWindow(server, mid);
 		if (window.create()){
 			window.show();
@@ -16,7 +16,7 @@ class ChessApp : QXApplication {
         return nilptr;
     }
     
-    bool create(){
+    public bool create(){
         if (super.createQXApplication()){
 
             
@@ -31,20 +31,23 @@ class ChessApp : QXApplication {
 };
 
 class ChessWindow : QXDialog {
-	SenceDrawer sd = new SenceDrawer();
+	public SenceDrawer sd = new SenceDrawer();
 	IServer _server;
     
-    ChessWindow(IServer server, int mid){
+    public ChessWindow(IServer server, int mid){
 		super();
 		_server = server;
         sd.setServer(_server, mid);
     }
     
-	bool create()override{
+	public bool create()override{
 		if (super.create()){
 			if (sd.create()){
 				setWindowFlags(CustomizeWindowHint | WindowCloseButtonHint  | Dialog  | WindowTitleHint);
 				resize(640, 750);
+                if (_system_.getPlatformId() == _system_.PLATFORM_ANDROID){
+                    showFullScreen();
+                }
 				setFixedSize(width(), height());
 				return true;
 			}
