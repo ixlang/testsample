@@ -27,38 +27,38 @@ class Integer{
 	public Integer(int i){
 		ok = i;
 	}
-	public Integer  operator +( Integer  o){
+	public @NotNilptr Integer  operator +(@NotNilptr Integer  o){
 		_system_.consoleWrite(String.format("%d + %d\n", ok, o.ok));
 		return new Integer(ok + o.ok);
 	}
-	public Integer  operator -( Integer  o){
+	public @NotNilptr Integer  operator -(@NotNilptr  Integer  o){
 		_system_.consoleWrite(String.format("%d - %d\n", ok, o.ok));
 		return new Integer(ok - o.ok);
 	}
-	public Integer  operator *( Integer  o){
+	public @NotNilptr Integer  operator *(@NotNilptr Integer  o){
 		_system_.consoleWrite(String.format("%d * %d\n", ok, o.ok));
 		return new Integer(ok * o.ok);
 	}
-	public Integer  operator /( Integer  o){
+	public @NotNilptr Integer  operator /(@NotNilptr  Integer  o){
 		_system_.consoleWrite(String.format("%d / %d\n", ok, o.ok));
 		return new Integer(ok / o.ok);
 	}
 };
 
 int oi = 0;
-Integer geti1(){
+@NotNilptr Integer geti1(){
 	return new Integer(oi++);
 }
 
-Integer geti2(){
+@NotNilptr Integer geti2(){
 	return new Integer(oi++);
 }
 
-Integer geti3(){
+@NotNilptr Integer geti3(){
 	return new Integer(oi++);
 }
 
-Integer geti4(){
+@NotNilptr Integer geti4(){
 	return new Integer(oi++);
 }
 

@@ -31,9 +31,18 @@
 				"outpath":	"$(ProjectDir)/$(Arch)/$(Configure)",
 				"command":	"-ce",
 				"uaclevel":	"默认",
-				"libs":	["XPlatform_1.0.0.2.lix", "FileStream_1.0.0.4.lix", "Qt5.9.1_5.9.1.14.lix"],
+				"libs":	["Qt5.9.1_5.9.1.16.lix", "XPlatform_1.0.0.4.lix", "FileStream_1.0.0.7.lix"],
 				"links":	[],
-				"depends":	[]
+				"depends":	[{
+						"name":	"Qt5.9.1",
+						"version":	"5.9.1.16"
+					}, {
+						"name":	"XPlatform",
+						"version":	"1.0.0.4"
+					}, {
+						"name":	"FileStream",
+						"version":	"1.0.0.7"
+					}]
 			},
 			"release":	{
 				"path":	{

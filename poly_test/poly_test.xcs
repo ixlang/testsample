@@ -59,11 +59,11 @@ int main(String [] args){
     return 0;
 }
 
-void fuck(SClass d){
+void fuck(@NotNilptr SClass d){
 	d.play();
 }
 
 
-void run(Control c){
+void run(@NotNilptr Control c){
 	c.play();
 }

@@ -10,16 +10,16 @@ class key{
 		v = _v;
 	}
 
-	public bool operator >(key k){
+	public bool operator >(@NotNilptr key k){
 		return v > k.v;
 	}
-	public bool operator <(key k){
+	public bool operator <(@NotNilptr key k){
 		return v < k.v;
 	}
-	public bool operator ==(key k){
+	public bool operator ==(@NotNilptr key k){
 		return v == k.v;
 	}
-	public bool operator !=(key k){
+	public bool operator !=(@NotNilptr key k){
 		return v != k.v;
 	}
 };

@@ -5,22 +5,22 @@ static StdOut cout = new StdOut();
 static String endl = "\n";
 
 class StdOut{
-	public StdOut operator << (String txt){
+	public @NotNilptr StdOut operator << (String txt){
 		_system_.consoleWrite(txt);
         return this;
     }
     
-    public StdOut operator << (int txt){
+    public @NotNilptr StdOut operator << (int txt){
 		_system_.consoleWrite("" + txt);
         return this;
     }
     
-    public StdOut operator << (long txt){
+    public @NotNilptr StdOut operator << (long txt){
 		_system_.consoleWrite("" + txt);
         return this;
     }
     
-    public StdOut operator << (double txt){
+    public @NotNilptr StdOut operator << (double txt){
 		_system_.consoleWrite("" + txt);
         return this;
     }

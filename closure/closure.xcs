@@ -7,9 +7,15 @@ include ("../../std/Map.xcs",
 package System{
 	public class out{
 		public static int println(String text){
+            if (text == nilptr){
+                text = "nilptr";
+            }
 			return _system_.consoleWrite(text + "\n");
 		}
 		public static int print(String text){
+            if (text == nilptr){
+                text = "nilptr";
+            }
 			return _system_.consoleWrite(text);
 		}
 	};
@@ -39,7 +45,8 @@ static class tester{
     }
 };
 
-int add(tester v){
+int add(@NotNilptr tester v){
+    
     System.out.print(String.format("copy pos 3 is: %d\n",  v.fuck()));
     return 5;
 }

@@ -9,7 +9,7 @@ class cavector<_Type> {
     int maxLength;
     
     public cavector(){}
-    public cavector(cavector<_Type>  _Copy){
+    public cavector(@NotNilptr cavector<_Type>  _Copy){
         if (maxLength > 0){
             head = new _Type[maxLength];
             push_back(_Copy.head, 0, maxLength);
@@ -121,7 +121,7 @@ class cavector<_Type> {
         length--;
     }
     
-    public bool operator == (cavector<_Type> _dest){
+    public bool operator == (@NotNilptr cavector<_Type> _dest){
         if (size() != _dest.size()){
             return false;
         }
@@ -133,7 +133,7 @@ class cavector<_Type> {
         return true;
     }
     
-    public cavector<_Type> operator = (cavector<_Type> _Copy) {
+    public cavector<_Type> operator = (@NotNilptr cavector<_Type> _Copy) {
         maxLength = _Copy.size();
         if (maxLength > 0){
             head = new _Type[ _Copy.size()];
@@ -143,7 +143,7 @@ class cavector<_Type> {
         return this;
     }
     
-    public cavector<_Type> operator +=(cavector<_Type> _Copy) { insert(size(), _Copy.head, 0, _Copy.size()); return this; }
+    public cavector<_Type> operator +=(@NotNilptr cavector<_Type> _Copy) { insert(size(), _Copy.head, 0, _Copy.size()); return this; }
     
     public _Type operator [](int index) {  return head[index]; }
 

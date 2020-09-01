@@ -2,6 +2,9 @@
 package System{
 	public class out{
 		public static int println(String text){
+            if (text == nilptr){
+                text = "nilptr";
+            }
 			return _system_.consoleWrite(text + "\n");
 		}
 		public static int print(String text){

@@ -17,12 +17,6 @@
 				"makeclean":	"",
 				"afterbuild":	"",
 				"afterclean":	"",
-				"wtype":	"-arch:x86_64",
-				"ostype":	"-xcross-windows",
-				"outname":	"$(ProjectName).exe",
-				"outpath":	"$(ProjectDir)/$(Arch)/$(Configure)",
-				"command":	"-ce",
-				"uaclevel":	"默认",
 				"cmd":	"$(Output)",
 				"args":	"$(Output)",
 				"workdir":	"$(ProjectDir)",
@@ -30,7 +24,14 @@
 				"compdest":	"",
 				"ignorewl":	"",
 				"debugable":	"-dbg",
-				"debugdatabase":	""
+				"debugdatabase":	"",
+				"wtype":	"-arch:x86_64",
+				"ostype":	"-xcross-windows",
+				"sstype":	"",
+				"outname":	"$(ProjectName).exe",
+				"outpath":	"$(ProjectDir)/$(Arch)/$(Configure)",
+				"command":	"-ce",
+				"uaclevel":	"默认"
 			},
 			"release":	{
 				"path":	{
@@ -48,7 +49,7 @@
 				"workdir":	"$(ProjectDir)"
 			}
 		},
-		"icofile":	"",
-		"versioninc":	"0"
+		"versioninc":	"0",
+		"icofile":	""
 	}
 }

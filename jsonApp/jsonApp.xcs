@@ -1,10 +1,10 @@
 //xlang 
 package System{
 	public class out{
-		public static int println(String text){
+		public static int println(@NotNilptr String text){
 			return _system_.consoleWrite(text + "\n");
 		}
-		public static int print(String text){
+		public static int print(@NotNilptr String text){
 			return _system_.consoleWrite(text);
 		}
 	};
@@ -88,15 +88,16 @@ bool parseJson(String s){
     System.out.println("" + arr.length() + "\n");
     
     // 遍历array 
-    for (int i = 0, c = arr.length(); i < c; i++ ){
-		JsonNode jn = arr.get(i);
-        if (jn.isArray()){
-			System.out.println("" + ((JsonArray)jn).toString(true) + "\n");
-        }else{
-			System.out.println("" + ((JsonObject)jn).toString(true) + "\n");
+    if (arr != nilptr){
+        for (int i = 0, c = arr.length(); i < c; i++ ){
+            JsonNode jn = arr.get(i);
+            if (jn.isArray()){
+                System.out.println("" + ((JsonArray)jn).toString(true) + "\n");
+            }else{
+                System.out.println("" + ((JsonObject)jn).toString(true) + "\n");
+            }
         }
     }
-    
     return true;
 }
 

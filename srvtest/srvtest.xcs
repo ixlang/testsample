@@ -1,10 +1,10 @@
 //xlang 
 package System{
 	public class out{
-		public static int println(String text){
+		public static int println(@NotNilptr String text){
 			return _system_.consoleWrite(text + "\n");
 		}
-		public static int print(String text){
+		public static int print(@NotNilptr String text){
 			return _system_.consoleWrite(text);
 		}
 
@@ -71,7 +71,7 @@ class Service {
 		return p.create(Process.StdOut);  
     }
     
-    public static bool processArgs(String [] args){
+    public static bool processArgs(@NotNilptr String [] args){
 		if (args.length == 2){
 			String cmdand = args[1];
 			//安装服务
@@ -111,12 +111,12 @@ class Service {
 		wb.registryServlet(new HttpServlet(0, "/"){
 
 
-			void doPost(HttpServletRequest request,HttpServletResponse response)override{
+			void doPost(@NotNilptr HttpServletRequest request,@NotNilptr HttpServletResponse response)override{
 				//TODO 
 				doGet(request, response);
 			}
 
-			void doGet(HttpServletRequest request,HttpServletResponse response)override{
+			void doGet(@NotNilptr HttpServletRequest request,@NotNilptr HttpServletResponse response)override{
 				response.print("welcome to xlang service");
 			}
 		});
@@ -142,7 +142,7 @@ class Service {
 };
 
 
-int main(String [] args){
+int main(@NotNilptr String [] args){
 	/** 处理安装等参数, 如果不是处理参数  则运行服务*/
 	if (false == Service.processArgs(args)){
 		Service.run();

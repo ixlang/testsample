@@ -10,7 +10,6 @@
 					"libpath":	["libs"]
 				},
 				"options":	"",
-				"debugable":	"-dbg",
 				"cmd":	"$(Output)",
 				"args":	"$(Output)",
 				"workdir":	"$(ProjectDir)",
@@ -26,7 +25,12 @@
 				"outname":	"$(ProjectName)$(Ext)",
 				"outpath":	"$(ProjectDir)/$(Arch)/$(Configure)",
 				"command":	"-ce",
-				"uaclevel":	"默认"
+				"uaclevel":	"默认",
+				"ignorewarning":	"",
+				"compdest":	"",
+				"ignorewl":	"204",
+				"debugable":	"-dbg",
+				"debugdatabase":	""
 			},
 			"release":	{
 				"path":	{
@@ -44,6 +48,7 @@
 				"workdir":	"$(ProjectDir)"
 			}
 		},
-		"icofile":	""
+		"icofile":	"",
+		"versioninc":	"0"
 	}
 }

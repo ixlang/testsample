@@ -2,9 +2,14 @@
 package System{
 	public class out{
 		public static int println(String text){
+                    if (text == nilptr){
+                text = "nilptr";
+            }
 			return _system_.consoleWrite(text + "\n");
 		}
-		public static int print(String text){
+		public static int print(String text){            if (text == nilptr){
+                text = "nilptr";
+            }
 			return _system_.consoleWrite(text);
 		}
 	};
@@ -33,7 +38,7 @@ class XList<_Type>{
 		_NodeType _My;
         public XNode<_NodeType> prev, next;
         
-        public void link(XNode<_NodeType> tm){
+        public void link(@NotNilptr XNode<_NodeType> tm){
 			tm.next = next;
             next.prev = tm;
 			next = tm;

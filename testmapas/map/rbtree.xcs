@@ -474,7 +474,7 @@ by cadaqs
 			_treeroot._nColor = RB_PROPERTY_BLACK;
 		}
 
-		void remove_fixup(_Node<_Type> _pNode) {
+		void remove_fixup(@NotNilptr _Node<_Type> _pNode) {
 			_Node<_Type> _CurNode = _pNode;
 			_Node<_Type> _SibNode;
 			while (_CurNode != _treeroot && _CurNode._nColor == RB_PROPERTY_BLACK) {
@@ -708,7 +708,7 @@ by cadaqs
 		}
 
 		_Node<_Type> set(_KeyType _Key) {
-			_Node<_Type> _CurNode,_NewNode;
+			_Node<_Type> _CurNode = nilptr,_NewNode = nilptr;
 			if (nilptr ==_treeroot) {
 				_NewNode = AllocNode(new _Type(), RB_PROPERTY_BLACK);
 				if (_NewNode == nilptr){
@@ -785,7 +785,7 @@ by cadaqs
 
 		public _Node<_Type> findnear(_KeyType _Key, bool bLess, bool bForceNear){
 			_Node<_Type> _CurNode = _treeroot;
-			_Node<_Type> lessNode,moreNode;
+			_Node<_Type> lessNode = nilptr,moreNode = nilptr;
 
 			while (nilptr !=_CurNode) {
 				if (_CurNode._Var == _Key){

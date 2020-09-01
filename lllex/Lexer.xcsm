@@ -14,7 +14,7 @@ class Lexer{
         public int value;
         
         /*** 合并计算结果*/
-        public void patch(Result ctx, char v){
+        public void patch(@NotNilptr Result ctx, char v){
             String resstr = (String.format("%d %c %d",value, v, ctx.value));
             switch(v){
                 case '+':
@@ -40,7 +40,7 @@ class Lexer{
     };
     
     /** term=0-9 */
-    static int term(byte[] data, int offset,  int len, Result ctx){
+    static int term(@NotNilptr byte[] data, int offset,  int len, @NotNilptr Result ctx){
         int pos = offset;
         
         for (; pos < len; pos ++){
@@ -58,7 +58,7 @@ class Lexer{
     }
 
     /** factor=term((*|/)term)* **/
-    static int factor(byte[] data, int offset,  int len, Result ctx){
+    static int factor(@NotNilptr byte[] data, int offset,  int len, @NotNilptr Result ctx){
         Result res = new Result(),
                 res1 = new Result();
                 
@@ -89,7 +89,7 @@ class Lexer{
     }
 
     /** exp=factor((+|-)factor)* **/
-    static int exp(byte[] data, int offset,  int len, Result ctx){
+    static int exp(@NotNilptr byte[] data, int offset,  int len, @NotNilptr Result ctx){
         Result res = new Result(),
                 res1 = new Result();
                 
@@ -119,7 +119,7 @@ class Lexer{
     }
     
     /** 做解析运算 **/
-    public static bool parse(String text, Result ctx){
+    public static bool parse(@NotNilptr String text, Result ctx){
         byte [] data = text.getBytes();
         return data.length == exp(data, 0, data.length, ctx);
     }

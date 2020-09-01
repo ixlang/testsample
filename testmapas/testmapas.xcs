@@ -3,10 +3,10 @@
 
 package System{
 	public class out{
-		public static int println(String text){
+		public static int println(@NotNilptr String text){
 			return _system_.consoleWrite(text + "\n");
 		}
-		public static int print(String text){
+		public static int print(@NotNilptr String text){
 			return _system_.consoleWrite(text);
 		}
 	};

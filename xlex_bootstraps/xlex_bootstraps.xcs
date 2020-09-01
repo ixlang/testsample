@@ -23,7 +23,7 @@ class listener : caLexSyntax.OnParseListener{
 	}
 
 	
-	void OnParseError(caLexSyntax.CCSource source) {
+	void OnParseError(@NotNilptr  caLexSyntax.CCSource source) {
         String str = new String(source.source, source.sourcepos, source.source.length - source.sourcepos);
 		_system_.output(String.format("OnParseError %d = %s[%d]", source.sourcepos, str, str.length()));
 	}

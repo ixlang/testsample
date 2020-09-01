@@ -1,18 +1,21 @@
 //xlang 
 package System{
-	class out{
+	public class out{
 		/***
 		@caution 注意 由于windwos的控制台只能输出gbk字符集  而X默认的字符集是UTF8 
         所以要判断getPlatformId 等于0 说明是windows平台  需要转换为gbk
         */
         
-		static int println(String text){
+		public static int println(String text){
+            if (text == nilptr){
+                text = "nilptr";
+            }
 			if (_system_.getPlatformId() == 0){
 				return _system_.consoleWrite(new String((text + "\n").getBytes("GB18030//IGNORE")));
             }
 			return _system_.consoleWrite(text + "\n");
 		}
-		static int print(String text){
+		public static int print(String text){
         	if (_system_.getPlatformId() == 0){
 				return _system_.consoleWrite(new String(text.getBytes("GB18030//IGNORE")));
             }
@@ -20,13 +23,13 @@ package System{
 		}
 	};
 	
-	class Console{
-		Console(){
+	public class Console{
+		public Console(){
 			_system_.createConsole();
 		}
         
         //暂停 等待控制台读取
-        static void pause(){
+        public static void pause(){
 			byte [] c = new byte[2];
             _system_.consoleRead(c,0,2);
         }

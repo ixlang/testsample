@@ -79,7 +79,7 @@ class camapex <_KeyType, _ObjType> : carbtree<camapitem<_KeyType, _ObjType> , _K
         }
 
 
-        bool isParentLeft(_NodeType  _Ptr) {
+        bool isParentLeft(@NotNilptr _NodeType  _Ptr) {
             _NodeType  parent = _Ptr ._pParent;
             if(parent != nilptr) {
                 if(parent ._pLeft == _Ptr) {
@@ -89,7 +89,7 @@ class camapex <_KeyType, _ObjType> : carbtree<camapitem<_KeyType, _ObjType> , _K
             return false;
         }
 
-        bool isParentRight(_NodeType  _Ptr) {
+        bool isParentRight(@NotNilptr _NodeType  _Ptr) {
             _NodeType  parent = _Ptr ._pParent;
             if(parent != nilptr) {
                 if(parent ._pRight == _Ptr) {
@@ -200,7 +200,7 @@ class camapex <_KeyType, _ObjType> : carbtree<camapitem<_KeyType, _ObjType> , _K
             setNode(_tempNode ._pParent);
             return oldIterator;
         }
-        bool same(_iterator<_NodeType> iter)  {
+        bool same(@NotNilptr _iterator<_NodeType> iter)  {
             if(_pNode == nilptr) {
                 return iter._bEnd;
             }
@@ -209,10 +209,10 @@ class camapex <_KeyType, _ObjType> : carbtree<camapitem<_KeyType, _ObjType> , _K
             }
             return((_pNode == iter._pNode) && (_bEnd == iter._bEnd));
         }
-        bool operator == (_iterator<_NodeType> iter)  {
+        bool operator == (@NotNilptr _iterator<_NodeType> iter)  {
             return same(iter);
         }
-        bool operator != (_iterator<_NodeType> iter)  {
+        bool operator != (@NotNilptr _iterator<_NodeType> iter)  {
             return same(iter) == false;
         }
         _ObjType get()  {

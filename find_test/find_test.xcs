@@ -1,9 +1,9 @@
 	//快速排序
-void quickSort(int[] a){
+void quickSort(@NotNilptr int[] a){
     quickSort(a, 0, a.length-1);
 }
 
-void quickSort(int[] a, int left, int right){
+void quickSort(@NotNilptr int[] a, int left, int right){
     if(left < right){
         int index = getSortIndex(a, left, right);
         quickSort(a, left, index-1);
@@ -11,7 +11,7 @@ void quickSort(int[] a, int left, int right){
     }
 }
 
-int getSortIndex(int[] a, int left, int right){
+int getSortIndex(@NotNilptr int[] a, int left, int right){
     int temp = a[left];
     while(left<right){
         while(left < right && a[right]>=temp){

@@ -1,10 +1,10 @@
 //xlang 
 package System{
 	public class out{
-		public static int println(String text){
+		public static int println(@NotNilptr String text){
 			return _system_.consoleWrite(text + "\n");
 		}
-		public static int print(String text){
+		public static int print(@NotNilptr String text){
 			return _system_.consoleWrite(text);
 		}
 	};
@@ -27,19 +27,19 @@ static class caRegMixMath {
 		int start;
 		int length;
 		
-		public Express(String exp){
+		public Express(@NotNilptr String exp){
 			p = exp.getBytes();
 			start = 0;
 			length = exp.length();
 		}
 		
-		public Express(byte [] _p,int _s,int _l){
+		public Express(@NotNilptr byte [] _p,int _s,int _l){
 			p = _p;
 			start = _s;
 			length = _l;
 		}
 		
-		public Express(Express p2) {
+		public Express(@NotNilptr Express p2) {
 			p = p2.p;
 			start = p2.start;
 			length = p2.length;	
@@ -82,11 +82,11 @@ static class caRegMixMath {
 		}
 	};
 	
-	static long calc(String text){
+	static long calc(@NotNilptr String text){
 		return mixcalc(new Express(text), true, false);
 	}
 	
-	public static long mixcalc(Express p,bool bmain, bool b) {
+	public static long mixcalc(@NotNilptr Express p,bool bmain, bool b) {
 		long result = 1;
 
 		while ( p.getChar() != '(' && false == (p.getChar() >= '0' && p.getChar() <= '9') && false == (p.getChar() >= 'a' && p.getChar() <= 'z')) { result *= (p.getChar() == '-' ? -1 : 1); p.next(); }

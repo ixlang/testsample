@@ -20,64 +20,66 @@ Contact:
 
 class camapitem<_KeyType, _ObjType> {
 
-    camapitem() {
+    public camapitem() {
     }
-    camapitem(_KeyType Key, _ObjType Val){
+    public camapitem(_KeyType Key, _ObjType Val){
         _Key = Key;
         _Val = Val;
     }
-    camapitem(_KeyType Key){
+    public camapitem(_KeyType Key){
         _Key = Key;
     }
-    bool operator > (camapitem<_KeyType, _ObjType>  _Val) {
+    public bool operator > (@NotNilptr camapitem<_KeyType, _ObjType>  _Val) {
         return _Key > _Val._Key;
     }
-    bool operator < (camapitem<_KeyType, _ObjType>  _Val) {
+    public bool operator < (@NotNilptr camapitem<_KeyType, _ObjType>  _Val) {
         return _Key < _Val._Key;
     }
-    bool operator == (camapitem<_KeyType, _ObjType>  _Val) {
+    public bool operator == (@NotNilptr camapitem<_KeyType, _ObjType>  _Val) {
         return _Key == _Val._Key;
     }
-    bool operator != (camapitem<_KeyType, _ObjType>  _Val) {
+    public bool operator != (@NotNilptr camapitem<_KeyType, _ObjType>  _Val) {
         return _Key != _Val._Key;
     }
-	bool operator >(_KeyType  __key) {
+	public bool operator >(@NotNilptr _KeyType  __key) {
 		return _Key > __key;
 	}
-	bool operator < (_KeyType  __key) {
+	public bool operator < (@NotNilptr _KeyType  __key) {
 		return _Key < __key;
 	}
-	bool operator == (_KeyType  __key) {
+	public bool operator == (@NotNilptr _KeyType  __key) {
 		return _Key == __key;
 	}
-	bool operator != (_KeyType  __key) {
+	public bool operator != (@NotNilptr _KeyType  __key) {
 		return _Key != __key;
 	}
-    _KeyType _Key;
-    _ObjType _Val;
+    public _KeyType _Key;
+    public _ObjType _Val;
 };
 
-class camapex <_KeyType, _ObjType> : carbtree<camapitem<_KeyType, _ObjType> , _KeyType> {
-    class _iterator<_NodeType> {
+class camapex <_KeyType, _ObjType>  
+    : public carbtree<camapitem<_KeyType, _ObjType> , _KeyType> {
+    
+    public class _iterator<_NodeType> {
 
-        _NodeType  _pNode;
+        public _NodeType  _pNode;
         bool _bEnd;
 
-        _iterator(){
+        public _iterator(){
             _bEnd = true;
         }
 
-        _iterator(_NodeType  pNode) {
+        public _iterator(_NodeType  pNode) {
             _pNode = pNode;
             _bEnd = (pNode != nilptr )? false : true;
         }
 
-        _iterator(_NodeType  pNode, bool bEnd) {
+        public _iterator(_NodeType  pNode, bool bEnd) {
             _pNode = pNode;
             _bEnd = bEnd;
         }
 
-        void setNode(_NodeType pNode) {
+        public void setNode(_NodeType pNode) {
             if(pNode == nilptr) {
                 _bEnd = true;
             }
@@ -85,7 +87,7 @@ class camapex <_KeyType, _ObjType> : carbtree<camapitem<_KeyType, _ObjType> , _K
         }
 
 
-        bool isParentLeft(_NodeType  _Ptr) {
+        public bool isParentLeft(_NodeType  _Ptr) {
             _NodeType  parent = _Ptr ._pParent;
             if(parent != nilptr) {
                 if(parent ._pLeft == _Ptr) {
@@ -95,7 +97,7 @@ class camapex <_KeyType, _ObjType> : carbtree<camapitem<_KeyType, _ObjType> , _K
             return false;
         }
 
-        bool isParentRight(_NodeType  _Ptr) {
+        public bool isParentRight(_NodeType  _Ptr) {
             _NodeType  parent = _Ptr ._pParent;
             if(parent != nilptr) {
                 if(parent ._pRight == _Ptr) {
@@ -106,7 +108,7 @@ class camapex <_KeyType, _ObjType> : carbtree<camapitem<_KeyType, _ObjType> , _K
         }
 
 
-        _iterator<_NodeType> operator --(int) {
+        public _iterator<_NodeType> operator --(int) {
             if(_bEnd != false) {
                 _bEnd = false;
                 return this;
@@ -126,7 +128,7 @@ class camapex <_KeyType, _ObjType> : carbtree<camapitem<_KeyType, _ObjType> , _K
             setNode(_tempNode ._pParent);
             return this;
         }
-        _iterator<_NodeType> operator --() {
+        public _iterator<_NodeType> operator --() {
             _iterator<_NodeType> oldIterator = new _iterator<_NodeType>(_pNode);
             if(_bEnd != false) {
                 _bEnd = false;
@@ -147,7 +149,7 @@ class camapex <_KeyType, _ObjType> : carbtree<camapitem<_KeyType, _ObjType> , _K
             setNode(_tempNode ._pParent);
             return oldIterator;
         }
-        _iterator<_NodeType> operator ++(int) {
+        public _iterator<_NodeType> operator ++(int) {
             if(_bEnd != false) {
                 return this;
             }
@@ -186,7 +188,7 @@ class camapex <_KeyType, _ObjType> : carbtree<camapitem<_KeyType, _ObjType> , _K
             }
             return iter;
         }*/
-        _iterator<_NodeType> operator ++() {
+        public _iterator<_NodeType> operator ++() {
             _iterator<_NodeType> oldIterator = new _iterator<_NodeType>(_pNode);
             if(_bEnd != false) {
                 return oldIterator;
@@ -206,7 +208,7 @@ class camapex <_KeyType, _ObjType> : carbtree<camapitem<_KeyType, _ObjType> , _K
             setNode(_tempNode ._pParent);
             return oldIterator;
         }
-        bool same(_iterator<_NodeType> iter)  {
+        public bool same(_iterator<_NodeType> iter)  {
             if(_pNode == nilptr) {
                 return iter._bEnd;
             }
@@ -215,40 +217,40 @@ class camapex <_KeyType, _ObjType> : carbtree<camapitem<_KeyType, _ObjType> , _K
             }
             return((_pNode == iter._pNode) && (_bEnd == iter._bEnd));
         }
-        bool operator == (_iterator<_NodeType> iter)  {
+        public bool operator == (_iterator<_NodeType> iter)  {
             return same(iter);
         }
-        bool operator != (_iterator<_NodeType> iter)  {
+        public bool operator != (_iterator<_NodeType> iter)  {
             return same(iter) == false;
         }
-        _ObjType get()  {
+        public _ObjType get()  {
             return _pNode ._Var._Val;
         }
-        _KeyType key()  {
+        public _KeyType key()  {
             return _pNode ._Var._Key;
         }
-        _ObjType val() {
+        public _ObjType val() {
             return _pNode ._Var._Val;
         }
-        void set_value(_ObjType obj){
+        public void set_value(_ObjType obj){
             _pNode ._Var._Val = obj;
         }
     };
 
-    camapex() {
+    public camapex() {
     }
-    camapex(camapex<_KeyType, _ObjType> _Copy) {
+    public camapex(camapex<_KeyType, _ObjType> _Copy) {
         copyFrom(_Copy);
     }
-    void operator = (camapex<_KeyType, _ObjType>  _Copy) {
+    public void operator = (camapex<_KeyType, _ObjType>  _Copy) {
         copyFrom(_Copy);
     }
 
-    bool operator == (camapex<_KeyType, _ObjType>  _Copy) {
+    public bool operator == (camapex<_KeyType, _ObjType>  _Copy) {
         return compareTree(_Copy);
     }
 
-    _ObjType  get(_KeyType  _Key) {
+    public _ObjType  get(_KeyType  _Key) {
         _Node<camapitem<_KeyType, _ObjType> > pNode = set(new camapitem<_KeyType, _ObjType>(_Key),false);
         if(pNode == nilptr) {
 			return end().val();
@@ -256,39 +258,39 @@ class camapex <_KeyType, _ObjType> : carbtree<camapitem<_KeyType, _ObjType> , _K
         return pNode ._Var._Val;
     }
 
-    _iterator<_Node<camapitem<_KeyType, _ObjType>>>findless(  _KeyType  _Key) {
+    public _iterator<_Node<camapitem<_KeyType, _ObjType>>>findless(  _KeyType  _Key) {
         return new _iterator<_Node<camapitem<_KeyType, _ObjType> > >(findifless(_Key,true));
     }
-    _iterator<_Node<camapitem<_KeyType, _ObjType>>>findmore(  _KeyType  _Key) {
+    public _iterator<_Node<camapitem<_KeyType, _ObjType>>>findmore(  _KeyType  _Key) {
         return new _iterator<_Node<camapitem<_KeyType, _ObjType> > >(findifmore(_Key, true));
     }
-    _iterator<_Node<camapitem<_KeyType, _ObjType>>>findifless(  _KeyType  _Key) {
+    public _iterator<_Node<camapitem<_KeyType, _ObjType>>>findifless(  _KeyType  _Key) {
         return new _iterator<_Node<camapitem<_KeyType, _ObjType> > >(findifless(_Key,false));
     }
-    _iterator<_Node<camapitem<_KeyType, _ObjType>>>findifmore(  _KeyType  _Key) {
+    public _iterator<_Node<camapitem<_KeyType, _ObjType>>>findifmore(  _KeyType  _Key) {
         return new _iterator<_Node<camapitem<_KeyType, _ObjType> > >(findifmore(_Key, false));
     }
-    bool isContains(_KeyType  _Key) {
+    public bool isContains(_KeyType  _Key) {
 			return find(_Key) != nilptr;
 	}
-    _iterator<_Node<camapitem<_KeyType, _ObjType>>>Find(  _KeyType  _Key)  {
+    public _iterator<_Node<camapitem<_KeyType, _ObjType>>>Find(  _KeyType  _Key)  {
    
         _iterator<_Node<camapitem<_KeyType, _ObjType>>>iter 
         = new _iterator<_Node<camapitem<_KeyType, _ObjType> > >(super.find(_Key));
 
         return iter;
     }
-    _iterator<_Node<camapitem<_KeyType, _ObjType>>>begin()  {
+    public _iterator<_Node<camapitem<_KeyType, _ObjType>>>begin()  {
         _Node<camapitem<_KeyType, _ObjType> > pNode = minimum();
     	if (pNode != nilptr){
     		return new _iterator<_Node<camapitem<_KeyType, _ObjType>>>(pNode, false);
     	}
         return new _iterator<_Node<camapitem<_KeyType, _ObjType> > >(pNode);
     }
-    _iterator<_Node<camapitem<_KeyType, _ObjType>>>end()  {
+    public _iterator<_Node<camapitem<_KeyType, _ObjType>>>end()  {
         return new _iterator<_Node<camapitem<_KeyType, _ObjType> > >(maximum(),true);
     }
-    _iterator<_Node<camapitem<_KeyType, _ObjType>>>nullend()  {
+    public _iterator<_Node<camapitem<_KeyType, _ObjType>>>nullend()  {
         return new _iterator<_Node<camapitem<_KeyType, _ObjType> > >(nilptr);
     }
 	static camapex <_KeyType, _ObjType>._iterator<carbtree<camapitem<_KeyType, _ObjType> , _KeyType>._Node<camapitem<_KeyType, _ObjType>>>NullEnd(){
@@ -303,7 +305,7 @@ class camapex <_KeyType, _ObjType> : carbtree<camapitem<_KeyType, _ObjType> , _K
     bool erase(_KeyType  _Key) {
         return nilptr != remove(new camapitem<_KeyType, _ObjType>(_Key));
     }
-    _iterator<_Node<camapitem<_KeyType, _ObjType>>>put(  _KeyType  _Key,   _ObjType  _Val) {
+    public _iterator<_Node<camapitem<_KeyType, _ObjType>>>put(  _KeyType  _Key,   _ObjType  _Val) {
         camapitem<_KeyType, _ObjType> _item = new camapitem<_KeyType, _ObjType>(_Key, _Val);
 		return new _iterator<_Node<camapitem<_KeyType, _ObjType> > >(set(_item,true));
     }
