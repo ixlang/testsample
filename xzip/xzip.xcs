@@ -9,8 +9,8 @@ class MainDialog : QXDialog{
     QXTreeView filecontent = new QXTreeView();
     QXProgressBar progressBar;
     QXLabel label;
-    
- 
+     
+  
 	//####################################################################
 	/***
     @caution 为程序设置一个出错回调， 
@@ -109,7 +109,7 @@ class MainDialog : QXDialog{
     
     //进度 当前进度
     int compress_prog = 0;
-    
+     
     //进度 总进度
     int compress_total = 0;
     
@@ -117,7 +117,7 @@ class MainDialog : QXDialog{
     /** 线程中压缩*/
     void thread_Compress(String dir, String destzip){
     
-		new Thread(){
+		new Thread(){ 
 			void run()override{
 				compress_total = 0;
 				countTotal(dir);
@@ -311,8 +311,8 @@ class MainDialog : QXDialog{
 						FileOutputStream fos = new FileOutputStream(destPath);
 						while ((rd = file.read(buf, 0, 1024)) != 0){
 							fos.write(buf, 0, rd);
-						}
-						fos.close();
+						} 
+						fos.close(); 
 						file.close();
 					}
                 }

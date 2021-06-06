@@ -20,7 +20,7 @@ void client(){
 
 void server(){
     StreamSocket socket = new StreamSocket();
-    if (socket.listen(7007, 512)){
+    if (socket.listen(nilptr, 7007, 512)){
         StreamSocket client = nilptr;
         while ((client = socket.accept()) != nilptr){
             client.write("111111".getBytes(), 0, 6);
@@ -42,7 +42,7 @@ void server(){
 
 int main(String [] args){
     _system_.createConsole();
-    server();
+    client();
     Thread.sleep(-1);
     return 0;
 }

@@ -49,7 +49,7 @@ int main(String [] args){
     int [] src = new int[100];
     int [] dst = new int[100];
     
-    for (int i =0; i < 100; i++){
+    for (int i = 0; i < 100; i++){
         src[i] = i;
     }   
     

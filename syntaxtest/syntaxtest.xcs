@@ -62,6 +62,7 @@ int main(String []  args)
     new Console();
 
     KL a = new KL();
+    double e = 1.200e2;
     // 
     System.out.println("hello world: res = " + (a.g()[0].fo()).OC<(getic()).OC<long>>.c(new (getic()).OC<long>(8 * 1.2e2)).f().fg().fg());
 

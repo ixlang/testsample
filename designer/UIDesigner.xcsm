@@ -13,7 +13,7 @@ class UIDesigner : QXWidget{
     int trackerId = -1;
     
     static class UIObject{
-		UIObject(String type, String imagefile){
+		public UIObject(String type, String imagefile){
 			image = new QXImage(imagefile, nilptr);
             typename = type;
             sourceRect = new QXRect(0, 0, image.width(), image.height());
@@ -23,26 +23,26 @@ class UIDesigner : QXWidget{
         
 		double pl,pt,pr,pb, gw, gh;
         
-		QXImage image;
+		public QXImage image;
         
         QXImage display;
         QXRect stretch ;
 		
-        QXRect sourceRect;
+        public QXRect sourceRect;
         
-        QXRect rect;
+        public QXRect rect;
         bool hasString ;
         String defaultText;
         QXPoint txtPoint;
         
         bool isContianer;
-        List<UIObject> subObject = new List<UIObject>();
+        public List<UIObject> subObject = new List<UIObject>();
         
         
         String typename;
         String name;
         
-        void savePosition(QXRect global){
+        public void savePosition(QXRect global){
 			gw = global.width();
             gh = global.height();
 			pl = ((double)rect.left - global.left) / gw;
@@ -51,14 +51,14 @@ class UIDesigner : QXWidget{
             pb = ((double)rect.bottom - global.top) / gh;
         }
         
-        bool isContain(int x,int y){
+        public bool isContain(int x,int y){
 			if (rect.left <= x && rect.right >= x && rect.top <= y && rect.bottom >= y){
 				return true;
 			}
             return false;
         }
         
-        void offset(int cx, int cy){
+        public void offset(int cx, int cy){
 			rect.left += cx;
             rect.right += cx;
             
@@ -66,7 +66,7 @@ class UIDesigner : QXWidget{
             rect.bottom += cy;
         }
         
-        void resizeTo(QXRect global){
+        public void resizeTo(QXRect global){
 			
 			double l = global.left + pl * global.width();
             double t = global.top + pt * global.height(); 
@@ -287,7 +287,7 @@ class UIDesigner : QXWidget{
     }
 
 
-	void addObject(String type, String imagefile){
+	public void addObject(String type, String imagefile){
 		UIObject uo = new UIObject(type, imagefile);
         controls.add(uo);
         update();

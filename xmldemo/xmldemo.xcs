@@ -43,7 +43,7 @@ String createXML(){
     keys.createCommentNode("comment");
     
     XDomNode struct = keys.createNode("contact");
-    
+
     struct.put("website","http://xlang.vsylab.com");
     struct.put("github","https://github.com/ixlang");
     struct.put("libraries","https://github.com/ixlang/xlibraries");
@@ -58,16 +58,16 @@ void parseXML(String s){
 	XDomNode root = new XDomNode(s);
     System.out.println("name is " + root.child("name").getValue());
     System.out.println("age is " + root.child("age").getValue());
-    XDomNode struct = root.child("keys");
+    XDomNode _class = root.child("keys");
     
-	XDomNode child = struct.child("key");
+	XDomNode child = _class.child("key");
     
     while (child != nilptr){
 		System.out.println("key is " + child.getValue());
 		child = child.next("key");
     }
     
-    child = struct.child("contact");
+    child = _class.child("contact");
     System.out.println("website is " + child.child("website").getValue());
     System.out.println("github is " + child.child("github").getValue());
     System.out.println("libraries is " + child.child("libraries").getValue());

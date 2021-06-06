@@ -4,10 +4,10 @@
 class SenceDrawer{
 	IServer _server;
     int myid;
-	QXImage back = nilptr;
-    QXImage blue = nilptr;
-    QXImage red = nilptr;
-    QXImage over = nilptr;
+	QImage back = nilptr;
+    QImage blue = nilptr;
+    QImage red = nilptr;
+    QImage over = nilptr;
     
     int [] data = new int [441];
     int over_x, over_y;
@@ -18,21 +18,21 @@ class SenceDrawer{
     }
     
     public bool create(){
-		back = new QXImage(__xPackageResource( "back.png"), "png");
-        blue = new QXImage(__xPackageResource( "blue.png"), "png");
-        red = new QXImage(__xPackageResource( "red.png"), "png");
-        over = new QXImage(__xPackageResource( "over.png"), "png");
+		back = new QImage(__xPackageResource( "back.png"), "png");
+        blue = new QImage(__xPackageResource( "blue.png"), "png");
+        red = new QImage(__xPackageResource( "red.png"), "png");
+        over = new QImage(__xPackageResource( "over.png"), "png");
         return true;
     }
     
-	public void update(QXPainter p, QXRect rect){
-		p.fillRect(rect, 0xff282822, QXBrush.Style.SolidPattern);
+	public void update(QPainter p, QRect rect){
+		p.fillRect(rect, 0xff282822, QBrush.Style.SolidPattern);
 		p.drawImage(back, 0, 0);
         drawChess(p);
     }
     
     
-    public void drawChess(QXPainter p){
+    public void drawChess(QPainter p){
     
 		p.drawImage(over, 20 - 15 + over_x * 30, 108 - 15 + over_y * 30);
 		
@@ -42,7 +42,7 @@ class SenceDrawer{
         
     }
     
-    public void drawRow(QXPainter p, int l, int []line, int offset){
+    public void drawRow(QPainter p, int l, int []line, int offset){
 		for (int i = 0; i < 21; i ++){
 			if (line[offset + i] != 0){
 				if (line[offset + i] == myid){

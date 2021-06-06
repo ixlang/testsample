@@ -41,7 +41,7 @@ int main(String [] args){
         throw new IllegalArgumentException("not a valid expression");
     }else{
         /** 在调试器的输出窗口中打印运算结果 **/
-        _system_.output(expression + " = " + res.value);
+        _system_.consoleWrite(expression + " = " + res.value + "\n");
     }
     
 

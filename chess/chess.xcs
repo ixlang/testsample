@@ -1,7 +1,7 @@
 //xlang 
 
-
-class ChessApp : QXApplication {
+using {Qt;};
+class ChessApp : QApplication {
 
 
 	static ChessWindow window = nilptr;
@@ -17,9 +17,7 @@ class ChessApp : QXApplication {
     }
     
     public bool create(){
-        if (super.createQXApplication()){
-
-            
+        if (super.createQApplication()){
             wndLogin = new LoginWindow();
             if (wndLogin.create()){
 				wndLogin.show();
@@ -30,7 +28,7 @@ class ChessApp : QXApplication {
     }
 };
 
-class ChessWindow : QXDialog {
+class ChessWindow : QDialog {
 	public SenceDrawer sd = new SenceDrawer();
 	IServer _server;
     
@@ -43,7 +41,7 @@ class ChessWindow : QXDialog {
 	public bool create()override{
 		if (super.create()){
 			if (sd.create()){
-				setWindowFlags(CustomizeWindowHint | WindowCloseButtonHint  | Dialog  | WindowTitleHint);
+				setWindowFlags(Constant.CustomizeWindowHint | Constant.WindowCloseButtonHint  | Constant.Dialog  | Constant.WindowTitleHint);
 				resize(640, 750);
                 if (_system_.getPlatformId() == _system_.PLATFORM_ANDROID){
                     showFullScreen();
@@ -56,7 +54,7 @@ class ChessWindow : QXDialog {
     }
     
     void onPaint(int l,int t, int r,int b, long hpaint){
-		sd.update(new QXPainter(hpaint), new QXRect(l,t,r,b));
+		sd.update(new QPainter(hpaint), new QRect(l,t,r,b));
     }
     
     void onMouseButtonPress(int Button, int x, int y, int flags, int source){

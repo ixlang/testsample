@@ -17,11 +17,11 @@
 				"cmd":	"$(Output)",
 				"args":	"$(Output)",
 				"workdir":	"$(ProjectDir)",
-				"libs":	["Qt5.9.1_5.9.1.12.lix"],
+				"libs":	["Qt5.9.1_5.9.1.16.lix"],
 				"links":	[],
 				"depends":	[{
 						"name":	"Qt5.9.1",
-						"version":	"5.9.1.12"
+						"version":	"5.9.1.16"
 					}]
 			},
 			"release":	{

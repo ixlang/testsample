@@ -31,6 +31,9 @@ int main(String [] args){
     _system_.consoleWrite("" +  Math.round(1.54) + "\n");
     _system_.consoleWrite("" +  Math.isNan(Math.log(-1.0)) + "\n");
     _system_.consoleWrite("" +  Math.isINF(Math.log(0)) + "\n");
+    _system_.consoleWrite("" +  Math.cos(1.5) + "\n");
+    float jk = 1.5;
+    _system_.consoleWrite("" +  Math.cos(jk) + "\n");
     Thread.sleep(1000);
     return 0;
 }

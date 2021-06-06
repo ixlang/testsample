@@ -597,21 +597,21 @@ Contact:
 			_treeroot._traverse(op);
 		}*/
 
-		_Node<_Type> minimum() {
+		public _Node<_Type> minimum() {
 			if (nilptr ==_treeroot){
 				return nilptr;
 			}
 			return _treeroot.minimum();
 		}
 
-		_Node<_Type> maximum() {
+		public _Node<_Type> maximum() {
 			if (nilptr ==_treeroot){
 				return nilptr;
 			}
 			return _treeroot.maximum();
 		}
 
-		_Node<_Type> remove(_Type _Var) {
+		protected _Node<_Type> remove(_Type _Var) {
 			_Node<_Type> _pNode = find(_Var);
 			if (nilptr !=_pNode) {
 				remove_at(_pNode);
@@ -626,7 +626,7 @@ Contact:
 			}
 			return _pNode;
 		}*/
-		void remove(_Node<_Type> _Where) {
+		protected void remove(_Node<_Type> _Where) {
 			remove_at(_Where);
 		}
 		void clear() {
@@ -655,7 +655,7 @@ Contact:
 		public _Node<_Type> put(_Type _Var) {
 			return set(_Var, true);
 		}
-		_Node<_Type> set(_Type _Var, bool bPut) {
+		public _Node<_Type> set(_Type _Var, bool bPut) {
 			_Node<_Type> _CurNode,_NewNode;
 			if (nilptr ==_treeroot) {
 				_NewNode = AllocNode(_Var, RB_PROPERTY_BLACK);
@@ -719,7 +719,7 @@ Contact:
 			return _NewNode;
 		}
 
-		_Node<_Type> set(_KeyType _Key) {
+		public _Node<_Type> set(_KeyType _Key) {
 			_Node<_Type> _CurNode,_NewNode;
 			if (nilptr ==_treeroot) {
 				_NewNode = AllocNode(new _Type(), RB_PROPERTY_BLACK);
@@ -841,7 +841,7 @@ Contact:
 			return moreNode;
 		}
 
-		_Node<_Type> findifless(_KeyType _Key, bool bForceNear){
+		public _Node<_Type> findifless(_KeyType _Key, bool bForceNear){
 			_Node<_Type> _CurNode = _treeroot;
 			_Node<_Type> lessNode = nilptr;
 
@@ -875,7 +875,7 @@ Contact:
 			return lessNode;
 		}
 
-		_Node<_Type> findifmore(_KeyType _Key, bool bForceNear){
+		public _Node<_Type> findifmore(_KeyType _Key, bool bForceNear){
 			_Node<_Type> _CurNode = _treeroot;
 			_Node<_Type> moreNode = nilptr;
 			while (_CurNode != nilptr) {

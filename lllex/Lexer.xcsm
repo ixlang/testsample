@@ -35,7 +35,7 @@ class Lexer{
             }
             
             /** 打印计算过程 **/
-            _system_.output(resstr + " = " + value);
+            _system_.consoleWrite(resstr + " = " + value + "\n");
         }
     };
     

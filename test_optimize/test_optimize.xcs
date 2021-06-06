@@ -24,7 +24,7 @@ int main(String [] args){
 
 	new Console();
 
-    int x = 10, y = 20, z = 30, c = 40;
+    int x = 10, y = 20, z = 30, c = 2048;
     int a = (byte) ((c >> 8) & 0xff);
 	System.out.println("hello world" + a);
 

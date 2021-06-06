@@ -32,7 +32,7 @@ int main(String [] args){
     char c = 32760;
     int a = 2147483640;
     long l = 5;
-    double d = 6.6f;
+    float d = 6.6f;
     //bool o = false;
 
     /*_system_.consoleWrite("" + (b + d) + "\n");
@@ -56,7 +56,7 @@ int main(String [] args){
 	 _system_.consoleWrite(" b + d = " + b + " + " + d + "=" +  (b + d) + "\n"); 
 	 _system_.consoleWrite(" s + b = " + s + " + " + b + "=" +  (s + b) + "\n"); 
 	 _system_.consoleWrite(" s + s = " + s + " + " + s + "=" +  (s + s) + "\n"); 
-	 _system_.consoleWrite(" s + c = " + s + " + " + c + "=" +  (s + c) + "\n"); 
+	 _system_.consoleWrite(" s + c = " + s + " + " + c + "=" +  (s + c) + "\n--"); 
 	 _system_.consoleWrite(" s + a = " + s + " + " + a + "=" +  (s + a) + "\n"); 
 	 _system_.consoleWrite(" s + l = " + s + " + " + l + "=" +  (s + l) + "\n"); 
 	 _system_.consoleWrite(" s + d = " + s + " + " + d + "=" +  (s + d) + "\n"); 

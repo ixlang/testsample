@@ -2,7 +2,7 @@
 
 
 class base{
-	class dychild {
+	public class dychild {
 
 	};
 
@@ -10,7 +10,7 @@ class base{
 
 	};
     
-    int j =0;
+    public int j =0;
 };
 
 

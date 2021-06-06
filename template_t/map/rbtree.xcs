@@ -183,7 +183,7 @@ Contact:
 			castl::caswap(_treeroot, _Contain._treeroot);
 			castl::caswap(_treesize, _Contain._treesize);
 		}*/
-		void copyFrom(carbtree<_Type, _KeyType> _Copy) {
+		protected void copyFrom(carbtree<_Type, _KeyType> _Copy) {
 			clear();
 			if (_Copy.size() != 0){
 				_treeroot = AllocNode(new _Type(), 0);
@@ -191,7 +191,7 @@ Contact:
 				_treesize = _Copy._treesize;
 			}
 		}
-		 bool compareTree(carbtree<_Type, _KeyType> _Copy) {
+		 protected bool compareTree(carbtree<_Type, _KeyType> _Copy) {
 			if (_treesize != _Copy._treesize) {
 				return false;
 			}
@@ -591,21 +591,21 @@ Contact:
 			_treeroot._traverse(op);
 		}*/
 
-		_Node<_Type> minimum() {
+		protected _Node<_Type> minimum() {
 			if (nilptr ==_treeroot){
 				return nilptr;
 			}
 			return _treeroot.minimum();
 		}
 
-		_Node<_Type> maximum() {
+		protected _Node<_Type> maximum() {
 			if (nilptr ==_treeroot){
 				return nilptr;
 			}
 			return _treeroot.maximum();
 		}
 
-		_Node<_Type> remove(_Type _Var) {
+		protected _Node<_Type> remove(_Type _Var) {
 			_Node<_Type> _pNode = find(_Var);
 			if (nilptr !=_pNode) {
 				remove_at(_pNode);
@@ -620,7 +620,7 @@ Contact:
 			}
 			return _pNode;
 		}*/
-		void remove(_Node<_Type> _Where) {
+		protected void remove(_Node<_Type> _Where) {
 			remove_at(_Where);
 		}
 		public void clear() {

@@ -1,20 +1,20 @@
 //xlang Source, Name:LoginWindow.xcsm 
 //Date: Tue Oct 18:50:09 2018 
 
-class LoginWindow : QXDialog{
-    QXPushButton btnLogin, btnCreateRoom, btnSend, enterRoom, btnStart;
+class LoginWindow : QDialog{
+    QPushButton btnLogin, btnCreateRoom, btnSend, enterRoom, btnStart;
 	GameClient client = new GameClient();
-    QXTreeView roomlist, userlist;
-    QXLineEdit edtName, edtMsg;
-    QXComboBox cbbObj;
-	QXCheckBox chkJoinGame;
+    QTreeWidget roomlist, userlist;
+    QLineEdit edtName, edtMsg;
+    QComboBox cbbObj;
+	QCheckBox chkJoinGame;
     
     ChessWindow gameWindow;
     
     bool bReady = false;
     bool bGameStart = false;
     
-    QXSci _sci;
+    QScintilla _sci;
     int [] rooms_in_hall;
     String users_in_room;
     int current_room_id;
@@ -63,7 +63,7 @@ class LoginWindow : QXDialog{
 						}
 					}
 					
-					QXMessageBox.Information("恭喜", nick + " 赢得了本局游戏的胜利", QXMessageBox.Ok, QXMessageBox.Ok);
+					QMessageBox.Information("恭喜", nick + " 赢得了本局游戏的胜利", QMessageBox.Ok, QMessageBox.Ok);
                 }
 			});
 		}
@@ -139,7 +139,7 @@ class LoginWindow : QXDialog{
     };
     
 	public bool create()override{
-        QXBuffer buf = new QXBuffer();
+        QBuffer buf = new QBuffer();
         byte [] data = __xPackageResource( "ui/login.ui");
         buf.setBuffer(data, 0, data.length);
 		if (load(buf)){
@@ -149,17 +149,17 @@ class LoginWindow : QXDialog{
                 showFullScreen();
             }
 			
-            edtName = (QXLineEdit)attachByName(new QXLineEdit(), "edtName");
-            edtMsg = (QXLineEdit)attachByName(new QXLineEdit(), "edtMsg");
-			roomlist = (QXTreeView)attachByName(new QXTreeView(), "roomlist");
-            userlist = (QXTreeView)attachByName(new QXTreeView(), "userlist");
-            btnLogin = (QXPushButton)attachByName(new QXPushButton(), "btnLogin");
-            btnCreateRoom = (QXPushButton)attachByName(new QXPushButton(), "btnCreateRoom");
-            btnSend = (QXPushButton)attachByName(new QXPushButton(), "btnSend");
-            enterRoom = (QXPushButton)attachByName(new QXPushButton(), "enterRoom");
-            btnStart = (QXPushButton)attachByName(new QXPushButton(), "btnStart");
-            cbbObj = (QXComboBox)attachByName(new QXComboBox(), "cbbObj");
-            chkJoinGame = (QXCheckBox)attachByName(new QXCheckBox(), "chkJoinGame");
+            edtName = (QLineEdit)attachByName(new QLineEdit(), "edtName");
+            edtMsg = (QLineEdit)attachByName(new QLineEdit(), "edtMsg");
+			roomlist = (QTreeWidget)attachByName(new QTreeWidget(), "roomlist");
+            userlist = (QTreeWidget)attachByName(new QTreeWidget(), "userlist");
+            btnLogin = (QPushButton)attachByName(new QPushButton(), "btnLogin");
+            btnCreateRoom = (QPushButton)attachByName(new QPushButton(), "btnCreateRoom");
+            btnSend = (QPushButton)attachByName(new QPushButton(), "btnSend");
+            enterRoom = (QPushButton)attachByName(new QPushButton(), "enterRoom");
+            btnStart = (QPushButton)attachByName(new QPushButton(), "btnStart");
+            cbbObj = (QComboBox)attachByName(new QComboBox(), "cbbObj");
+            chkJoinGame = (QCheckBox)attachByName(new QCheckBox(), "chkJoinGame");
             
             String []colums = {"昵称", "id", "类别", "状态"};
             userlist.setColumns(colums);
@@ -167,11 +167,11 @@ class LoginWindow : QXDialog{
             chkJoinGame.setCheck(false);
             
             setupEvent();
-            _sci = new QXSci();
+            _sci = new QScintilla();
             _sci.create(this);
             _sci.move(150, 230);
             _sci.resize(500, 250);
-            _sci.sendEditor(QXSci.SCI_SETCODEPAGE, QXSci.SC_CP_UTF8);
+            _sci.sendEditor(QScintilla.SCI_SETCODEPAGE, QScintilla.SC_CP_UTF8);
             return true;
         }
         return false;
@@ -179,10 +179,10 @@ class LoginWindow : QXDialog{
     
     void setupEvent(){
 		btnLogin.setOnClickListener(new onClickListener(){
-            void onClick(QXObject obj, bool checked)override{
+            void onClick(QObject obj, bool checked)override{
 				String name = edtName.getText();
                 if (name.length() == 0){
-					QXMessageBox.Critical("注意", "请填写用户名", QXMessageBox.Ok, QXMessageBox.Ok);
+					QMessageBox.Critical("注意", "请填写用户名", QMessageBox.Ok, QMessageBox.Ok);
                     return ;
                 }
                 
@@ -206,7 +206,7 @@ class LoginWindow : QXDialog{
         
         
         btnCreateRoom.setOnClickListener(new onClickListener(){
-            void onClick(QXObject obj, bool checked)override{
+            void onClick(QObject obj, bool checked)override{
 				//btnCreateRoom.setEnabled(false);
                 
 				new Thread(){
@@ -224,11 +224,11 @@ class LoginWindow : QXDialog{
         });
         
         btnSend.setOnClickListener(new onClickListener(){
-            void onClick(QXObject obj, bool checked)override{
+            void onClick(QObject obj, bool checked)override{
 				//btnCreateRoom.setEnabled(false);
                 String text = edtMsg.getText();
                 if (text.length() == 0 || text.trim(true).length() == 0){
-					QXMessageBox.Critical("注意", "发送的消息不能为空", QXMessageBox.Ok, QXMessageBox.Ok);
+					QMessageBox.Critical("注意", "发送的消息不能为空", QMessageBox.Ok, QMessageBox.Ok);
                     return ;
                 }
                 int idx = cbbObj.getCurrentIndex();
@@ -246,7 +246,7 @@ class LoginWindow : QXDialog{
                                     if (dstid == myid){
 										runOnUi(new Runnable(){
 											void run()override{
-												QXMessageBox.Critical("注意", "不能对自己发送消息", QXMessageBox.Ok, QXMessageBox.Ok);
+												QMessageBox.Critical("注意", "不能对自己发送消息", QMessageBox.Ok, QMessageBox.Ok);
                                             }
                                         });
                                         return ;
@@ -271,7 +271,7 @@ class LoginWindow : QXDialog{
         });
         
         enterRoom.setOnClickListener(new onClickListener(){
-            void onClick(QXObject obj, bool checked)override{
+            void onClick(QObject obj, bool checked)override{
 				//btnCreateRoom.setEnabled(false);
                 
 				new Thread(){
@@ -291,7 +291,7 @@ class LoginWindow : QXDialog{
         });
         
         chkJoinGame.setOnClickListener(new onClickListener(){
-            void onClick(QXObject obj, bool checked)override{
+            void onClick(QObject obj, bool checked)override{
 				//btnCreateRoom.setEnabled(false);
                 
 				new Thread(){
@@ -309,7 +309,7 @@ class LoginWindow : QXDialog{
         
         
         btnStart.setOnClickListener(new onClickListener(){
-            void onClick(QXObject obj, bool checked)override{
+            void onClick(QObject obj, bool checked)override{
 				//btnCreateRoom.setEnabled(false);
                 
 				new Thread(){
@@ -336,20 +336,20 @@ class LoginWindow : QXDialog{
     void onNotification(long id)override{
 		switch(id ){
 			case LOGIN_FAILED:
-				QXMessageBox.Critical("注意", "登录服务器失败", QXMessageBox.Ok, QXMessageBox.Ok);
+				QMessageBox.Critical("注意", "登录服务器失败", QMessageBox.Ok, QMessageBox.Ok);
                 btnLogin.setEnabled(true);
             break;
             case LOGIN_OK:
-				QXMessageBox.Information("注意", "登录服务器成功", QXMessageBox.Ok, QXMessageBox.Ok);
+				QMessageBox.Information("注意", "登录服务器成功", QMessageBox.Ok, QMessageBox.Ok);
             break;
             case UPDATE_ROOM:
 				loadRoom();
             break;
             case CREATEROOM_OK:
-                QXMessageBox.Information("注意", "创建房间成功", QXMessageBox.Ok, QXMessageBox.Ok);
+                QMessageBox.Information("注意", "创建房间成功", QMessageBox.Ok, QMessageBox.Ok);
             break;
             case CREATEROOM_FAILED:
-				QXMessageBox.Critical("注意", "创建房间失败", QXMessageBox.Ok, QXMessageBox.Ok);
+				QMessageBox.Critical("注意", "创建房间失败", QMessageBox.Ok, QMessageBox.Ok);
             break;
             case UPDATE_USER:
 				loadUser();

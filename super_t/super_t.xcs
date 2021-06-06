@@ -7,7 +7,7 @@ class a{
     a(){
     }
     
-    void fuck(){
+    public void fuck(){
     
     }
 };
@@ -21,8 +21,6 @@ class b : a{
     };
     
     public static class e : a{
-    
-    
     };
 };
 

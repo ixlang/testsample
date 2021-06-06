@@ -49,14 +49,12 @@ int main(String [] args){
     _system_.createConsole();
     _system_.consoleWrite(new String("10000次冒泡/快速排序\n".getBytes("GB18030")));
     
-    
-    
     long start = _system_.currentTimeMillis();
     
     for (int i = 0; i < 10000; i++){
         int [] t = {5,2,5,4,-100,25,76,-10,-100,46,5,2,5,4,-100,25,76,-10,-100,46,5,2,5,4,-100,25,76,-10,-100,46,5,2,5,4,-100,25,76,-10,-100,46,5,2,5,4,-100,25,76,-10,-100,46,5,2,5,4,-100,25,76,-10,-100,46,5,2,5,4,-100,25,76,-10,-100,46,5,2,5,4,-100,25,76,-10,-100,46};
-        bubbleSort(t);
-        //quickSort(t);
+        //bubbleSort(t);
+        quickSort(t);
     }
     long end = _system_.currentTimeMillis();
     

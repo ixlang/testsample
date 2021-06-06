@@ -71,6 +71,14 @@ void testl3(){
     String[] ai = m_vector.toArray(new String[0]);
 }
 
+void testl4(){
+	List<float> m_vector = new List<float>();
+    for (int i =0; i < 100; i ++){
+		m_vector.add(i);
+    }
+    float[] ai = m_vector.toArray(new float[0]);
+}
+
 int main(String [] args){
 	new Console();
 	test1();
@@ -79,6 +87,7 @@ int main(String [] args){
     testl1();
     testl2();
     testl3();
+    testl4();
 	System.out.println("hello world");
 	return 0;
 }
